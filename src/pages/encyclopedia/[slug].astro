@@ -1,0 +1,41 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { EncyclopediaEntryIsland } from "../../components/encyclopedia/EncyclopediaEntryIsland";
+import {
+  encyclopediaEntries,
+  getEntryBySlug,
+  getVariety,
+  liveStoneCardsForVariety,
+  postsForVariety,
+  toPostCard,
+} from "../../data";
+
+export function getStaticPaths() {
+  return encyclopediaEntries.map((e) => ({ params: { slug: e.slug } }));
+}
+
+const { slug } = Astro.params;
+const entry = getEntryBySlug(slug!);
+if (!entry) return Astro.redirect("/404");
+
+const variety = getVariety(entry.varietyId);
+if (!variety) return Astro.redirect("/404");
+
+const stonesInStock = liveStoneCardsForVariety(variety.id, 5);
+const relatedPosts = postsForVariety(variety.id).slice(0, 3).map(toPostCard);
+
+const title = `${variety.name}: свойства, история, как выбрать | Драгоценные`;
+const description =
+  entry.intro[0] ??
+  `Всё о ${variety.pluralPrepositional}: минералогия, происхождение, цвета и огранки, советы коллекционеру от гемолога Дмитрия Салятова.`;
+---
+
+<BaseLayout title={title} description={description} path={`/encyclopedia/${entry.slug}`}>
+  <EncyclopediaEntryIsland
+    client:load
+    variety={variety}
+    entry={entry}
+    stonesInStock={stonesInStock}
+    relatedPosts={relatedPosts}
+  />
+</BaseLayout>

@@ -1,0 +1,15 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { EncyclopediaIndexIsland } from "../../components/encyclopedia/EncyclopediaIndexIsland";
+import { encyclopediaVarieties } from "../../data";
+
+const varieties = encyclopediaVarieties();
+
+const title = "Энциклопедия камней — справочник коллекционера | Драгоценные";
+const description =
+  "Редакторская энциклопедия видов коллекционных камней Дмитрия Салятова: свойства, история, цвета и огранки, советы по выбору — рядом с актуальным каталогом.";
+---
+
+<BaseLayout title={title} description={description} path="/encyclopedia">
+  <EncyclopediaIndexIsland client:visible varieties={varieties} />
+</BaseLayout>

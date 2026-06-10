@@ -195,6 +195,25 @@ export function toDetailVariety(v: MasterVariety) {
 export const getEntryByVarietyId = (varietyId: string): MasterEncyclopediaEntry | null =>
   entryByVarietyId.get(varietyId) ?? null;
 
+export const getEntryBySlug = (slug: string): MasterEncyclopediaEntry | null =>
+  encyclopediaEntries.find((e) => e.slug === slug) ?? null;
+
+/** Виды, для которых есть статья энциклопедии (для index и getStaticPaths). */
+export const encyclopediaVarieties = () =>
+  varieties.filter((v) => entryByVarietyId.has(v.id));
+
+/** Live-карточки камней вида в наличии с accentHex (для live-блока статьи). */
+export function liveStoneCardsForVariety(varietyId: string, limit = 5) {
+  return masterStones
+    .filter((s) => s.varietyId === varietyId && s.isAvailable)
+    .sort((a, b) => b.addedAt.localeCompare(a.addedAt))
+    .slice(0, limit)
+    .map((s) => ({
+      ...toStoneCard(s),
+      accentHex: colorById.get(s.colorId)?.hex ?? "#B7BDF7",
+    }));
+}
+
 // --- Блог --------------------------------------------------------------------
 export const getPost = (id: string) => postById.get(id) ?? null;
 export const getPostBySlug = (slug: string) =>
