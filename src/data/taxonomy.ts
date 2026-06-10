@@ -14,6 +14,14 @@ export const cuts: MasterCut[] = [
   { id: "c-trillion", slug: "trillion", name: "Триллион" },
   { id: "c-princess", slug: "princess", name: "Принцесса" },
   { id: "c-marquise", slug: "marquise", name: "Маркиза" },
+  { id: "c-round", slug: "round", name: "Круг" },
+  { id: "c-cabochon", slug: "cabochon", name: "Кабошон" },
+  { id: "c-baguette", slug: "baguette", name: "Багет" },
+  { id: "c-asscher", slug: "asscher", name: "Ашер" },
+  { id: "c-square", slug: "square", name: "Квадрат" },
+  { id: "c-heart", slug: "heart", name: "Сердце" },
+  { id: "c-carving", slug: "carving", name: "Резьба" },
+  { id: "c-unknown", slug: "unknown", name: "Не указана" },
 ];
 
 export const origins: MasterOrigin[] = [
@@ -24,6 +32,20 @@ export const origins: MasterOrigin[] = [
   { id: "o-brazil", slug: "brazil", name: "Бразилия", country: "Бразилия" },
   { id: "o-myanmar", slug: "myanmar", name: "Мьянма", country: "Мьянма" },
   { id: "o-colombia", slug: "colombia", name: "Колумбия", country: "Колумбия" },
+  { id: "o-africa", slug: "africa", name: "Африка", country: "Африка" },
+  { id: "o-nigeria", slug: "nigeria", name: "Нигерия", country: "Нигерия" },
+  { id: "o-cambodia", slug: "cambodia", name: "Камбоджа", country: "Камбоджа" },
+  { id: "o-mexico", slug: "mexico", name: "Мексика", country: "Мексика" },
+  { id: "o-ethiopia", slug: "ethiopia", name: "Эфиопия", country: "Эфиопия" },
+  { id: "o-bolivia", slug: "bolivia", name: "Боливия", country: "Боливия" },
+  { id: "o-australia", slug: "australia", name: "Австралия", country: "Австралия" },
+  { id: "o-russia", slug: "russia", name: "Россия", country: "Россия" },
+  { id: "o-namibia", slug: "namibia", name: "Намибия", country: "Намибия" },
+  { id: "o-afghanistan", slug: "afghanistan", name: "Афганистан", country: "Афганистан" },
+  { id: "o-india", slug: "india", name: "Индия", country: "Индия" },
+  { id: "o-pakistan", slug: "pakistan", name: "Пакистан", country: "Пакистан" },
+  { id: "o-thailand", slug: "thailand", name: "Таиланд", country: "Таиланд" },
+  { id: "o-unknown", slug: "unknown", name: "Не указано", country: "Не указано" },
 ];
 
 export const treatments: MasterTreatment[] = [
@@ -59,6 +81,9 @@ export const colors: MasterColor[] = [
   { id: "col-violet", slug: "violet", name: "Фиолетовый", hex: "#7B4E9E" },
   { id: "col-orange", slug: "orange", name: "Оранжевый", hex: "#E88A47" },
   { id: "col-red", slug: "red", name: "Красный", hex: "#B83A3A" },
+  { id: "col-black", slug: "black", name: "Чёрный", hex: "#2B2B30" },
+  { id: "col-brown", slug: "brown", name: "Коричневый", hex: "#7A5230" },
+  { id: "col-grey", slug: "grey", name: "Серый", hex: "#C9C7C0" },
 ];
 
 export const certificates: MasterCertificate[] = [

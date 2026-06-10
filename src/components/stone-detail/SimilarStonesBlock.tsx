@@ -109,6 +109,17 @@ function SimilarCard({ stone, subtleLabel, onClick }: SimilarCardProps) {
             `,
           }}
         />
+        {stone.photoUrl && (
+          <img
+            src={stone.photoUrl}
+            alt={stone.name}
+            loading="lazy"
+            onError={(e) => {
+              e.currentTarget.style.display = 'none'
+            }}
+            className="absolute inset-0 h-full w-full object-cover transition-transform duration-[1400ms] ease-out group-hover:scale-[1.05]"
+          />
+        )}
         <div className="absolute top-3 left-3 right-3 flex items-start justify-between">
           <span
             className="text-[10px] uppercase tracking-[0.22em] text-stone-500"

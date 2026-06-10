@@ -3,10 +3,13 @@
 // в конкретные shape'ы, которые ожидают компоненты каждой секции (см. их types.ts).
 
 export type ColorSlug =
-  | "green" | "blue" | "pink" | "yellow" | "white" | "violet" | "orange" | "red";
+  | "green" | "blue" | "pink" | "yellow" | "white" | "violet" | "orange" | "red"
+  | "black" | "brown" | "grey";
 
 export type CutSlug =
-  | "cushion" | "oval" | "pear" | "octagon" | "trillion" | "princess" | "marquise";
+  | "cushion" | "oval" | "pear" | "octagon" | "trillion" | "princess" | "marquise"
+  | "round" | "cabochon" | "baguette" | "asscher" | "square" | "heart" | "carving"
+  | "unknown";
 
 export type TreatmentSlug = "unheated" | "heated" | "oiled";
 

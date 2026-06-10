@@ -60,6 +60,19 @@ export function StoneCard({ stone, variety, color, onClick }: StoneCardProps) {
           }}
         />
 
+        {/* real photo — ложится поверх jewel-градиента; при 404 остаётся градиент */}
+        {stone.photoUrl && (
+          <img
+            src={stone.photoUrl}
+            alt={stone.name}
+            loading="lazy"
+            onError={(e) => {
+              e.currentTarget.style.display = 'none'
+            }}
+            className="absolute inset-0 h-full w-full object-cover transition-transform duration-[1400ms] ease-out group-hover:scale-[1.05]"
+          />
+        )}
+
         {/* Top-corner meta */}
         <div className="absolute top-3 left-3 right-3 flex items-start justify-between">
           <span

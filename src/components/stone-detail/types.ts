@@ -5,7 +5,15 @@ export type CutSlug =
   | 'octagon'
   | 'trillion'
   | 'princess'
-  | 'marquise';
+  | 'marquise'
+  | 'round'
+  | 'cabochon'
+  | 'baguette'
+  | 'asscher'
+  | 'square'
+  | 'heart'
+  | 'carving'
+  | 'unknown';
 
 export type TreatmentSlug = 'unheated' | 'heated' | 'oiled';
 

@@ -44,7 +44,7 @@ const negretSapfirBody: PostBlock[] = [
   { type: "quote", text: "Цвет можно сыграть на фото. Включения под микроскопом не врут — они и есть подпись печи." },
   { type: "heading", text: "Четыре признака, которые я ищу под лупой" },
   { type: "paragraph", text: "Первое — целостность «шёлка». В негретом камне игольчатые включения рутила тонкие, длинные и резкие. После нагрева они выглядят прерывистыми, как пунктир, или собираются в облачка из мелких точек." },
-  { type: "image", url: "/images/posts/negretyy-sapfir-inclusions.jpg", caption: "Макро 40×: целые иглы рутила в негретом цейлонском сапфире" },
+  { type: "image", url: "/images/stones/0106-golubovato-zelyonyy-sapfir/02.jpg", caption: "Макро 40×: целые иглы рутила в негретом цейлонском сапфире" },
   { type: "paragraph", text: "Второе — состояние кристаллических включений. Циркон, апатит или гранат внутри камня при нагреве оплавляются и обрастают характерным «нимбом» из стресс-трещин. Целый, с резкими гранями кристалл — хороший знак, что печи не было." },
   { type: "paragraph", text: "Третье и четвёртое — поведение в иммерсии и под фильтром. Но если коротко: на этом уровне без лабораторного отчёта дальше идти нельзя. Для камня дороже определённой суммы я всегда настаиваю на сертификате GRS, SSEF или Gübelin с пометкой о термообработке — это единственная защита и для покупателя, и для меня." },
 ];
@@ -58,7 +58,7 @@ function genBody(varietyId: string, intro: string, points: { h: string; p: strin
     blocks.push({ type: "paragraph", text: pt.p });
     if (i === 0) blocks.push({ type: "quote", text: quote });
     if (i === 1 && v) {
-      blocks.push({ type: "image", url: `/images/posts/${v.slug}-detail.jpg`, caption: `${v.name} из коллекции Дмитрия под дневным светом` });
+      blocks.push({ type: "image", url: v.coverPhotoUrl.replace("/01.jpg", "/02.jpg"), caption: `${v.name} из коллекции Дмитрия под дневным светом` });
     }
   });
   return blocks;
@@ -308,7 +308,9 @@ export const posts: MasterPost[] = seeds.map((s) => ({
   slug: s.slug,
   title: s.title,
   excerpt: s.excerpt,
-  coverPhotoUrl: `/images/posts/${s.slug}.jpg`,
+  coverPhotoUrl:
+    varietyById.get(s.varietyIds[0])?.coverPhotoUrl ??
+    "/images/stones/0106-golubovato-zelyonyy-sapfir/01.jpg",
   publishedAt: s.publishedAt,
   readingMinutes: s.readingMinutes,
   varietyIds: s.varietyIds,

@@ -98,6 +98,16 @@ export function Lightbox({ media, index, accentHex, onClose, onNavigate }: Light
               `,
             }}
           />
+          {current.kind === 'photo' && current.url && (
+            <img
+              src={current.url}
+              alt={current.alt}
+              onError={(e) => {
+                e.currentTarget.style.display = 'none'
+              }}
+              className="absolute inset-0 h-full w-full object-contain"
+            />
+          )}
           {current.kind === 'video' && (
             <div aria-hidden className="absolute inset-0 flex items-center justify-center">
               <div className="flex h-24 w-24 items-center justify-center rounded-full border border-white/80 bg-stone-900/30 backdrop-blur-sm">

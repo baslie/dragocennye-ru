@@ -1,13 +1,13 @@
 import type { MasterEncyclopediaEntry } from "./model";
 
 // Long-read статьи по видам (из handoff encyclopedia/sample-data). Hero-изображения
-// ведут на /images/heroes/{slug}.jpg (плейсхолдеры с graceful-фолбэком в UI).
+// ведут на реальное фото камня-представителя вида (/images/stones/<slug>/01.jpg).
 export const encyclopediaEntries: MasterEncyclopediaEntry[] = [
   {
     id: "e-sapfir",
     varietyId: "v-sapfir",
     slug: "sapfir",
-    heroPhotoUrl: "/images/heroes/sapfir.jpg",
+    heroPhotoUrl: "/images/stones/0106-golubovato-zelyonyy-sapfir/01.jpg",
     heroSubtitle: "Corundum · Твёрдость 9 · Цвет: любой кроме красного",
     intro: [
       "Сапфир — это корунд всех цветов, кроме красного. Красный корунд называется рубином, и это единственное исключение: всё остальное, от классического василькового синего до нежной падпараджи с оранжево-розовым переливом, геммологи объединяют под именем «сапфир».",
@@ -33,7 +33,7 @@ export const encyclopediaEntries: MasterEncyclopediaEntry[] = [
     id: "e-shpinel",
     varietyId: "v-shpinel",
     slug: "shpinel",
-    heroPhotoUrl: "/images/heroes/shpinel.jpg",
+    heroPhotoUrl: "/images/stones/0201-fioletovaya-shpinel/01.jpg",
     heroSubtitle: "Spinel · Твёрдость 8 · Природное происхождение",
     intro: [
       "Шпинель — одна из самых недооценённых семей в коллекционном мире. Исторически её путали с рубином, и только в 1783 году французский минералог Жан-Батист Роме де Лиль официально разделил два минерала. «Рубин Чёрного принца» в короне Британских королей и «Рубин Тимура» — обе знаменитые реликвии на самом деле шпинели.",
@@ -57,7 +57,7 @@ export const encyclopediaEntries: MasterEncyclopediaEntry[] = [
     id: "e-turmalin",
     varietyId: "v-turmalin",
     slug: "turmalin",
-    heroPhotoUrl: "/images/heroes/turmalin.jpg",
+    heroPhotoUrl: "/images/stones/0303-zelenyy-turmalin/01.jpg",
     heroSubtitle: "Tourmaline · Твёрдость 7–7,5 · Самое широкое разнообразие цветов",
     intro: [
       "Турмалин — это целая минеральная группа, объединяющая десяток близкородственных видов: эльбаит, шерл, дравит, увит, лиддикоатит. Геммологическое значение имеет в основном эльбаит, из которого получают рубеллиты, верделиты, индиголиты и легендарные параиба-турмалины.",
@@ -82,7 +82,7 @@ export const encyclopediaEntries: MasterEncyclopediaEntry[] = [
     id: "e-granat",
     varietyId: "v-granat",
     slug: "granat",
-    heroPhotoUrl: "/images/heroes/granat.jpg",
+    heroPhotoUrl: "/images/stones/0401-rozovyy-rodolit/01.jpg",
     heroSubtitle: "Garnet · Твёрдость 6,5–7,5 · Семья из десятка разновидностей",
     intro: [
       "Гранат — это не один камень, а целое семейство. Пироп, альмандин, спессартин, гроссуляр, андрадит, уваровит — вот только основные члены группы, и все они с геммологической точки зрения «гранаты». Отдельные разновидности — цаворит (зелёный гроссуляр), демантоид (зелёный андрадит) и родолит (смесь пиропа и альмандина).",
@@ -106,7 +106,7 @@ export const encyclopediaEntries: MasterEncyclopediaEntry[] = [
     id: "e-cirkon",
     varietyId: "v-cirkon",
     slug: "cirkon",
-    heroPhotoUrl: "/images/heroes/cirkon.jpg",
+    heroPhotoUrl: "/images/stones/058-belyy-tsirkon/01.jpg",
     heroSubtitle: "Zircon · Твёрдость 6,5–7,5 · Древнейший минерал на Земле",
     intro: [
       "Натуральный циркон — это древний природный минерал, не имеющий ничего общего с синтетическим «кубическим цирконием» (фианитом). Путаница возникла из-за схожести названий, но геммологически это два совершенно разных материала: циркон — силикат циркония, фианит — синтетический диоксид.",
@@ -129,7 +129,7 @@ export const encyclopediaEntries: MasterEncyclopediaEntry[] = [
     id: "e-beryll",
     varietyId: "v-beryll",
     slug: "beryll",
-    heroPhotoUrl: "/images/heroes/beryll.jpg",
+    heroPhotoUrl: "/images/stones/0602-zheltyy-geliodor-berill/01.jpg",
     heroSubtitle: "Beryl · Твёрдость 7,5–8 · Одна структура, разные примеси",
     intro: [
       "Берилл — это базовый минерал, из которого при разных примесях получаются несколько известных камней. Изумруд (берилл с хромом или ванадием), аквамарин (с железом), морганит (с марганцем), гелиодор (с железом по-другому), благородный зелёный берилл и редчайший красный биксбит. Один минерал, разные окраски.",
@@ -153,7 +153,7 @@ export const encyclopediaEntries: MasterEncyclopediaEntry[] = [
     id: "e-kvarz",
     varietyId: "v-kvarz",
     slug: "kvarz",
-    heroPhotoUrl: "/images/heroes/kvarz.jpg",
+    heroPhotoUrl: "/images/stones/0804-krupnyy-birmanskiy-gornyy-hrustal/01.jpg",
     heroSubtitle: "Quartz · Твёрдость 7 · Самый распространённый цветной камень",
     intro: [
       "Ювелирный кварц — это аметист, цитрин, раухтопаз (дымчатый кварц), морион, розовый кварц, горный хрусталь и редкий аметрин с природным переходом фиолетового в жёлтый. Один минерал — диоксид кремния, но внешне совершенно разные камни.",
@@ -177,7 +177,7 @@ export const encyclopediaEntries: MasterEncyclopediaEntry[] = [
     id: "e-opal",
     varietyId: "v-opal",
     slug: "opal",
-    heroPhotoUrl: "/images/heroes/opal.jpg",
+    heroPhotoUrl: "/images/stones/0910-opal-goluboy/01.jpg",
     heroSubtitle: "Opal · Твёрдость 5,5–6,5 · Игра цвета от упорядочённых кремниевых сфер",
     intro: [
       "Опал — это не кристалл, а гидратированный аморфный кремнезём с характерной внутренней структурой из упорядочённых микросфер. Именно эти сферы, дифрагируя свет, создают знаменитую «игру цвета» (opal play-of-color) — радужные всполохи, которые бегут по камню при повороте.",
@@ -201,7 +201,7 @@ export const encyclopediaEntries: MasterEncyclopediaEntry[] = [
     id: "e-topaz",
     varietyId: "v-topaz",
     slug: "topaz",
-    heroPhotoUrl: "/images/heroes/topaz.jpg",
+    heroPhotoUrl: "/images/stones/0711-zheltyy-topaz/01.jpg",
     heroSubtitle: "Topaz · Твёрдость 8 · От бесцветного до императорского",
     intro: [
       "Топаз встречается в природе в широком спектре цветов: бесцветный, светло-голубой, жёлтый, медовый, розовый, оранжевый и особо ценный «императорский» с оранжево-красным переливом. Твёрдость 8 по Моосу делает его прочным камнем для ежедневного ношения.",
@@ -225,7 +225,7 @@ export const encyclopediaEntries: MasterEncyclopediaEntry[] = [
     id: "e-tanzanit",
     varietyId: "v-tanzanit",
     slug: "tanzanit",
-    heroPhotoUrl: "/images/heroes/tanzanit.jpg",
+    heroPhotoUrl: "/images/stones/1603-purpurno-goluboy-tanzanit/01.jpg",
     heroSubtitle: "Tanzanite · Твёрдость 6,5–7 · Одно месторождение в мире",
     intro: [
       "Танзанит — это разновидность минерала цоизита с синим или сине-фиолетовым цветом. Он был открыт в 1967 году у подножия Килиманджаро в Танзании и добывается только там, в небольшом районе размером примерно 7×2 километра. Другого источника танзанита в мире нет.",

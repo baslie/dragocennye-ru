@@ -101,6 +101,19 @@ function MediaBlock({
         }}
       />
 
+      {/* real photo — поверх jewel-градиента; при 404 остаётся градиент */}
+      {media.kind === 'photo' && media.url && (
+        <img
+          src={media.url}
+          alt={media.alt}
+          loading={isFirst ? 'eager' : 'lazy'}
+          onError={(e) => {
+            e.currentTarget.style.display = 'none'
+          }}
+          className="absolute inset-0 h-full w-full object-cover transition-transform duration-[1800ms] ease-out group-hover:scale-[1.03]"
+        />
+      )}
+
       {/* Video play button overlay */}
       {media.kind === 'video' && (
         <div aria-hidden className="absolute inset-0 flex items-center justify-center">

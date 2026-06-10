@@ -6,7 +6,10 @@ export type ColorSlug =
   | 'white'
   | 'violet'
   | 'orange'
-  | 'red';
+  | 'red'
+  | 'black'
+  | 'brown'
+  | 'grey';
 
 export type CutSlug =
   | 'cushion'
@@ -15,7 +18,15 @@ export type CutSlug =
   | 'octagon'
   | 'trillion'
   | 'princess'
-  | 'marquise';
+  | 'marquise'
+  | 'round'
+  | 'cabochon'
+  | 'baguette'
+  | 'asscher'
+  | 'square'
+  | 'heart'
+  | 'carving'
+  | 'unknown';
 
 export type TreatmentSlug = 'unheated' | 'heated' | 'oiled';
 
