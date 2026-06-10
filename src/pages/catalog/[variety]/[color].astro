@@ -1,0 +1,54 @@
+---
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import { CatalogBrowseIsland } from "../../../components/catalog/CatalogBrowseIsland";
+import {
+  allCatalogStones,
+  catalogVarieties,
+  colorsForVariety,
+  getVarietyBySlug,
+  getColorBySlug,
+  cuts,
+  origins,
+  treatments,
+  colors,
+  certificates,
+} from "../../../data";
+
+export function getStaticPaths() {
+  return catalogVarieties().flatMap((v) =>
+    colorsForVariety(v.id).map((c) => ({
+      params: { variety: v.slug, color: c.slug },
+    })),
+  );
+}
+
+const { variety: varietySlug, color: colorSlug } = Astro.params;
+const variety = getVarietyBySlug(varietySlug!);
+const color = getColorBySlug(colorSlug!);
+if (!variety || !color) return Astro.redirect("/404");
+
+const stones = allCatalogStones();
+const varieties = catalogVarieties();
+
+const title = `${color.name} ${variety.name.toLowerCase()} — купить | Драгоценные`;
+const description = `${color.name} ${variety.pluralName.toLowerCase()} из коллекции гемолога Дмитрия Салятова: каждый камень в единственном экземпляре, с фото, видео и паспортом характеристик. Подбор по тону, чистоте и огранке.`;
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  path={`/catalog/${variety.slug}/${color.slug}`}
+>
+  <CatalogBrowseIsland
+    client:load
+    stones={stones}
+    varieties={varieties}
+    cuts={cuts}
+    origins={origins}
+    treatments={treatments}
+    colors={colors}
+    certificates={certificates}
+    initialVarietyId={variety.id}
+    initialColorId={color.id}
+  />
+</BaseLayout>

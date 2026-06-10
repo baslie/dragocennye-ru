@@ -115,6 +115,21 @@ export function toInquiryMini(s: MasterStone) {
 }
 
 // --- Каталог -----------------------------------------------------------------
+/** Проекция вида в shape каталожного таба (StoneVariety) — без тяжёлого editorial. */
+export function toCatalogVariety(v: VarietyWithCount) {
+  return {
+    id: v.id,
+    slug: v.slug,
+    name: v.name,
+    imageUrl: v.imageUrl,
+    stoneCount: v.stoneCount,
+    shortDescription: v.shortDescription,
+  };
+}
+
+/** Все виды как каталожные табы. */
+export const catalogVarieties = () => varieties.map(toCatalogVariety);
+
 export const allCatalogStones = () =>
   [...masterStones].sort((a, b) => b.addedAt.localeCompare(a.addedAt)).map(toCatalogStone);
 

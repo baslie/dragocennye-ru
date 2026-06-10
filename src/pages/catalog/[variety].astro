@@ -1,0 +1,46 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { CatalogBrowseIsland } from "../../components/catalog/CatalogBrowseIsland";
+import {
+  allCatalogStones,
+  catalogVarieties,
+  getVarietyBySlug,
+  cuts,
+  origins,
+  treatments,
+  colors,
+  certificates,
+} from "../../data";
+
+export function getStaticPaths() {
+  return catalogVarieties().map((v) => ({ params: { variety: v.slug } }));
+}
+
+const { variety: varietySlug } = Astro.params;
+const variety = getVarietyBySlug(varietySlug!);
+if (!variety) return Astro.redirect("/404");
+
+const stones = allCatalogStones();
+const varieties = catalogVarieties();
+
+const title = `${variety.pluralName} — купить коллекционный камень | Драгоценные`;
+const description = variety.shortDescription.split("\n\n")[0];
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  path={`/catalog/${variety.slug}`}
+>
+  <CatalogBrowseIsland
+    client:load
+    stones={stones}
+    varieties={varieties}
+    cuts={cuts}
+    origins={origins}
+    treatments={treatments}
+    colors={colors}
+    certificates={certificates}
+    initialVarietyId={variety.id}
+  />
+</BaseLayout>

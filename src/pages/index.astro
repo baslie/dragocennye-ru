@@ -1,16 +1,29 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import { CatalogBrowseIsland } from "../components/catalog/CatalogBrowseIsland";
+import {
+  allCatalogStones,
+  catalogVarieties,
+  cuts,
+  origins,
+  treatments,
+  colors,
+  certificates,
+} from "../data";
+
+const stones = allCatalogStones();
+const varieties = catalogVarieties();
 ---
 
 <BaseLayout path="/">
-  <section class="py-10">
-    <p
-      class="max-w-[60ch] text-lg leading-relaxed text-stone-600"
-      style="font-family: 'Noto Sans', sans-serif;"
-    >
-      Каталог коллекционных камней появится здесь на следующем этапе. Сейчас работает
-      оболочка: editorial-шапка со scroll-shrink, навигация с дропдауном «Журнал» и поиск
-      по каталогу.
-    </p>
-  </section>
+  <CatalogBrowseIsland
+    client:load
+    stones={stones}
+    varieties={varieties}
+    cuts={cuts}
+    origins={origins}
+    treatments={treatments}
+    colors={colors}
+    certificates={certificates}
+  />
 </BaseLayout>
