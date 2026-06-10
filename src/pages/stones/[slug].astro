@@ -1,0 +1,59 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { StoneDetailIsland } from "../../components/stone-detail/StoneDetailIsland";
+import {
+  stones as allStones,
+  getStoneBySlug,
+  getVariety,
+  getCut,
+  getOrigin,
+  getTreatment,
+  getColor,
+  getCertificate,
+  toDetailVariety,
+  similarStones as similarStonesFor,
+  contactChannelsFor,
+} from "../../data";
+
+export function getStaticPaths() {
+  return allStones.map((s) => ({ params: { slug: s.slug } }));
+}
+
+const { slug } = Astro.params;
+const stone = getStoneBySlug(slug!);
+if (!stone) return Astro.redirect("/404");
+
+const varietyMaster = getVariety(stone.varietyId);
+const cut = getCut(stone.cutId);
+const origin = getOrigin(stone.originId);
+const treatment = getTreatment(stone.treatmentId);
+const color = getColor(stone.colorId);
+if (!varietyMaster || !cut || !origin || !treatment || !color) {
+  return Astro.redirect("/404");
+}
+
+const variety = toDetailVariety(varietyMaster);
+const certificate = getCertificate(stone.certificateId);
+const similar = similarStonesFor(stone);
+const contactChannels = contactChannelsFor(stone.name, stone.weightCt);
+
+const title = `${stone.name} — ${variety.name.toLowerCase()} ${stone.weightCt
+  .toFixed(2)
+  .replace(".", ",")} ct | Драгоценные`;
+const description = stone.editorial[0] ?? variety.pluralName;
+---
+
+<BaseLayout title={title} description={description} path={`/stones/${stone.slug}`}>
+  <StoneDetailIsland
+    client:load
+    stone={stone}
+    variety={variety}
+    cut={cut}
+    origin={origin}
+    treatment={treatment}
+    color={color}
+    certificate={certificate}
+    similarStones={similar}
+    contactChannels={contactChannels}
+  />
+</BaseLayout>

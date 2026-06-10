@@ -45,6 +45,9 @@ const stoneBySlug = new Map(masterStones.map((s) => [s.slug, s]));
 const colorBySlug = new Map<string, (typeof colors)[number]>(
   colors.map((c) => [c.slug, c]),
 );
+const colorById = new Map<string, (typeof colors)[number]>(
+  colors.map((c) => [c.id, c]),
+);
 const cutById = new Map(cuts.map((c) => [c.id, c]));
 const originById = new Map(origins.map((o) => [o.id, o]));
 const treatmentById = new Map(treatments.map((t) => [t.id, t]));
@@ -56,6 +59,7 @@ const postById = new Map(masterPosts.map((p) => [p.id, p]));
 export const getVariety = (id: string) => varietyById.get(id) ?? null;
 export const getVarietyBySlug = (slug: string) => varietyBySlug.get(slug) ?? null;
 export const getColorBySlug = (slug: string) => colorBySlug.get(slug) ?? null;
+export const getColor = (id: string) => colorById.get(id) ?? null;
 export const getStone = (id: string) => stoneById.get(id) ?? null;
 export const getStoneBySlug = (slug: string) => stoneBySlug.get(slug) ?? null;
 export const getCut = (id: string) => cutById.get(id) ?? null;
@@ -173,6 +177,18 @@ export function colorsForVariety(varietyId: string) {
     masterStones.filter((s) => s.varietyId === varietyId).map((s) => s.colorId),
   );
   return colors.filter((c) => ids.has(c.id));
+}
+
+// --- Stone Detail ------------------------------------------------------------
+/** Лёгкая проекция вида для Stone Detail (StoneVariety). */
+export function toDetailVariety(v: MasterVariety) {
+  return {
+    id: v.id,
+    slug: v.slug,
+    name: v.name,
+    genitiveName: v.genitiveName,
+    pluralName: v.pluralName,
+  };
 }
 
 // --- Энциклопедия ------------------------------------------------------------
