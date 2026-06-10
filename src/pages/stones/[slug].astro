@@ -13,6 +13,7 @@ import {
   toDetailVariety,
   similarStones as similarStonesFor,
   contactChannelsFor,
+  inquiryChannels,
 } from "../../data";
 
 export function getStaticPaths() {
@@ -55,5 +56,6 @@ const description = stone.editorial[0] ?? variety.pluralName;
     certificate={certificate}
     similarStones={similar}
     contactChannels={contactChannels}
+    inquiryChannels={inquiryChannels}
   />
 </BaseLayout>
