@@ -1,0 +1,51 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { BlogPostIsland } from "../../components/blog/BlogPostIsland";
+import {
+  posts as allPosts,
+  getPostBySlug,
+  getVariety,
+  gemologist,
+  mentionedStonesForPost,
+  relatedPosts,
+  toPostCard,
+} from "../../data";
+
+export function getStaticPaths() {
+  return allPosts.map((p) => ({ params: { slug: p.slug } }));
+}
+
+const { slug } = Astro.params;
+const post = getPostBySlug(slug!);
+if (!post) return Astro.redirect("/404");
+
+const fullPost = { ...post, mentionedStones: mentionedStonesForPost(post, 5) };
+
+const author = {
+  name: gemologist.name,
+  role: gemologist.role,
+  portraitUrl: gemologist.portraitUrl,
+};
+
+const related = relatedPosts(post, 3).map(toPostCard);
+
+// varietyId → slug каталога для перехода «в каталог»
+const varietySlugs: Record<string, string> = {};
+for (const id of post.varietyIds) {
+  const v = getVariety(id);
+  if (v) varietySlugs[id] = v.slug;
+}
+
+const title = `${post.title} | Журнал «Драгоценные»`;
+const description = post.lead ?? post.excerpt;
+---
+
+<BaseLayout title={title} description={description} path={`/blog/${post.slug}`}>
+  <BlogPostIsland
+    client:load
+    post={fullPost}
+    author={author}
+    relatedPosts={related}
+    varietySlugs={varietySlugs}
+  />
+</BaseLayout>

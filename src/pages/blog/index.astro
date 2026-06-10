@@ -1,0 +1,16 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { BlogFeedIsland } from "../../components/blog/BlogFeedIsland";
+import { sortedPosts, toPostCard, blogTopics } from "../../data";
+
+const posts = sortedPosts().map(toPostCard);
+const topics = blogTopics();
+
+const title = "Журнал гемолога — статьи о коллекционных камнях | Драгоценные";
+const description =
+  "Дмитрий Салятов о коллекционных камнях без маркетинга: что делает с корундом печь, почему происхождение важнее размера и за что коллекционеры платят премию.";
+---
+
+<BaseLayout title={title} description={description} path="/blog">
+  <BlogFeedIsland client:load posts={posts} topics={topics} />
+</BaseLayout>

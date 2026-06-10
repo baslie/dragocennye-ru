@@ -238,7 +238,15 @@ export function relatedPosts(post: MasterPost, limit = 3) {
 }
 
 export function mentionedStonesForPost(post: MasterPost, limit = 5) {
-  return liveStonesForVarieties(post.varietyIds, limit);
+  const set = new Set(post.varietyIds);
+  return masterStones
+    .filter((s) => set.has(s.varietyId) && s.isAvailable)
+    .sort((a, b) => b.addedAt.localeCompare(a.addedAt))
+    .slice(0, limit)
+    .map((s) => ({
+      ...toStoneCard(s),
+      accentHex: colorById.get(s.colorId)?.hex ?? "#B7BDF7",
+    }));
 }
 
 /** Карточка поста (BlogPostCard) — без тела. */

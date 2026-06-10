@@ -1,0 +1,27 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { AboutIsland } from "../components/blog/AboutIsland";
+import { gemologist, sortedPosts, toPostCard, contactHref } from "../data";
+
+const recentPosts = sortedPosts().slice(0, 3).map(toPostCard);
+
+const contactHrefs = {
+  telegram: contactHref("telegram"),
+  whatsapp: contactHref("whatsapp"),
+  phone: contactHref("phone"),
+};
+
+const title = `${gemologist.name} — ${gemologist.role} | Драгоценные`;
+const description =
+  gemologist.intro[0] ??
+  "Дмитрий Салятов — гемолог: образование, опыт, подход к подбору коллекционных камней и контакты для заказа.";
+---
+
+<BaseLayout title={title} description={description} path="/about">
+  <AboutIsland
+    client:visible
+    gemologist={gemologist}
+    recentPosts={recentPosts}
+    contactHrefs={contactHrefs}
+  />
+</BaseLayout>
