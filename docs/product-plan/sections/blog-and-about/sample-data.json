@@ -1,0 +1,296 @@
+{
+  "_meta": {
+    "models": {
+      "gemologist": "Профиль Дмитрия Салятова для страницы /about — имя, должность, портрет, вводные абзацы, массив статов, таймлайн образования/опыта, абзацы про подход к подбору и контактные каналы. Один объект на весь сайт.",
+      "topic": "Фильтр-чип ленты блога по виду камня. id/slug/name совпадают с varieties из catalog-browse и encyclopedia. postCount — сколько постов привязано к этому виду. Чип «Все» — синтетический, в данных не хранится, рендерится в UI отдельно.",
+      "post": "Карточка публикации блога для ленты, блока «Читать дальше» и «Из журнала»: id, slug, title, excerpt, coverPhotoUrl, publishedAt (ISO date), readingMinutes, varietyIds (виды, к которым привязан пост — для фильтра и для подбора relatedPosts/mentionedStones), varietyLabel (человекочитаемый ярлык основного вида для мета-строки), isFeatured (один пост в ленте — крупная карточка).",
+      "postBody": "Тело отдельного поста для /blog/[slug] — массив типизированных блоков (paragraph | heading | quote | image), рендерится в reading column по порядку. Хранится внутри объекта currentPost.",
+      "currentPost": "Полный пример одного открытого поста для дизайна view /blog/[slug]: расширяет post полями lead (опциональный вводный абзац), body (массив postBody-блоков), mentionedStones (камни упомянутых видов в наличии), relatedPostIds (id похожих постов).",
+      "stoneCard": "Карточка камня для live-блока «Камни из этой статьи» — минимальное подмножество Stone из catalog-browse: id, slug, varietyId, name, weightCt, price, photoUrl, isAvailable.",
+      "author": "Мини-подпись автора в конце поста — name, role, portraitUrl. Совпадает с gemologist, но только три поля для byline."
+    },
+    "relationships": [
+      "gemologist authors many post",
+      "post references one or many varieties through varietyIds; varietyLabel — ярлык основного вида",
+      "topic groups posts by variety (postCount = число привязанных post)",
+      "currentPost extends post with body, lead, mentionedStones, relatedPostIds",
+      "stoneCard belongs to one variety (varietyId)",
+      "currentPost.relatedPostIds reference other post.id",
+      "author is the byline projection of gemologist"
+    ]
+  },
+
+  "gemologist": {
+    "id": "gem-dmitry",
+    "name": "Дмитрий Салятов",
+    "role": "Гемолог, основатель «Драгоценных»",
+    "portraitUrl": "/sections/blog-about/gemologist/dmitry-portrait.jpg",
+    "intro": [
+      "Я подбираю коллекционные камни больше пятнадцати лет — сначала для ювелирных домов, теперь для частных коллекционеров, инвесторов и тех, кто покупает первый серьёзный камень в жизни.",
+      "Каждый камень в «Драгоценных» я держал в руках, проверял под лупой и иммерсией, сверял с сертификатом. Здесь нет стоковых партий и случайных позиций — только то, за что я готов отвечать лично."
+    ],
+    "stats": [
+      { "value": "15+", "label": "лет в гемологии" },
+      { "value": "340", "label": "камней в коллекции" },
+      { "value": "GIA", "label": "диплом геммолога" },
+      { "value": "12", "label": "стран-источников" }
+    ],
+    "timeline": [
+      {
+        "year": "2008",
+        "title": "Геологический факультет МГУ",
+        "description": "Специализация — минералогия и кристаллография. Первые экспедиции на Урал за демантоидом и аметистом."
+      },
+      {
+        "year": "2011",
+        "title": "Graduate Gemologist, GIA",
+        "description": "Диплом Геммологического института Америки (Карлсбад). Углублённая диагностика облагораживания и определение происхождения корундов."
+      },
+      {
+        "year": "2013–2019",
+        "title": "Геммолог ювелирного дома",
+        "description": "Отбор и аттестация цветных камней для коллекций high jewellery. Работа с аукционами Бангкока, Коломбо и Женевы."
+      },
+      {
+        "year": "2020",
+        "title": "Основал «Драгоценные»",
+        "description": "Собственная кураторская коллекция: каждый камень в единственном экземпляре, с полным паспортом и фотодокументацией."
+      }
+    ],
+    "approach": [
+      "Я начинаю не с цены, а с истории камня: откуда он, как его добывали, что с ним делали после извлечения. Негретый сапфир из Шри-Ланки и его нагретый двойник могут выглядеть одинаково — но это два разных камня по сути и по ценности.",
+      "Второй фильтр — честность подачи. Я снимаю камни при дневном свете, без ретуши цвета и без «волшебных» ракурсов. То, что вы видите на фото и видео, вы получите в руки.",
+      "И третье — соответствие задаче. Камень для инвестиции, для кольца невесте и для коллекции огранок — это три разных запроса. Я не продаю «вообще красивое», я подбираю под конкретную цель."
+    ],
+    "contacts": [
+      { "channel": "telegram", "label": "Telegram", "value": "@dmitry_gem" },
+      { "channel": "whatsapp", "label": "WhatsApp", "value": "+7 905 000-00-00" },
+      { "channel": "phone", "label": "+7 905 000-00-00", "value": "+79050000000" }
+    ]
+  },
+
+  "topics": [
+    { "id": "v-sapfir", "slug": "sapfir", "name": "Сапфир", "postCount": 4 },
+    { "id": "v-izumrud", "slug": "izumrud", "name": "Изумруд", "postCount": 2 },
+    { "id": "v-shpinel", "slug": "shpinel", "name": "Шпинель", "postCount": 2 },
+    { "id": "v-turmalin", "slug": "turmalin", "name": "Турмалин", "postCount": 1 },
+    { "id": "v-akvamarin", "slug": "akvamarin", "name": "Аквамарин", "postCount": 1 }
+  ],
+
+  "posts": [
+    {
+      "id": "post-negret-sapfir",
+      "slug": "kak-otlichit-negretyy-sapfir",
+      "title": "Как отличить негретый сапфир от нагретого — и почему это меняет цену вдвое",
+      "excerpt": "Нагрев — самая массовая обработка корунда. Разбираю на макроснимках, по каким включениям геммолог отличает камень, которого не касалась печь, и почему за это платят премию.",
+      "coverPhotoUrl": "/sections/blog-about/posts/negretyy-sapfir.jpg",
+      "publishedAt": "2026-05-28",
+      "readingMinutes": 8,
+      "varietyIds": ["v-sapfir"],
+      "varietyLabel": "Сапфир",
+      "isFeatured": true
+    },
+    {
+      "id": "post-izumrud-maslo",
+      "slug": "promaslivanie-izumruda-norma-ili-defekt",
+      "title": "Промасливание изумруда: норма рынка или скрытый дефект?",
+      "excerpt": "Почти все изумруды промаслены — вопрос только в степени. Объясняю градации от «none» до «significant» и как читать эту строчку в сертификате, чтобы не переплатить.",
+      "coverPhotoUrl": "/sections/blog-about/posts/izumrud-maslo.jpg",
+      "publishedAt": "2026-05-14",
+      "readingMinutes": 7,
+      "varietyIds": ["v-izumrud"],
+      "varietyLabel": "Изумруд",
+      "isFeatured": false
+    },
+    {
+      "id": "post-shpinel-nedootsenena",
+      "slug": "pochemu-shpinel-nedootsenena",
+      "title": "Почему шпинель десятилетиями выдавали за рубин — и недооценивают до сих пор",
+      "excerpt": "«Рубин Чёрного принца» в короне Британии — на самом деле шпинель. История главной подмены в геммологии и почему сейчас это шанс для коллекционера.",
+      "coverPhotoUrl": "/sections/blog-about/posts/shpinel-istoriya.jpg",
+      "publishedAt": "2026-04-30",
+      "readingMinutes": 6,
+      "varietyIds": ["v-shpinel"],
+      "varietyLabel": "Шпинель",
+      "isFeatured": false
+    },
+    {
+      "id": "post-padparadscha",
+      "slug": "padparadscha-tsvet-zakata",
+      "title": "Падпараджа: единственный сапфир, у которого есть имя собственное",
+      "excerpt": "Розово-оранжевый оттенок лотоса, который лаборатории защищают строгим определением. Где проходит граница между падпараджей и просто «фантазийным» сапфиром.",
+      "coverPhotoUrl": "/sections/blog-about/posts/padparadscha.jpg",
+      "publishedAt": "2026-04-16",
+      "readingMinutes": 5,
+      "varietyIds": ["v-sapfir"],
+      "varietyLabel": "Сапфир",
+      "isFeatured": false
+    },
+    {
+      "id": "post-turmalin-paraiba",
+      "slug": "paraiba-neonovyy-turmalin",
+      "title": "Параиба: как медь делает турмалин неоновым и взвинчивает цену до уровня бриллиантов",
+      "excerpt": "Медьсодержащий турмалин из Бразилии и Мозамбика светится изнутри. Разбираю, чем «электрик-блю» Параибы отличается от обычного индиголита и за что коллекционеры платят шестизначные суммы.",
+      "coverPhotoUrl": "/sections/blog-about/posts/paraiba.jpg",
+      "publishedAt": "2026-03-29",
+      "readingMinutes": 6,
+      "varietyIds": ["v-turmalin"],
+      "varietyLabel": "Турмалин",
+      "isFeatured": false
+    },
+    {
+      "id": "post-origin-sapfir",
+      "slug": "proishozhdenie-sapfira-kashmir-birma-tseylon",
+      "title": "Кашмир, Бирма, Цейлон: почему происхождение сапфира важнее размера",
+      "excerpt": "Один и тот же вес и цвет, но цена отличается в разы — всё решает месторождение. Как лаборатории определяют origin и почему кашмирский сапфир стал почти недостижимой легендой.",
+      "coverPhotoUrl": "/sections/blog-about/posts/origin-sapfir.jpg",
+      "publishedAt": "2026-03-12",
+      "readingMinutes": 9,
+      "varietyIds": ["v-sapfir"],
+      "varietyLabel": "Сапфир",
+      "isFeatured": false
+    },
+    {
+      "id": "post-akvamarin-santa-maria",
+      "slug": "akvamarin-santa-maria",
+      "title": "Santa Maria: эталон синего аквамарина и почему название стало маркетингом",
+      "excerpt": "Глубокий синий аквамарин из бразильской шахты Санта-Мария задал стандарт цвета. Сегодня так называют любой насыщенный камень — рассказываю, как не купить имя вместо качества.",
+      "coverPhotoUrl": "/sections/blog-about/posts/santa-maria.jpg",
+      "publishedAt": "2026-02-26",
+      "readingMinutes": 5,
+      "varietyIds": ["v-akvamarin"],
+      "varietyLabel": "Аквамарин",
+      "isFeatured": false
+    },
+    {
+      "id": "post-izumrud-kolumbiya",
+      "slug": "kolumbiyskiy-izumrud-protiv-zambiyskogo",
+      "title": "Колумбийский изумруд против замбийского: тёплый и холодный зелёный",
+      "excerpt": "Колумбия даёт чистый травянисто-зелёный с лёгкой теплотой, Замбия — более синеватый и часто чище по включениям. Что выбрать под кольцо, а что — под коллекцию.",
+      "coverPhotoUrl": "/sections/blog-about/posts/izumrud-origin.jpg",
+      "publishedAt": "2026-02-10",
+      "readingMinutes": 7,
+      "varietyIds": ["v-izumrud"],
+      "varietyLabel": "Изумруд",
+      "isFeatured": false
+    },
+    {
+      "id": "post-shpinel-mahenge",
+      "slug": "mahenge-rozovaya-shpinel",
+      "title": "Махенге: танзанийская шпинель цвета неоновой малины",
+      "excerpt": "Находка 2007 года изменила рынок шпинели. Чем уникален розово-красный флуоресцирующий цвет Махенге и почему чистые камни уходят с аукционов за минуты.",
+      "coverPhotoUrl": "/sections/blog-about/posts/mahenge.jpg",
+      "publishedAt": "2026-01-22",
+      "readingMinutes": 6,
+      "varietyIds": ["v-shpinel"],
+      "varietyLabel": "Шпинель",
+      "isFeatured": false
+    }
+  ],
+
+  "currentPost": {
+    "id": "post-negret-sapfir",
+    "slug": "kak-otlichit-negretyy-sapfir",
+    "title": "Как отличить негретый сапфир от нагретого — и почему это меняет цену вдвое",
+    "excerpt": "Нагрев — самая массовая обработка корунда. Разбираю на макроснимках, по каким включениям геммолог отличает камень, которого не касалась печь, и почему за это платят премию.",
+    "coverPhotoUrl": "/sections/blog-about/posts/negretyy-sapfir.jpg",
+    "publishedAt": "2026-05-28",
+    "readingMinutes": 8,
+    "varietyIds": ["v-sapfir"],
+    "varietyLabel": "Сапфир",
+    "isFeatured": true,
+    "lead": "Когда мне приносят сапфир «без нагрева», первое, что я делаю, — смотрю не на цвет, а на включения. Печь оставляет следы, которые невозможно подделать. Вот как их читать.",
+    "body": [
+      {
+        "type": "paragraph",
+        "text": "Нагрев корунда придумали не вчера: камни «доводили» до нужного цвета ещё в Шри-Ланке столетия назад. Сегодня по разным оценкам через печь проходит больше 90% сапфиров на рынке. Это не обман — обработка раскрытая, законная и стабильная. Но негретый камень той же воды стоит в полтора-два раза дороже, и именно поэтому вокруг сертификата «no heat» столько спекуляций."
+      },
+      {
+        "type": "heading",
+        "text": "Что нагрев делает с камнем"
+      },
+      {
+        "type": "paragraph",
+        "text": "Температура 1300–1800 °C растворяет тонкие иглы рутила, выравнивает цвет и убирает мутность. Проблема в том, что вместе с пользой нагрев оставляет необратимые метки: оплавленные кристаллические включения, дисковидные трещины-«нимбы» вокруг них и разорванные «шёлковые» иглы."
+      },
+      {
+        "type": "quote",
+        "text": "Цвет можно сыграть на фото. Включения под микроскопом не врут — они и есть подпись печи."
+      },
+      {
+        "type": "heading",
+        "text": "Четыре признака, которые я ищу под лупой"
+      },
+      {
+        "type": "paragraph",
+        "text": "Первое — целостность «шёлка». В негретом камне игольчатые включения рутила тонкие, длинные и резкие. После нагрева они выглядят прерывистыми, как пунктир, или собираются в облачка из мелких точек."
+      },
+      {
+        "type": "image",
+        "url": "/sections/blog-about/posts/negretyy-sapfir-inclusions.jpg",
+        "caption": "Макро 40×: целые иглы рутила в негретом цейлонском сапфире"
+      },
+      {
+        "type": "paragraph",
+        "text": "Второе — состояние кристаллических включений. Циркон, апатит или гранат внутри камня при нагреве оплавляются и обрастают характерным «нимбом» из стресс-трещин. Целый, с резкими гранями кристалл — хороший знак, что печи не было."
+      },
+      {
+        "type": "paragraph",
+        "text": "Третье и четвёртое — поведение в иммерсии и под фильтром. Но если коротко: на этом уровне без лабораторного отчёта дальше идти нельзя. Для камня дороже определённой суммы я всегда настаиваю на сертификате GRS, SSEF или Gübelin с пометкой о термообработке — это единственная защита и для покупателя, и для меня."
+      }
+    ],
+    "mentionedStones": [
+      {
+        "id": "stone-sapfir-001",
+        "slug": "negretyy-sapfir-ceylon-2-47ct",
+        "varietyId": "v-sapfir",
+        "name": "Негретый сапфир, Цейлон",
+        "weightCt": 2.47,
+        "price": 248000,
+        "photoUrl": "/sections/blog-about/stones/sapfir-001.jpg",
+        "isAvailable": true
+      },
+      {
+        "id": "stone-sapfir-002",
+        "slug": "sinyy-sapfir-madagascar-3-12ct",
+        "varietyId": "v-sapfir",
+        "name": "Синий сапфир, Мадагаскар",
+        "weightCt": 3.12,
+        "price": 196500,
+        "photoUrl": "/sections/blog-about/stones/sapfir-002.jpg",
+        "isAvailable": true
+      },
+      {
+        "id": "stone-sapfir-003",
+        "slug": "vasilkovyy-sapfir-ceylon-1-88ct",
+        "varietyId": "v-sapfir",
+        "name": "Васильковый сапфир, Цейлон",
+        "weightCt": 1.88,
+        "price": 142000,
+        "photoUrl": "/sections/blog-about/stones/sapfir-003.jpg",
+        "isAvailable": true
+      },
+      {
+        "id": "stone-sapfir-004",
+        "slug": "zheltyy-sapfir-ceylon-2-05ct",
+        "varietyId": "v-sapfir",
+        "name": "Жёлтый сапфир, Цейлон",
+        "weightCt": 2.05,
+        "price": 88000,
+        "photoUrl": "/sections/blog-about/stones/sapfir-004.jpg",
+        "isAvailable": true
+      },
+      {
+        "id": "stone-sapfir-005",
+        "slug": "rozovyy-sapfir-madagascar-1-64ct",
+        "varietyId": "v-sapfir",
+        "name": "Розовый сапфир, Мадагаскар",
+        "weightCt": 1.64,
+        "price": 119000,
+        "photoUrl": "/sections/blog-about/stones/sapfir-005.jpg",
+        "isAvailable": true
+      }
+    ],
+    "relatedPostIds": ["post-origin-sapfir", "post-padparadscha", "post-izumrud-maslo"]
+  }
+}

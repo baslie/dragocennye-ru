@@ -1,0 +1,71 @@
+{
+  "_meta": {
+    "models": {
+      "stone": "Компактное представление камня, по которому оформляется заявка — фото, название, вес и огранка для mono-подстроки, цена для правого акцента мини-карточки.",
+      "channels": "Список каналов связи, отрисованных как радио-чипы: telegram, whatsapp, phone. Каждый канал знает свой короткий label и имя lucide-иконки.",
+      "formInitial": "Пустой snapshot формы, с которого монтируется модалка при state='idle' (все поля пустые, канал не выбран, согласие не проставлено).",
+      "formPrefilled": "Заполненный snapshot формы для превью состояний loading/sent/error — имя, контакт, выбранный канал, длинный комментарий, проставленное согласие.",
+      "fieldErrorsExample": "Edge-case с ошибками валидации для превью state='error': две строки с ошибками (contact, channel), одна для consent, две пустые.",
+      "successMessage": "Текст параграфа в success-блоке. Упоминает выбранный канал связи ('Telegram') и обещанное время ответа.",
+      "networkErrorMessage": "Сообщение inline error banner при сетевой ошибке — показывается над формой, призывает повторить попытку.",
+      "consent": "Блок обязательного согласия 152-ФЗ: label текста и href на страницу политики конфиденциальности."
+    },
+    "relationships": [
+      "inquiry belongs to one stone (одна заявка — строго один камень)",
+      "formValues.channel ∈ channels[].type (значение радио-группы)",
+      "fieldErrorsExample keys ⊂ formValues keys (ключи ошибок совпадают с именами полей)"
+    ]
+  },
+  "stone": {
+    "id": "st-0102",
+    "name": "Зелёный сапфир",
+    "weightCt": 3.63,
+    "cutName": "Овал",
+    "photoUrl": "/sections/stone-detail/stones/0102/front.jpg",
+    "price": 40800
+  },
+  "channels": [
+    {
+      "type": "telegram",
+      "label": "Telegram",
+      "icon": "Send"
+    },
+    {
+      "type": "whatsapp",
+      "label": "WhatsApp",
+      "icon": "MessageCircle"
+    },
+    {
+      "type": "phone",
+      "label": "Телефон",
+      "icon": "Phone"
+    }
+  ],
+  "formInitial": {
+    "name": "",
+    "contact": "",
+    "channel": null,
+    "comment": "",
+    "consent": false
+  },
+  "formPrefilled": {
+    "name": "Анна",
+    "contact": "@anna_collects",
+    "channel": "telegram",
+    "comment": "Можно посмотреть камень при дневном свете — важно увидеть тон без ламп. Удобно во второй половине дня после 16:00.",
+    "consent": true
+  },
+  "fieldErrorsExample": {
+    "name": "",
+    "contact": "Укажите телефон, @username или email",
+    "channel": "Выберите удобный канал связи",
+    "comment": "",
+    "consent": "Подтвердите согласие на обработку персональных данных"
+  },
+  "successMessage": "Дмитрий свяжется с вами в течение 2 часов по выбранному каналу связи — Telegram.",
+  "networkErrorMessage": "Не удалось отправить заявку. Проверьте соединение и попробуйте ещё раз.",
+  "consent": {
+    "label": "Я согласен на обработку персональных данных согласно политике конфиденциальности",
+    "policyHref": "/legal/privacy"
+  }
+}

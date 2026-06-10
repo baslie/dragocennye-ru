@@ -1,0 +1,188 @@
+{
+  "_meta": {
+    "models": {
+      "stone": "Конкретный камень-герой страницы с полным паспортом характеристик, массивом медиа (3-5 фото и видео) и editorial-описанием от гемолога.",
+      "variety": "Вид камня — сапфир/шпинель/турмалин. Используется в breadcrumb, в заголовке блока похожих и в sold-CTA («Смотреть другие сапфиры»).",
+      "cut": "Форма огранки камня. Выводится в мета-подписи под H1 и в паспорте.",
+      "origin": "Страна и месторождение. Выводится в мета-подписи и в паспорте.",
+      "treatment": "Способ облагораживания камня с описанием для tooltip-а/паспорта.",
+      "color": "Цветовая группа камня с hex — используется для dot-бейджа цвета в паспорте.",
+      "certificate": "Сертификат лаборатории для данного камня, если есть. Хранит лабораторию, номер, дату, ссылку на PDF-скан и внешнюю ссылку верификации.",
+      "similarStones": "Подборка 4-5 других камней того же StoneVariety для блока «Похожие» внизу страницы.",
+      "contactChannels": "Три прямые контакт-ссылки гемолога с предзаполненным сообщением про текущий камень — Telegram, WhatsApp, телефон."
+    },
+    "relationships": [
+      "stone belongs to one variety",
+      "stone has one cut",
+      "stone has one origin",
+      "stone has one treatment",
+      "stone has one color",
+      "stone has zero or one certificate",
+      "similarStones share the same varietyId as stone"
+    ]
+  },
+  "stone": {
+    "id": "st-0102",
+    "slug": "zelyonyy-sapfir-363ct",
+    "name": "Зелёный сапфир",
+    "varietyId": "v-sapfir",
+    "colorId": "col-green",
+    "cutId": "c-oval",
+    "originId": "o-mozambique",
+    "treatmentId": "t-heated",
+    "certificateId": "cert-grs-2401",
+    "weightCt": 3.63,
+    "dimensionsMm": "10.8 × 8.3 × 4.5",
+    "price": 40800,
+    "isAvailable": true,
+    "addedAt": "2026-03-25",
+    "media": [
+      {
+        "id": "m-0102-1",
+        "kind": "photo",
+        "url": "/sections/stone-detail/stones/0102/front.jpg",
+        "posterUrl": null,
+        "alt": "Зелёный сапфир 3.63 ct, вид спереди на белом фоне"
+      },
+      {
+        "id": "m-0102-2",
+        "kind": "video",
+        "url": "/sections/stone-detail/stones/0102/rotation.mp4",
+        "posterUrl": "/sections/stone-detail/stones/0102/rotation-poster.jpg",
+        "alt": "Вращение камня в руке гемолога под мягким светом"
+      },
+      {
+        "id": "m-0102-3",
+        "kind": "photo",
+        "url": "/sections/stone-detail/stones/0102/macro.jpg",
+        "posterUrl": null,
+        "alt": "Макро овального сапфира — видна внутренняя чистота и огранка павильона"
+      },
+      {
+        "id": "m-0102-4",
+        "kind": "photo",
+        "url": "/sections/stone-detail/stones/0102/scale.jpg",
+        "posterUrl": null,
+        "alt": "Камень рядом с линейкой — масштаб размеров 10.8 на 8.3 мм"
+      }
+    ],
+    "editorial": [
+      "Редкий для Мозамбика зелёный сапфир с чистым лесным тоном — без серого налёта и без синевы, которая обычно пробивается в мозамбикских камнях. Нагрев стандартный, никаких стеклянных заполнений.",
+      "В огранке «овал» камень работает на весь вес: длина 10.8 мм даёт ему присутствие в оправе 5+ ct визуально. Павильон собран, окно минимальное — блеск стеклянный, чистота eye-clean при внимательном рассмотрении.",
+      "Хороший кандидат под крупное кольцо с боковыми бриллиантами или как центральный камень в броши. Для коллекционера — редкая комбинация размера, цвета и происхождения за адекватную цену."
+    ],
+    "characteristics": {
+      "clarity": "Eye-clean",
+      "luster": "Стеклянный",
+      "hardness": "9 по шкале Мооса",
+      "refractiveIndex": "1.762 – 1.770"
+    }
+  },
+  "variety": {
+    "id": "v-sapfir",
+    "slug": "sapfir",
+    "name": "Сапфир",
+    "genitiveName": "сапфира",
+    "pluralName": "сапфиры"
+  },
+  "cut": {
+    "id": "c-oval",
+    "slug": "oval",
+    "name": "Овал"
+  },
+  "origin": {
+    "id": "o-mozambique",
+    "slug": "mozambique",
+    "name": "Мозамбик",
+    "country": "Мозамбик"
+  },
+  "treatment": {
+    "id": "t-heated",
+    "slug": "heated",
+    "name": "Нагретый",
+    "description": "Стандартный нагрев для улучшения цвета и чистоты — принятая мировая практика для сапфиров."
+  },
+  "color": {
+    "id": "col-green",
+    "slug": "green",
+    "name": "Зелёный",
+    "hex": "#4F8A5C"
+  },
+  "certificate": {
+    "id": "cert-grs-2401",
+    "lab": "GRS",
+    "number": "2401-12847",
+    "issuedAt": "2026-01-14",
+    "scanUrl": "/sections/stone-detail/certificates/grs-2401-12847.pdf",
+    "verificationUrl": "https://www.gemresearch.ch/check/2401-12847"
+  },
+  "similarStones": [
+    {
+      "id": "st-0101",
+      "slug": "padparadzha-388ct",
+      "name": "Оранжево-розовый сапфир Падпараджа",
+      "weightCt": 3.88,
+      "price": 58200,
+      "photoUrl": "/sections/catalog-browse/stones/0101.jpg",
+      "varietyId": "v-sapfir",
+      "isAvailable": true
+    },
+    {
+      "id": "st-0103",
+      "slug": "zelyonyy-sapfir-184ct",
+      "name": "Зелёный сапфир",
+      "weightCt": 1.84,
+      "price": 27600,
+      "photoUrl": "/sections/catalog-browse/stones/0103.jpg",
+      "varietyId": "v-sapfir",
+      "isAvailable": true
+    },
+    {
+      "id": "st-0114",
+      "slug": "rozovyy-sapfir-219ct",
+      "name": "Розовый сапфир",
+      "weightCt": 2.19,
+      "price": 32900,
+      "photoUrl": "/sections/catalog-browse/stones/0114.jpg",
+      "varietyId": "v-sapfir",
+      "isAvailable": true
+    },
+    {
+      "id": "st-0110",
+      "slug": "zheltyy-sapfir-princessa-255ct",
+      "name": "Зеленовато-жёлтый сапфир Принцесса",
+      "weightCt": 2.55,
+      "price": 28700,
+      "photoUrl": "/sections/catalog-browse/stones/0110.jpg",
+      "varietyId": "v-sapfir",
+      "isAvailable": true
+    },
+    {
+      "id": "st-0112",
+      "slug": "oranzhevyy-sapfir-227ct",
+      "name": "Оранжевый сапфир",
+      "weightCt": 2.27,
+      "price": 25500,
+      "photoUrl": "/sections/catalog-browse/stones/0112.jpg",
+      "varietyId": "v-sapfir",
+      "isAvailable": true
+    }
+  ],
+  "contactChannels": [
+    {
+      "type": "telegram",
+      "label": "@dmitry_salyatov",
+      "href": "https://t.me/dmitry_salyatov?text=%D0%98%D0%BD%D1%82%D0%B5%D1%80%D0%B5%D1%81%D1%83%D0%B5%D1%82%20%D0%BA%D0%B0%D0%BC%D0%B5%D0%BD%D1%8C%20%D0%97%D0%B5%D0%BB%D1%91%D0%BD%D1%8B%D0%B9%20%D1%81%D0%B0%D0%BF%D1%84%D0%B8%D1%80%203.63%20ct"
+    },
+    {
+      "type": "whatsapp",
+      "label": "+7 900 000 00 00",
+      "href": "https://wa.me/79000000000?text=%D0%98%D0%BD%D1%82%D0%B5%D1%80%D0%B5%D1%81%D1%83%D0%B5%D1%82%20%D0%BA%D0%B0%D0%BC%D0%B5%D0%BD%D1%8C%20%D0%97%D0%B5%D0%BB%D1%91%D0%BD%D1%8B%D0%B9%20%D1%81%D0%B0%D0%BF%D1%84%D0%B8%D1%80%203.63%20ct"
+    },
+    {
+      "type": "phone",
+      "label": "+7 900 000 00 00",
+      "href": "tel:+79000000000"
+    }
+  ]
+}

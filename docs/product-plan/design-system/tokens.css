@@ -1,0 +1,33 @@
+/* Design Tokens for Драгоценные */
+/* Светлый минималистичный магазин коллекционных камней. Тема — ТОЛЬКО светлая.
+   Палитра: строго белый canvas + 4 кастомных hex-акцента. Tailwind-имена
+   (orange/slate/stone) — лишь ближайшие приближения; при реализации
+   используйте hex-значения ниже. */
+
+:root {
+  /* Canvas — строго белый, без вариаций */
+  --color-canvas: #FFFFFF;
+
+  /* Акценты (4 кастомных hex) */
+  --color-coral: #FF7444;       /* Primary CTA, hot states, NEW badges, hover-цена */
+  --color-steel: #576A8F;       /* Brand, активная навигация, цена, заголовки-хайлайт */
+  --color-periwinkle: #B7BDF7;  /* Мягкие теги, ambient-бейджи, hover-фоны, бейджи поверх тёмных обложек */
+  --color-cream: #FFF8DE;       /* Highlight-чипы, карточки-цитаты, фон сертификата/CTA/empty-state */
+
+  /* Семантические роли (на базе stone-палитры Tailwind) */
+  --color-text-primary: #1c1917;    /* stone-900 */
+  --color-text-secondary: #57534e;  /* stone-600 */
+  --color-text-muted: #78716c;      /* stone-500 */
+  --color-border: #e7e5e4;          /* stone-200 */
+
+  /* Hover для primary CTA */
+  --color-coral-hover: #e6643a;
+
+  /* Typography */
+  --font-heading: 'Noto Sans', sans-serif;
+  --font-body: 'Noto Sans', sans-serif;
+  --font-mono: 'Noto Sans Mono', monospace;
+}
+
+/* Тёмной темы НЕТ. Не добавляйте prefers-color-scheme / .dark — это сознательное
+   продуктовое решение (см. product/shell/spec.md → раздел Theme). */
