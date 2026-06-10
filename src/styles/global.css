@@ -1,0 +1,29 @@
+@import "tailwindcss";
+
+/* Драгоценные — дизайн-токены.
+   Строго белый canvas + 4 кастомных hex-акцента. Тема — ТОЛЬКО светлая.
+   См. docs/product-plan/design-system/. */
+@theme {
+  --color-canvas: #ffffff;
+
+  /* 4 кастомных акцента */
+  --color-coral: #ff7444; /* primary CTA, hover-цена, NEW-бейджи */
+  --color-coral-hover: #e6643a;
+  --color-steel: #576a8f; /* brand, цена, активная навигация */
+  --color-periwinkle: #b7bdf7; /* мягкие теги, бейджи поверх обложек */
+  --color-cream: #fff8de; /* сертификат, mini-card, CTA-блоки, цитаты */
+
+  /* Шрифты */
+  --font-sans: "Noto Sans", system-ui, sans-serif;
+  --font-mono: "Noto Sans Mono", ui-monospace, monospace;
+}
+
+html {
+  background-color: #ffffff;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  font-family: var(--font-sans);
+}
