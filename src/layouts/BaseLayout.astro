@@ -1,5 +1,8 @@
 ---
 import "../styles/global.css";
+import { SiteShell } from "../components/shell/SiteShell";
+import type { SearchItem } from "../components/search/SearchModal";
+import { stones, getVariety, colors, photoFor } from "../data";
 
 export interface Props {
   title?: string;
@@ -15,7 +18,26 @@ const {
   path,
 } = Astro.props;
 
-const canonical = path ? new URL(path, Astro.site ?? "https://dragocennye.example").href : undefined;
+const site = Astro.site ?? new URL("https://dragocennye.example");
+const canonical = path ? new URL(path, site).href : undefined;
+const currentPath = Astro.url.pathname;
+
+// Поисковый индекс для модалки поиска (строится на сборке, в клиент уходит только это).
+const colorById = new Map(colors.map((c) => [c.id, c]));
+const searchItems: SearchItem[] = stones.map((s) => {
+  const variety = getVariety(s.varietyId);
+  const color = colorById.get(s.colorId);
+  return {
+    slug: s.slug,
+    name: s.name,
+    varietyName: variety?.name ?? "",
+    colorName: color?.name ?? "",
+    colorHex: color?.hex ?? "#576A8F",
+    price: s.price,
+    weightCt: s.weightCt,
+    photoUrl: photoFor(s),
+  };
+});
 ---
 
 <!doctype html>
@@ -30,14 +52,12 @@ const canonical = path ? new URL(path, Astro.site ?? "https://dragocennye.exampl
     <meta name="description" content={description} />
     {canonical && <link rel="canonical" href={canonical} />}
 
-    <!-- Open Graph -->
     <meta property="og:type" content="website" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:locale" content="ru_RU" />
     {canonical && <meta property="og:url" content={canonical} />}
 
-    <!-- Шрифты: Noto Sans (заголовки + body) + Noto Sans Mono (мета) -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -46,6 +66,8 @@ const canonical = path ? new URL(path, Astro.site ?? "https://dragocennye.exampl
     />
   </head>
   <body class="bg-white text-stone-900">
-    <slot />
+    <SiteShell client:load currentPath={currentPath} searchItems={searchItems}>
+      <slot />
+    </SiteShell>
   </body>
 </html>
