@@ -1,6 +1,7 @@
 // Лента журнала: вступление, фильтр по виду камня, главный материал крупно и сетка публикаций.
 // Фильтр клиентский — постов мало, отдельные страницы под каждый вид не нужны.
 import { useState } from "react";
+import { typo } from "../../lib/format";
 import { HAIRLINE, PostCard, T, postMeta } from "../ui";
 import type { BlogPostCard, Topic } from "./types";
 
@@ -17,14 +18,14 @@ export function BlogFeed({ posts, topics }: { posts: BlogPostCard[]; topics: Top
 
   return (
     <div className="px-[var(--gutter)] pb-24">
-      <header className="grid gap-6 pb-10 pt-8 md:grid-cols-12 md:gap-8 md:pb-[clamp(48px,3.5vw,80px)] md:pt-[clamp(40px,3vw,72px)]">
-        <div className="md:col-span-7 md:self-end">
+      <header className="grid gap-6 pb-10 pt-8 lg:grid-cols-12 lg:gap-8 md:pb-[clamp(48px,3.5vw,80px)] md:pt-[clamp(40px,3vw,72px)]">
+        <div className="lg:col-span-7 lg:self-end">
           <p className={T.eyebrow}>Журнал гемолога</p>
           <h1 className={`mt-4 ${T.display}`}>
             Камни <em className="text-emerald">под лупой</em>
           </h1>
         </div>
-        <p className={`max-w-[52ch] md:col-span-5 md:col-start-8 md:self-end ${T.lead}`}>{INTRO}</p>
+        <p className={`max-w-[52ch] lg:col-span-5 lg:col-start-8 lg:self-end ${T.lead}`}>{INTRO}</p>
       </header>
 
       <nav aria-label="Темы" className={`border-y ${HAIRLINE} py-5 md:py-6`}>
@@ -47,8 +48,8 @@ export function BlogFeed({ posts, topics }: { posts: BlogPostCard[]; topics: Top
           </div>
           <div className="md:col-span-5 md:self-end">
             <p className={T.eyebrow}>Главный материал</p>
-            <h2 className={`mt-3 transition-colors group-hover:text-emerald ${T.h2}`}>{featured.title}</h2>
-            <p className={`mt-4 max-w-[48ch] ${T.lead}`}>{featured.excerpt}</p>
+            <h2 className={`mt-3 transition-colors group-hover:text-emerald ${T.h2}`}>{typo(featured.title)}</h2>
+            <p className={`mt-4 max-w-[48ch] ${T.lead}`}>{typo(featured.excerpt)}</p>
             <p className={`mt-4 ${T.label}`}>{postMeta(featured)}</p>
           </div>
         </a>

@@ -1,5 +1,6 @@
-// Кадры камня. На десктопе — лента 4:5 друг под другом, на телефоне — горизонтальная лента со snap
-// и счётчиком. Клик по кадру открывает лайтбокс. Камень без фото — один крупный заполнитель.
+// Кадры камня. На десктопе — кадры 3:2 друг под другом (исходники горизонтальные 1680×1120,
+// в 4:5 они обрезались бы и растягивались), на телефоне — горизонтальная лента 4:5 со snap и счётчиком.
+// Клик по кадру открывает лайтбокс. Камень без фото — один крупный заполнитель.
 import { useRef, useState } from "react";
 import { stoneCode } from "../../lib/format";
 import { NoPhoto } from "../ui";
@@ -21,7 +22,7 @@ export function StoneGallery({ stone, media, hex, onOpen }: Props) {
 
   if (media.length === 0) {
     return (
-      <div className="aspect-[4/5] w-full">
+      <div className="-mx-[var(--gutter)] aspect-[4/5] md:aspect-[3/2] lg:mx-0 lg:aspect-[4/5]">
         <NoPhoto size="large" code={stoneCode(stone.slug)} weightCt={stone.weightCt} dimensionsMm={stone.dimensionsMm} hex={hex} />
       </div>
     );
@@ -42,7 +43,7 @@ export function StoneGallery({ stone, media, hex, onOpen }: Props) {
           className="flex snap-x snap-mandatory overflow-x-auto [scrollbar-width:none]"
         >
           {media.map((m, i) => (
-            <Frame key={m.id} m={m} i={i} onOpen={onOpen} name={stone.name} className="w-full shrink-0 snap-center" />
+            <Frame key={m.id} m={m} i={i} onOpen={onOpen} name={stone.name} className="aspect-[4/5] w-full shrink-0 snap-center md:aspect-[3/2]" />
           ))}
         </div>
         {media.length > 1 && (
@@ -55,7 +56,7 @@ export function StoneGallery({ stone, media, hex, onOpen }: Props) {
       {/* Десктоп: все кадры друг под другом */}
       <div className="hidden flex-col gap-[clamp(12px,1vw,24px)] lg:flex">
         {media.map((m, i) => (
-          <Frame key={m.id} m={m} i={i} onOpen={onOpen} name={stone.name} />
+          <Frame key={m.id} m={m} i={i} onOpen={onOpen} name={stone.name} className="aspect-[3/2]" />
         ))}
       </div>
     </>
@@ -80,7 +81,7 @@ function Frame({
       type="button"
       onClick={() => onOpen(i)}
       aria-label={`Открыть кадр ${i + 1}: ${m.alt || name}`}
-      className={`group relative block aspect-[4/5] cursor-zoom-in overflow-hidden bg-neutral-100 ${className}`}
+      className={`group relative block cursor-zoom-in overflow-hidden bg-neutral-100 ${className}`}
     >
       <img
         src={m.url}

@@ -11,13 +11,13 @@ export function About({ gemologist, recentPosts, contactHrefs }: AboutProps) {
         <Portrait
           url={gemologist.portraitUrl}
           name={gemologist.name}
-          className="aspect-[4/5] md:col-span-5"
+          className={`md:col-span-5 ${gemologist.portraitUrl ? "aspect-[4/5]" : "aspect-[3/2] md:aspect-[4/5]"}`}
           initialsClass="text-[clamp(72px,7vw,140px)] leading-[100%]"
         />
         <div className="flex flex-col md:col-span-7">
           <p className={T.eyebrow}>{gemologist.role}</p>
           <h1 className={`mt-4 ${T.display}`}>{gemologist.name}</h1>
-          <div className="mt-8 max-w-[56ch] space-y-4">
+          <div className="mt-8 max-w-[56ch] space-y-4 md:mb-10">
             {gemologist.intro.map((p, i) => (
               <p key={i} className={`${T.body} text-black/80`}>
                 {p}
@@ -41,16 +41,16 @@ export function About({ gemologist, recentPosts, contactHrefs }: AboutProps) {
         </div>
       </header>
 
-      <section aria-labelledby="path" className={`grid gap-8 border-t ${HAIRLINE} pt-12 md:grid-cols-12 md:pt-16`}>
-        <div className="md:col-span-4">
+      <section aria-labelledby="path" className={`grid gap-8 border-t ${HAIRLINE} pt-12 md:pt-16 lg:grid-cols-12`}>
+        <div className="lg:col-span-4">
           <p className={T.eyebrow}>Путь</p>
           <h2 id="path" className={`mt-3 ${T.h2}`}>
             Образование и опыт
           </h2>
         </div>
-        <ol className="md:col-span-7 md:col-start-6">
+        <ol className="lg:col-span-7 lg:col-start-6">
           {gemologist.timeline.map((item) => (
-            <li key={item.year} className={`grid gap-2 border-b ${HAIRLINE} py-6 first:pt-0 sm:grid-cols-[140px_1fr] sm:gap-8`}>
+            <li key={item.year} className={`grid gap-2 border-b ${HAIRLINE} py-6 first:pt-0 last:border-b-0 last:pb-0 sm:grid-cols-[140px_1fr] sm:gap-8`}>
               <span className="font-serif text-[22px] font-light leading-[120%] text-emerald">{item.year}</span>
               <div>
                 <p className={T.h4}>{item.title}</p>
@@ -61,14 +61,14 @@ export function About({ gemologist, recentPosts, contactHrefs }: AboutProps) {
         </ol>
       </section>
 
-      <section aria-labelledby="approach" className={`mt-20 grid gap-8 border-t ${HAIRLINE} pt-12 md:mt-28 md:grid-cols-12 md:pt-16`}>
-        <div className="md:col-span-4">
+      <section aria-labelledby="approach" className={`mt-20 grid gap-8 border-t ${HAIRLINE} pt-12 md:mt-28 md:pt-16 lg:grid-cols-12`}>
+        <div className="lg:col-span-4">
           <p className={T.eyebrow}>Принципы</p>
           <h2 id="approach" className={`mt-3 ${T.h2}`}>
             Подход к подбору
           </h2>
         </div>
-        <div className="space-y-6 md:col-span-7 md:col-start-6">
+        <div className="space-y-6 lg:col-span-7 lg:col-start-6">
           {gemologist.approach.map((p, i) => (
             <p key={i} className="font-serif text-[20px] font-light leading-[150%] md:text-[clamp(21px,1.35vw,28px)] md:leading-[145%]">
               {p}

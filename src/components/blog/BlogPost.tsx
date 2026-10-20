@@ -1,5 +1,6 @@
 // Публикация журнала: крошки, заголовок и лид, кадр 16:9, колонка чтения, подпись автора,
 // камни из материала и «Читать дальше». Без интерактива — рендерится на сборке.
+import { typo } from "../../lib/format";
 import { Breadcrumbs, HAIRLINE, PostCard, STONE_GRID, StoneCard, T, TextLink, postMeta } from "../ui";
 import { Portrait } from "./Portrait";
 import { PostBody } from "./PostBody";
@@ -12,8 +13,8 @@ export function BlogPost({ post, author, relatedPosts, catalogHref }: BlogPostPr
         <Breadcrumbs items={[{ label: "Журнал", href: "/blog" }, { label: post.varietyLabel }]} />
         <div className="mx-auto mt-10 max-w-[1100px] text-center md:mt-16">
           <p className={T.label}>{postMeta(post)}</p>
-          <h1 className={`mx-auto mt-4 max-w-[24ch] ${T.h1}`}>{post.title}</h1>
-          {post.lead && <p className={`mx-auto mt-6 max-w-[56ch] ${T.lead}`}>{post.lead}</p>}
+          <h1 className={`mx-auto mt-4 max-w-[24ch] ${T.h1}`}>{typo(post.title)}</h1>
+          {post.lead && <p className={`mx-auto mt-6 max-w-[56ch] ${T.lead}`}>{typo(post.lead)}</p>}
         </div>
       </header>
 

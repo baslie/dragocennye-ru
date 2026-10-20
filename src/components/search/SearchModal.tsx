@@ -100,7 +100,7 @@ export function SearchModal({ isOpen, onClose, items }: SearchModalProps) {
                       )}
                     </div>
                     <div className="min-w-0 flex-1">
-                      <p className="truncate font-serif text-[clamp(17px,1vw,20px)] leading-[120%]">{it.name}</p>
+                      <p className="line-clamp-2 font-serif text-[clamp(17px,1vw,20px)] leading-[120%]">{it.name}</p>
                       <p className={`mt-1 ${T.label}`}>
                         {it.varietyName} · {formatCt(it.weightCt)}
                       </p>

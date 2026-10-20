@@ -1,7 +1,7 @@
 // Страница камня: слева кадры, справа липкая колонка с ценой, заявкой и паспортом.
 // Ниже — слово гемолога, сертификат и похожие камни.
 import { useState, type ReactNode } from "react";
-import { capitalize, formatCt, formatDate, formatMm, formatPrice, hasPhoto, stoneCode } from "../../lib/format";
+import { capitalize, typo, formatCt, formatDate, formatMm, formatPrice, hasPhoto, stoneCode } from "../../lib/format";
 import { Breadcrumbs, ButtonLink, HAIRLINE, STONE_GRID, StoneCard, T, TextLink, buttonClass } from "../ui";
 import { Lightbox } from "./Lightbox";
 import { StoneGallery } from "./StoneGallery";
@@ -104,8 +104,8 @@ export function StoneDetail({
                 </ButtonLink>
               )}
 
-              <div className={`mt-5 flex flex-wrap items-center gap-x-6 gap-y-2 ${T.ui}`}>
-                <span className="text-black/48">Написать гемологу:</span>
+              <p className={`mt-5 ${T.label}`}>Или напишите гемологу напрямую</p>
+              <div className={`mt-1.5 flex flex-wrap items-center gap-x-6 gap-y-2 ${T.ui}`}>
                 {contactChannels.map((ch) => (
                   <TextLink key={ch.type} href={ch.href} target={ch.type === "phone" ? undefined : "_blank"} rel="noopener">
                     {CHANNEL_NAMES[ch.type]}
@@ -144,7 +144,7 @@ export function StoneDetail({
                 key={i}
                 className={`font-serif font-light text-[20px] leading-[150%] md:text-[clamp(21px,1.35vw,28px)] md:leading-[145%] ${i ? "mt-5" : ""}`}
               >
-                {p}
+                {typo(p)}
               </p>
             ))}
             <p className={`mt-6 ${T.label}`}>Дмитрий Салятов, гемолог</p>
@@ -186,7 +186,8 @@ export function StoneDetail({
             {similarStones.map((s, i) => (
               // При трёх колонках четвёртый камень повис бы один в ряду.
               <li key={s.id} className={i === 3 ? "min-[1024px]:max-[1439px]:hidden" : undefined}>
-                <StoneCard stone={s} />
+                {/* Вид тот же, что у камня на странице, — подпись над названием не нужна. */}
+                <StoneCard stone={{ ...s, varietyName: undefined }} />
               </li>
             ))}
           </ul>

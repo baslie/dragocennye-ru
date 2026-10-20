@@ -48,12 +48,12 @@ export function CatalogPage({ intro, varietyId = null, routeColorId = null, ...d
           </div>
         </section>
       ) : (
-        <section className="grid gap-6 pb-8 pt-8 md:grid-cols-12 md:gap-8 md:pb-[clamp(40px,3vw,72px)] md:pt-[clamp(32px,2.4vw,56px)]">
-          <div className="md:col-span-7 md:self-end">
+        <section className="grid gap-6 pb-8 pt-8 md:pb-[clamp(40px,3vw,72px)] md:pt-[clamp(32px,2.4vw,56px)] lg:grid-cols-12 lg:gap-8">
+          <div className="lg:col-span-7 lg:self-end">
             <Breadcrumbs items={intro.crumbs} />
             <h1 className={`mt-5 ${T.display}`}>{intro.title}</h1>
           </div>
-          <div className="space-y-3 md:col-span-5 md:col-start-8 md:self-end">
+          <div className="space-y-3 lg:col-span-5 lg:col-start-8 lg:self-end">
             {intro.paragraphs.map((p, i) => (
               <p key={i} className={`max-w-[52ch] ${T.lead}`}>
                 {p}

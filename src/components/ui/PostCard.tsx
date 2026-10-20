@@ -1,6 +1,6 @@
 // Карточка публикации журнала: кадр 4:3, мета мелко, заголовок Spectral, лид.
 // Нужна в ленте журнала, в статьях энциклопедии и на странице гемолога.
-import { formatDate } from "../../lib/format";
+import { formatDate, typo } from "../../lib/format";
 import { T } from "./type";
 
 export interface CardPost {
@@ -29,9 +29,9 @@ export function PostCard({ post }: { post: CardPost }) {
       </div>
       <p className={`mt-3 ${T.label}`}>{postMeta(post)}</p>
       <h3 className="mt-1.5 text-balance font-serif text-[21px] leading-[120%] transition-colors group-hover:text-emerald md:text-[clamp(22px,1.4vw,28px)] md:leading-[115%]">
-        {post.title}
+        {typo(post.title)}
       </h3>
-      <p className={`mt-2 line-clamp-3 ${T.lead}`}>{post.excerpt}</p>
+      <p className={`mt-2 line-clamp-3 ${T.lead}`}>{typo(post.excerpt)}</p>
     </a>
   );
 }

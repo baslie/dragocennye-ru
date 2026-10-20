@@ -1,7 +1,7 @@
 // Статья энциклопедии: вступление 7/5, оглавление со scroll-spy слева, текст справа,
 // паспорт вида, материалы журнала и камни вида, которые сейчас есть в коллекции.
 import { useEffect, useRef, useState } from "react";
-import { capitalize } from "../../lib/format";
+import { capitalize, typo } from "../../lib/format";
 import { Breadcrumbs, HAIRLINE, PostCard, STONE_GRID, StoneCard, T, TextLink } from "../ui";
 import type { EncyclopediaEntryProps, EntrySectionId } from "./types";
 
@@ -100,6 +100,19 @@ export function EncyclopediaEntry({ variety, entry, stonesInStock, relatedPosts,
           </div>
         </nav>
 
+        {/* До 1024px липкого оглавления нет — даём короткую строку переходов над текстом. */}
+        <nav aria-label="Разделы статьи" className="-mx-[var(--gutter)] overflow-x-auto px-[var(--gutter)] [scrollbar-width:none] lg:hidden">
+          <ol className={`flex gap-x-6 whitespace-nowrap ${T.ui}`}>
+            {sections.map((s) => (
+              <li key={s.id}>
+                <a href={`#${s.id}`} className="border-b border-black/20 pb-0.5 text-black/75 transition-colors hover:border-ink hover:text-black">
+                  {s.tocLabel}
+                </a>
+              </li>
+            ))}
+          </ol>
+        </nav>
+
         <article className="lg:col-span-8 lg:col-start-5">
           {sections.map((section, index) => (
             <section
@@ -112,7 +125,7 @@ export function EncyclopediaEntry({ variety, entry, stonesInStock, relatedPosts,
               <div className="mt-6 space-y-5">
                 {section.paragraphs.map((p, i) => (
                   <p key={i} className={`${T.body} text-black/80`}>
-                    {p}
+                    {typo(p)}
                   </p>
                 ))}
               </div>
@@ -170,7 +183,7 @@ export function EncyclopediaEntry({ variety, entry, stonesInStock, relatedPosts,
           <ul className={`mt-10 ${STONE_GRID}`}>
             {stonesInStock.map((s, i) => (
               <li key={s.id} className={i === 3 ? "min-[1024px]:max-[1439px]:hidden" : undefined}>
-                <StoneCard stone={s} />
+                <StoneCard stone={{ ...s, varietyName: undefined }} />
               </li>
             ))}
           </ul>

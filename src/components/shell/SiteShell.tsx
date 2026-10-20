@@ -34,7 +34,7 @@ export function SiteShell({ currentPath, searchItems, telegramHref, children }: 
     <div className="flex min-h-[100dvh] flex-col">
       <header className={`border-b ${HAIRLINE}`}>
         <div className="grid h-[60px] grid-cols-[1fr_auto_1fr] items-center px-[var(--gutter)] min-[1920px]:h-16">
-          <nav aria-label="Разделы" className="hidden gap-7 text-[clamp(13px,0.7vw,15px)] leading-[150%] text-black/60 md:flex">
+          <nav aria-label="Разделы" className="hidden gap-7 whitespace-nowrap text-[clamp(13px,0.7vw,15px)] leading-[150%] text-black/60 lg:flex">
             {nav.map((it) => (
               <a
                 key={it.href}
@@ -48,7 +48,7 @@ export function SiteShell({ currentPath, searchItems, telegramHref, children }: 
           </nav>
           <a
             href="/"
-            className="col-start-1 justify-self-start font-serif text-[clamp(17px,1.05vw,21px)] uppercase leading-[120%] tracking-[0.32em] md:col-start-2 md:justify-self-center"
+            className="col-start-1 justify-self-start font-serif text-[clamp(17px,1.05vw,21px)] uppercase leading-[120%] tracking-[0.32em] lg:col-start-2 lg:justify-self-center"
           >
             Драгоценные
           </a>
@@ -68,14 +68,15 @@ export function SiteShell({ currentPath, searchItems, telegramHref, children }: 
         </div>
         <nav
           aria-label="Разделы"
-          className="flex gap-6 overflow-x-auto whitespace-nowrap border-t border-black/[0.05] px-[var(--gutter)] py-2.5 text-[13px] leading-[150%] text-black/60 [scrollbar-width:none] md:hidden"
+          className="flex gap-6 overflow-x-auto whitespace-nowrap border-t border-black/[0.05] px-[var(--gutter)] py-2.5 text-[13px] leading-[150%] text-black/60 [scrollbar-width:none] lg:hidden"
         >
           {nav.map((it) => (
             <a key={it.href} href={it.href} aria-current={it.isActive ? "page" : undefined} className={it.isActive ? "text-black" : undefined}>
               {it.label}
             </a>
           ))}
-          <a href={telegramHref} className="text-black">
+          {/* С 640px эта ссылка уже есть справа в шапке. */}
+          <a href={telegramHref} className="text-black sm:hidden">
             Написать гемологу
           </a>
         </nav>

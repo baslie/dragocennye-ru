@@ -45,11 +45,11 @@ export function CatalogFilters({ c }: { c: State }) {
             })}
           </div>
         </div>
-        {/* Цена: на широких экранах чипами, на узких — выпадающим списком. */}
-        <div className="lg:hidden">
+        {/* Цена: от 1280px чипами, уже — выпадающим списком, иначе чипы выталкивают остальное на новую строку. */}
+        <div className="xl:hidden">
           <Select label="Цена" value={c.priceBand} onChange={(v) => c.setPriceBand(v as PriceBand)} options={priceOptions} />
         </div>
-        <Chips label="Цена" value={c.priceBand} onChange={(v) => c.setPriceBand(v as PriceBand)} options={priceOptions} className="hidden lg:flex" />
+        <Chips label="Цена" value={c.priceBand} onChange={(v) => c.setPriceBand(v as PriceBand)} options={priceOptions} className="hidden xl:flex" />
         <button
           type="button"
           aria-expanded={open}
@@ -60,14 +60,15 @@ export function CatalogFilters({ c }: { c: State }) {
           Ещё фильтры
           {c.extraCount > 0 && <span className="text-emerald">· {c.extraCount}</span>}
         </button>
-        <div className="ml-auto flex items-center gap-8">
+        <div className="flex w-full items-center justify-between gap-8 sm:ml-auto sm:w-auto sm:justify-start">
           <span className={T.label}>{pluralStones(c.total)}</span>
           <Select label="Порядок" value={c.sort} onChange={(v) => c.setSort(v as SortOption)} options={Object.entries(SORT_LABELS)} />
         </div>
       </div>
 
       {open && (
-        <div id="more-filters" className={`max-h-[60vh] overflow-y-auto border-t ${HAIRLINE} py-6`}>
+        // На десктопе панель внутри липкой строки, поэтому её высоту ограничиваем; на телефоне строка не липкая.
+        <div id="more-filters" className={`border-t ${HAIRLINE} py-6 md:max-h-[60vh] md:overflow-y-auto`}>
           <div className="grid gap-x-12 gap-y-6 lg:grid-cols-2">
             <Group label="Огранка" items={c.options.cuts} selected={c.extra.cutIds} onToggle={c.toggleCut} />
             <Group label="Происхождение" items={c.options.origins} selected={c.extra.originIds} onToggle={c.toggleOrigin} />

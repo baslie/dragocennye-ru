@@ -43,7 +43,7 @@ export function Lightbox({ media, index, onClose, onNavigate }: LightboxProps) {
 
   return (
     <div
-      className="fixed inset-0 z-50 flex flex-col bg-ink/95"
+      className="fixed inset-0 z-50 flex flex-col bg-ink"
       role="dialog"
       aria-modal="true"
       aria-label="Просмотр кадров"

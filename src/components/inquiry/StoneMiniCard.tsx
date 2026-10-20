@@ -15,7 +15,7 @@ export function StoneMiniCard({ stone }: { stone: InquiryStoneMini }) {
         )}
       </div>
       <div className="min-w-0 flex-1">
-        <p className="truncate font-serif text-[clamp(18px,1.1vw,21px)] leading-[120%]">{stone.name}</p>
+        <p className="line-clamp-2 font-serif text-[clamp(18px,1.1vw,21px)] leading-[120%]">{stone.name}</p>
         <p className={`mt-1 ${T.label}`}>{meta}</p>
       </div>
       <p className={`shrink-0 pr-1 font-medium ${T.ui}`}>{formatPrice(stone.price)}</p>
