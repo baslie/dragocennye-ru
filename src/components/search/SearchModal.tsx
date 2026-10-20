@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Search, X } from "lucide-react";
-import { formatPrice, formatWeight } from "../../lib/format";
-import { StonePhoto } from "../common/StonePhoto";
+import { formatCt, formatPrice, hasPhoto } from "../../lib/format";
+import { HAIRLINE, NoPhoto, T } from "../ui";
 
 export interface SearchItem {
   slug: string;
@@ -61,61 +61,51 @@ export function SearchModal({ isOpen, onClose, items }: SearchModalProps) {
       onClick={(e) => {
         if (e.target === e.currentTarget) onClose();
       }}
-      className="fixed inset-0 z-[60] flex items-start justify-center bg-stone-950/50 px-4 pt-20 backdrop-blur-sm md:pt-28"
+      className="fixed inset-0 z-[60] flex items-start justify-center bg-ink/40 px-[var(--gutter)] pt-16 md:pt-24"
       role="dialog"
       aria-modal="true"
       aria-label="Поиск по каталогу"
     >
-      <div className="w-full max-w-2xl overflow-hidden rounded-2xl border border-stone-200 bg-white shadow-2xl shadow-stone-900/10">
-        <div className="flex items-center gap-3 border-b border-stone-200 px-5 py-4">
-          <Search size={20} strokeWidth={1.75} className="shrink-0 text-stone-400" />
+      <div className="w-full max-w-[720px] bg-white">
+        <div className={`flex items-center gap-4 border-b ${HAIRLINE} px-6 py-5`}>
+          <Search className="h-5 w-5 shrink-0 text-black/40" strokeWidth={1.5} aria-hidden />
           <input
             ref={inputRef}
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder="Сапфир, зелёный, падпараджа…"
-            className="w-full bg-transparent text-base text-stone-900 outline-none placeholder:text-stone-400"
-            style={{ fontFamily: "'Noto Sans', sans-serif" }}
+            aria-label="Что ищем"
+            className="w-full bg-transparent font-serif text-[clamp(22px,1.6vw,30px)] font-light leading-[120%] outline-none placeholder:text-black/30"
           />
-          <button
-            type="button"
-            onClick={onClose}
-            aria-label="Закрыть"
-            className="shrink-0 text-stone-400 transition-colors hover:text-[#FF7444]"
-          >
-            <X size={20} strokeWidth={1.75} />
+          <button type="button" onClick={onClose} aria-label="Закрыть" className="shrink-0 text-black/40 transition-colors hover:text-black">
+            <X className="h-5 w-5" strokeWidth={1.5} />
           </button>
         </div>
 
         <div className="max-h-[60vh] overflow-y-auto">
           {query.trim() === "" ? (
-            <p className="px-5 py-8 text-center text-sm text-stone-400" style={{ fontFamily: "'Noto Sans Mono', monospace" }}>
-              Начните вводить название, вид или цвет камня
-            </p>
+            <p className={`px-6 py-10 text-center ${T.ui} text-black/48`}>Начните вводить название, вид или цвет камня</p>
           ) : results.length === 0 ? (
-            <p className="px-5 py-8 text-center text-sm text-stone-500">
-              По запросу «{query}» ничего не нашлось
-            </p>
+            <p className={`px-6 py-10 text-center ${T.ui} text-black/60`}>По запросу «{query}» ничего не нашлось</p>
           ) : (
-            <ul className="divide-y divide-stone-100">
+            <ul>
               {results.map((it) => (
-                <li key={it.slug}>
-                  <a
-                    href={`/stones/${it.slug}`}
-                    className="flex items-center gap-4 px-5 py-3 transition-colors hover:bg-[#FFF8DE]/60"
-                  >
-                    <div className="h-14 w-12 shrink-0 overflow-hidden rounded-md">
-                      <StonePhoto src={it.photoUrl} alt={it.name} accentHex={it.colorHex} className="h-full w-full" />
+                <li key={it.slug} className={`border-b ${HAIRLINE} last:border-b-0`}>
+                  <a href={`/stones/${it.slug}`} className="flex items-center gap-5 px-6 py-3 transition-colors hover:bg-paper">
+                    <div className="h-16 w-[52px] shrink-0 overflow-hidden bg-neutral-100">
+                      {hasPhoto(it.photoUrl) ? (
+                        <img src={it.photoUrl} alt="" loading="lazy" className="h-full w-full object-cover" />
+                      ) : (
+                        <NoPhoto size="thumb" code="" weightCt={it.weightCt} hex={it.colorHex} />
+                      )}
                     </div>
                     <div className="min-w-0 flex-1">
-                      <p className="truncate text-sm font-medium text-stone-900">{it.name}</p>
-                      <p className="mt-0.5 text-xs text-stone-500" style={{ fontFamily: "'Noto Sans Mono', monospace" }}>
-                        {it.varietyName} · {formatWeight(it.weightCt)}
+                      <p className="truncate font-serif text-[clamp(17px,1vw,20px)] leading-[120%]">{it.name}</p>
+                      <p className={`mt-1 ${T.label}`}>
+                        {it.varietyName} · {formatCt(it.weightCt)}
                       </p>
                     </div>
-                    <span className="shrink-0 text-sm font-medium text-[#576A8F]" style={{ fontFamily: "'Noto Sans Mono', monospace" }}>
-                      {formatPrice(it.price)}
-                    </span>
+                    <span className={`shrink-0 font-medium ${T.ui}`}>{formatPrice(it.price)}</span>
                   </a>
                 </li>
               ))}
