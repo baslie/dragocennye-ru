@@ -95,9 +95,6 @@ export const formatPrice = (rub: number) =>
 export const formatCt = (ct: number) =>
   ct.toLocaleString("ru-RU", { maximumFractionDigits: 2 }) + " ct";
 
-/** Номер лота из slug вида «0101-…». */
-export const lotNumber = (slug: string) => slug.split("-")[0] ?? "";
-
 export function plural(n: number, [one, few, many]: [string, string, string]) {
   const m10 = n % 10;
   const m100 = n % 100;
