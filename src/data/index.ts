@@ -150,7 +150,7 @@ export function stonesForVariety(varietyId: string): MasterStone[] {
 }
 
 /** Похожие камни того же вида (для Stone Detail). */
-export function similarStones(stone: MasterStone, limit = 5) {
+export function similarStones(stone: MasterStone, limit = 4) {
   return masterStones
     .filter((s) => s.varietyId === stone.varietyId && s.id !== stone.id)
     .sort((a, b) => b.addedAt.localeCompare(a.addedAt))
@@ -338,7 +338,4 @@ export const heroSlides = () =>
     return s ? [{ href: `/stones/${slug}`, src: `/images/stones/${slug}/${file}`, name: s.name, weightCt: s.weightCt }] : [];
   });
 
-/** Прилагательное цвета во множественном числе: «Зелёный» → «Зелёные», «Синий» → «Синие». */
-export const pluralColor = (name: string) => name.replace(/(ый|ой)$/, "ые").replace(/ий$/, "ие");
-
-export const capitalize = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
+export { capitalize, pluralColor } from "../lib/format";

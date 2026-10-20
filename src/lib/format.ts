@@ -40,5 +40,10 @@ export const stoneCode = (slug: string) => slug.split("-")[0];
 /** Размеры в русской записи: «8.1x6.2» → «8,1x6,2 мм». */
 export const formatMm = (mm: string) => mm.replaceAll(".", ",") + NBSP + "мм";
 
+export const capitalize = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
+
+/** Прилагательное цвета во множественном числе: «Зелёный» → «Зелёные», «Синий» → «Синие». */
+export const pluralColor = (name: string) => name.replace(/(ый|ой)$/, "ые").replace(/ий$/, "ие");
+
 /** @deprecated Старое имя formatCt — уйдёт вместе со старыми компонентами. */
 export const formatWeight = formatCt;

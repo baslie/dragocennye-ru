@@ -1,3 +1,5 @@
+import type { CardStone } from "../ui";
+
 export type CutSlug =
   | 'cushion'
   | 'oval'
@@ -100,16 +102,7 @@ export interface StoneDetail {
   characteristics: StoneCharacteristics;
 }
 
-export interface SimilarStoneCard {
-  id: string;
-  slug: string;
-  name: string;
-  weightCt: number;
-  price: number;
-  photoUrl: string;
-  varietyId: string;
-  isAvailable: boolean;
-}
+export type SimilarStoneCard = CardStone & { id: string };
 
 export interface ContactChannel {
   type: ContactChannelType;
@@ -127,16 +120,6 @@ export interface StoneDetailProps {
   certificate: StoneCertificate | null;
   similarStones: SimilarStoneCard[];
   contactChannels: ContactChannel[];
-  /** Триггерится при клике на primary CTA «Оставить заявку» — открыть модалку заявки. */
+  /** Клик по «Оставить заявку» — открыть модалку заявки. */
   onInquire?: (stoneId: string) => void;
-  /** Триггерится при клике по карточке похожего камня — переход на его detail. */
-  onSelectSimilar?: (stoneId: string) => void;
-  /** Триггерится при клике по медиа в левой колонке — открыть lightbox на выбранном медиа. */
-  onOpenMedia?: (mediaId: string) => void;
-  /** Триггерится при клике на breadcrumb-сегмент вида камня или на sold-CTA «Смотреть другие». */
-  onBreadcrumbClick?: (varietyId: string) => void;
-  /** Триггерится при клике на кнопку «Посмотреть скан» в блоке сертификата. */
-  onOpenCertificateScan?: (certificateId: string) => void;
-  /** Триггерится при клике на кнопку «Проверить на сайте лаборатории». */
-  onVerifyCertificate?: (certificateId: string) => void;
 }

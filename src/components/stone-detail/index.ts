@@ -1,8 +1,4 @@
-export { StoneDetail } from './StoneDetail'
-export { Breadcrumb } from './Breadcrumb'
-export { StoneMediaStack } from './StoneMediaStack'
-export { Lightbox } from './Lightbox'
-export { SpecSheet } from './SpecSheet'
-export { CertificateCard } from './CertificateCard'
-export { PriceSidebar } from './PriceSidebar'
-export { SimilarStonesBlock } from './SimilarStonesBlock'
+export { StoneDetail } from "./StoneDetail";
+export { StoneDetailIsland } from "./StoneDetailIsland";
+export { StoneGallery } from "./StoneGallery";
+export { Lightbox } from "./Lightbox";

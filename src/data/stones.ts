@@ -98,6 +98,8 @@ function buildEditorial(s: GeneratedStone): string[] {
     ? ` из ${countryGenitive[origin!.country] ?? origin!.country}`
     : "";
 
+  const mm = s.dimensionsMm.replaceAll(".", ",");
+
   const luster = (lusterByVariety[s.varietyId] ?? "Стеклянный").toLowerCase();
 
   const para1 =
@@ -106,9 +108,9 @@ function buildEditorial(s: GeneratedStone): string[] {
 
   const para2 = hasCut
     ? `Огранка «${cut!.name.toLowerCase()}» работает на весь вес: камень собран, блеск ${luster}.` +
-      (s.dimensionsMm ? ` Размеры ${s.dimensionsMm} мм дают камню присутствие в оправе.` : "")
+      (mm ? ` Размеры ${mm} мм дают камню присутствие в оправе.` : "")
     : `Форма подобрана под характер камня, блеск ${luster}.` +
-      (s.dimensionsMm ? ` Размеры ${s.dimensionsMm} мм.` : "");
+      (mm ? ` Размеры ${mm} мм.` : "");
 
   const para3 = `Хороший кандидат как центральный камень в украшение или для коллекции. Паспорт характеристик подготовлен Дмитрием лично.`;
 

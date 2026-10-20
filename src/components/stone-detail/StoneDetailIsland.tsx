@@ -66,26 +66,6 @@ export function StoneDetailIsland({
   contactChannels,
   inquiryChannels,
 }: StoneDetailIslandProps) {
-  // --- Навигационные callbacks ----------------------------------------------
-  const handleSelectSimilar = (stoneId: string) => {
-    const target = similarStones.find((s) => s.id === stoneId);
-    if (target) window.location.href = `/stones/${target.slug}`;
-  };
-
-  const handleBreadcrumbClick = (varietyId: string) => {
-    const slug = varietyId === variety.id ? variety.slug : "";
-    window.location.href = slug ? `/catalog/${slug}` : "/";
-  };
-
-  const handleOpenCertificateScan = () => {
-    if (certificate?.scanUrl) window.open(certificate.scanUrl, "_blank", "noopener");
-  };
-
-  const handleVerifyCertificate = () => {
-    if (certificate?.verificationUrl)
-      window.open(certificate.verificationUrl, "_blank", "noopener");
-  };
-
   // --- Заявка (заглушка submit) ---------------------------------------------
   const [open, setOpen] = useState(false);
   const [values, setValues] = useState<InquiryFormValues>(EMPTY_FORM);
@@ -172,10 +152,6 @@ export function StoneDetailIsland({
         similarStones={similarStones}
         contactChannels={contactChannels}
         onInquire={handleInquire}
-        onSelectSimilar={handleSelectSimilar}
-        onBreadcrumbClick={handleBreadcrumbClick}
-        onOpenCertificateScan={handleOpenCertificateScan}
-        onVerifyCertificate={handleVerifyCertificate}
       />
       <InquiryModal
         isOpen={open}
