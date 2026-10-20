@@ -1,86 +1,43 @@
-import { useId, type FormEvent, type ReactNode } from 'react'
-import { AlertCircle, Loader2, X } from 'lucide-react'
-import type {
-  InquiryModalProps,
-  InquiryFormValues,
-  InquiryChannelType,
-} from './types'
-import { StoneMiniCard } from './StoneMiniCard'
-import { ChannelChipGroup } from './ChannelChipGroup'
-import { ConsentCheckbox } from './ConsentCheckbox'
-import { SentBlock } from './SentBlock'
+import { useId, type FormEvent, type ReactNode } from "react";
+import { LoaderCircle, X } from "lucide-react";
+import type { InquiryModalProps, InquiryFormValues, InquiryChannelType } from "./types";
+import { StoneMiniCard } from "./StoneMiniCard";
+import { ChannelChipGroup } from "./ChannelChipGroup";
+import { ConsentCheckbox } from "./ConsentCheckbox";
+import { SentBlock } from "./SentBlock";
+import { HAIRLINE, T, buttonClass } from "../ui";
 
-export type InquiryDialogProps = Omit<InquiryModalProps, 'isOpen'>
+export type InquiryDialogProps = Omit<InquiryModalProps, "isOpen">;
 
-const MONO = "'Noto Sans Mono', ui-monospace, monospace"
-const SANS = "'Noto Sans', sans-serif"
+// Поле с одной нижней линией, как select в строке фильтров.
+const FIELD =
+  "w-full border-b bg-transparent py-2 text-[clamp(15px,0.88vw,18px)] leading-[150%] outline-none transition-colors placeholder:text-black/30 focus:border-ink disabled:cursor-not-allowed disabled:text-black/40";
 
-const FIELD_INPUT_BASE =
-  'w-full rounded-lg border px-4 py-3 text-base text-stone-900 placeholder:text-stone-400 outline-none transition focus:border-[#576A8F] focus:ring-2 focus:ring-[#576A8F]/20 disabled:bg-stone-50 disabled:text-stone-400 disabled:cursor-not-allowed'
+const fieldBorder = (hasError: boolean) => (hasError ? "border-danger" : "border-black/20");
 
-function fieldBorderClass(hasError: boolean) {
-  return hasError ? 'border-red-400' : 'border-stone-200'
-}
-
-function FieldLabel({
-  htmlFor,
-  children,
-  optional,
-}: {
-  htmlFor: string
-  children: ReactNode
-  optional?: boolean
-}) {
+function FieldLabel({ htmlFor, children, optional }: { htmlFor: string; children: ReactNode; optional?: boolean }) {
   return (
-    <label
-      htmlFor={htmlFor}
-      className="mb-2 flex items-baseline justify-between text-xs uppercase tracking-wider text-stone-500"
-      style={{ fontFamily: MONO }}
-    >
+    <label htmlFor={htmlFor} className={`flex items-baseline justify-between ${T.label}`}>
       <span>{children}</span>
-      {optional ? (
-        <span className="text-[11px] tracking-normal text-stone-400 lowercase">
-          не обязательно
-        </span>
-      ) : null}
+      {optional ? <span className="text-black/35">не обязательно</span> : null}
     </label>
-  )
+  );
 }
 
-function ErrorText({
-  id,
-  children,
-}: {
-  id: string
-  children: ReactNode
-}) {
+function ErrorText({ id, children }: { id: string; children: ReactNode }) {
   return (
-    <p
-      id={id}
-      className="mt-1.5 text-xs text-red-500"
-      style={{ fontFamily: SANS }}
-    >
+    <p id={id} className="mt-1.5 text-[13px] leading-[150%] text-danger">
       {children}
     </p>
-  )
+  );
 }
 
-function HintText({
-  id,
-  children,
-}: {
-  id: string
-  children: ReactNode
-}) {
+function HintText({ id, children }: { id: string; children: ReactNode }) {
   return (
-    <p
-      id={id}
-      className="mt-1.5 text-xs text-stone-500"
-      style={{ fontFamily: MONO }}
-    >
+    <p id={id} className="mt-1.5 text-[13px] leading-[150%] text-black/48">
       {children}
     </p>
-  )
+  );
 }
 
 export function InquiryDialog({
@@ -96,101 +53,73 @@ export function InquiryDialog({
   onSubmit,
   onClose,
 }: InquiryDialogProps) {
-  const uid = useId()
-  const titleId = `${uid}-title`
-  const nameId = `${uid}-name`
-  const nameErrorId = `${nameId}-error`
-  const contactId = `${uid}-contact`
-  const contactErrorId = `${contactId}-error`
-  const contactHintId = `${contactId}-hint`
-  const channelErrorId = `${uid}-channel-error`
-  const commentId = `${uid}-comment`
-  const commentErrorId = `${commentId}-error`
-  const consentId = `${uid}-consent`
-  const consentErrorId = `${consentId}-error`
+  const uid = useId();
+  const titleId = `${uid}-title`;
+  const nameId = `${uid}-name`;
+  const nameErrorId = `${nameId}-error`;
+  const contactId = `${uid}-contact`;
+  const contactErrorId = `${contactId}-error`;
+  const contactHintId = `${contactId}-hint`;
+  const channelErrorId = `${uid}-channel-error`;
+  const commentId = `${uid}-comment`;
+  const commentErrorId = `${commentId}-error`;
+  const consentId = `${uid}-consent`;
+  const consentErrorId = `${consentId}-error`;
 
-  const isLoading = state === 'loading'
-  const isSent = state === 'sent'
-  const isErrorBanner = state === 'error' && !!errorMessage
+  const isLoading = state === "loading";
+  const isSent = state === "sent";
+  const isErrorBanner = state === "error" && !!errorMessage;
 
   const canSubmit =
-    !isLoading &&
-    values.consent &&
-    values.name.trim().length > 0 &&
-    values.contact.trim().length > 0 &&
-    values.channel !== null
+    !isLoading && values.consent && values.name.trim().length > 0 && values.contact.trim().length > 0 && values.channel !== null;
 
   const patch = (partial: Partial<InquiryFormValues>) => {
-    onChange?.({ ...values, ...partial })
-  }
+    onChange?.({ ...values, ...partial });
+  };
 
   const handleSubmit = (event: FormEvent) => {
-    event.preventDefault()
-    if (!canSubmit) return
-    onSubmit?.(values)
-  }
+    event.preventDefault();
+    if (!canSubmit) return;
+    onSubmit?.(values);
+  };
 
-  const handleChannelChange = (channel: InquiryChannelType) =>
-    patch({ channel })
+  const handleChannelChange = (channel: InquiryChannelType) => patch({ channel });
 
-  const nameError = fieldErrors?.name
-  const contactError = fieldErrors?.contact
-  const channelError = fieldErrors?.channel
-  const commentError = fieldErrors?.comment
-  const consentError = fieldErrors?.consent
+  const nameError = fieldErrors?.name;
+  const contactError = fieldErrors?.contact;
+  const channelError = fieldErrors?.channel;
+  const commentError = fieldErrors?.comment;
+  const consentError = fieldErrors?.consent;
 
   return (
     <div
       role="dialog"
       aria-modal="true"
       aria-labelledby={titleId}
-      className="w-full max-w-xl overflow-hidden rounded-2xl border border-stone-200 bg-white shadow-2xl max-sm:rounded-b-none"
-      style={{ fontFamily: SANS }}
+      className="max-h-[100dvh] w-full max-w-[560px] overflow-y-auto bg-white sm:max-h-[calc(100dvh-4rem)]"
     >
-      <header className="flex items-start justify-between gap-6 border-b border-stone-200 px-6 py-5 sm:px-8 sm:py-6">
+      <header className={`flex items-start justify-between gap-6 px-6 pb-5 pt-6 sm:px-10 sm:pt-9`}>
         <div className="min-w-0">
-          <p
-            className="text-xs uppercase tracking-wider text-[#576A8F]"
-            style={{ fontFamily: MONO }}
-          >
-            Заявка на камень
-          </p>
-          <h2
-            id={titleId}
-            className="mt-2 text-2xl text-stone-900"
-            style={{
-              fontFamily: SANS,
-              fontWeight: 500,
-              letterSpacing: '-0.015em',
-            }}
-          >
-            Оставьте контакты
+          <p className={T.eyebrow}>Заявка на камень</p>
+          <h2 id={titleId} className="mt-2 font-serif text-[30px] font-light leading-[105%] md:text-[36px]">
+            {isSent ? "Спасибо" : "Оставьте контакты"}
           </h2>
         </div>
         <button
           type="button"
           onClick={onClose}
           aria-label="Закрыть"
-          className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full text-stone-500 transition hover:bg-stone-100 hover:text-stone-900"
+          className="-mr-2 flex h-10 w-10 shrink-0 items-center justify-center text-black/48 transition-colors hover:text-black"
         >
-          <X className="h-5 w-5" strokeWidth={1.75} />
+          <X className="h-5 w-5" strokeWidth={1.5} />
         </button>
       </header>
 
       <StoneMiniCard stone={stone} />
 
       {isErrorBanner ? (
-        <div
-          role="alert"
-          aria-live="polite"
-          className="mx-6 mt-5 flex items-start gap-3 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800 sm:mx-8 sm:mt-6"
-          style={{ fontFamily: SANS }}
-        >
-          <AlertCircle
-            className="mt-0.5 h-4 w-4 flex-shrink-0 text-red-500"
-            strokeWidth={2}
-          />
-          <span>{errorMessage}</span>
+        <div role="alert" aria-live="polite" className={`mx-6 mt-5 border-l-2 border-danger pl-4 text-danger sm:mx-10 ${T.ui}`}>
+          {errorMessage}
         </div>
       ) : null}
 
@@ -198,20 +127,20 @@ export function InquiryDialog({
         <SentBlock successMessage={successMessage} onClose={onClose} />
       ) : (
         <form onSubmit={handleSubmit} noValidate>
-          <div className="space-y-5 px-6 py-6 sm:px-8">
+          <div className="space-y-6 px-6 py-7 sm:px-10">
             <div>
               <FieldLabel htmlFor={nameId}>Имя</FieldLabel>
               <input
                 id={nameId}
                 type="text"
+                autoComplete="name"
                 value={values.name}
                 disabled={isLoading}
                 placeholder="Как к вам обращаться"
                 onChange={(event) => patch({ name: event.currentTarget.value })}
                 aria-invalid={nameError ? true : undefined}
                 aria-describedby={nameError ? nameErrorId : undefined}
-                className={`${FIELD_INPUT_BASE} ${fieldBorderClass(!!nameError)}`}
-                style={{ fontFamily: SANS }}
+                className={`${FIELD} ${fieldBorder(!!nameError)}`}
               />
               {nameError ? <ErrorText id={nameErrorId}>{nameError}</ErrorText> : null}
             </div>
@@ -224,33 +153,20 @@ export function InquiryDialog({
                 value={values.contact}
                 disabled={isLoading}
                 placeholder="Телефон, @username или email"
-                onChange={(event) =>
-                  patch({ contact: event.currentTarget.value })
-                }
+                onChange={(event) => patch({ contact: event.currentTarget.value })}
                 aria-invalid={contactError ? true : undefined}
-                aria-describedby={
-                  contactError ? contactErrorId : contactHintId
-                }
-                className={`${FIELD_INPUT_BASE} ${fieldBorderClass(!!contactError)}`}
-                style={{ fontFamily: SANS }}
+                aria-describedby={contactError ? contactErrorId : contactHintId}
+                className={`${FIELD} ${fieldBorder(!!contactError)}`}
               />
               {contactError ? (
                 <ErrorText id={contactErrorId}>{contactError}</ErrorText>
               ) : (
-                <HintText id={contactHintId}>
-                  Оставьте один удобный способ — телефон, ник в Telegram или
-                  email
-                </HintText>
+                <HintText id={contactHintId}>Один удобный способ: телефон, ник в Telegram или email</HintText>
               )}
             </div>
 
             <div>
-              <p
-                className="mb-2 text-xs uppercase tracking-wider text-stone-500"
-                style={{ fontFamily: MONO }}
-              >
-                Канал связи
-              </p>
+              <p className={`mb-2.5 ${T.label}`}>Как удобнее связаться</p>
               <ChannelChipGroup
                 name={`${uid}-channel`}
                 channels={channels}
@@ -260,9 +176,7 @@ export function InquiryDialog({
                 describedBy={channelError ? channelErrorId : undefined}
                 onChange={handleChannelChange}
               />
-              {channelError ? (
-                <ErrorText id={channelErrorId}>{channelError}</ErrorText>
-              ) : null}
+              {channelError ? <ErrorText id={channelErrorId}>{channelError}</ErrorText> : null}
             </div>
 
             <div>
@@ -271,21 +185,16 @@ export function InquiryDialog({
               </FieldLabel>
               <textarea
                 id={commentId}
-                rows={3}
+                rows={2}
                 value={values.comment}
                 disabled={isLoading}
-                placeholder="Вопрос, уточнение по камню, удобное время звонка"
-                onChange={(event) =>
-                  patch({ comment: event.currentTarget.value })
-                }
+                placeholder="Вопрос по камню, удобное время звонка"
+                onChange={(event) => patch({ comment: event.currentTarget.value })}
                 aria-invalid={commentError ? true : undefined}
                 aria-describedby={commentError ? commentErrorId : undefined}
-                className={`${FIELD_INPUT_BASE} resize-none ${fieldBorderClass(!!commentError)}`}
-                style={{ fontFamily: SANS }}
+                className={`${FIELD} resize-none ${fieldBorder(!!commentError)}`}
               />
-              {commentError ? (
-                <ErrorText id={commentErrorId}>{commentError}</ErrorText>
-              ) : null}
+              {commentError ? <ErrorText id={commentErrorId}>{commentError}</ErrorText> : null}
             </div>
 
             <div>
@@ -298,41 +207,25 @@ export function InquiryDialog({
                 describedBy={consentError ? consentErrorId : undefined}
                 onChange={(checked) => patch({ consent: checked })}
               />
-              {consentError ? (
-                <ErrorText id={consentErrorId}>{consentError}</ErrorText>
-              ) : null}
+              {consentError ? <ErrorText id={consentErrorId}>{consentError}</ErrorText> : null}
             </div>
           </div>
 
-          <footer className="border-t border-stone-200 bg-stone-50 px-6 py-6 sm:px-8">
-            <button
-              type="submit"
-              disabled={!canSubmit}
-              className="flex w-full items-center justify-center gap-2 rounded-lg bg-[#FF7444] px-6 py-4 text-base text-white transition hover:bg-[#e6643a] disabled:cursor-not-allowed disabled:bg-stone-300"
-              style={{
-                fontFamily: SANS,
-                fontWeight: 500,
-                letterSpacing: '-0.005em',
-              }}
-            >
+          <footer className={`border-t ${HAIRLINE} px-6 pb-7 pt-6 sm:px-10 sm:pb-9`}>
+            <button type="submit" disabled={!canSubmit} aria-busy={isLoading} className={`w-full ${buttonClass("solid")}`}>
               {isLoading ? (
                 <>
-                  <Loader2 className="h-4 w-4 animate-spin" strokeWidth={2.25} />
-                  <span>Отправляем…</span>
+                  <LoaderCircle className="h-[18px] w-[18px] animate-spin" strokeWidth={1.5} aria-hidden />
+                  Отправляем
                 </>
               ) : (
-                <span>Отправить заявку</span>
+                "Отправить заявку"
               )}
             </button>
-            <p
-              className="mt-3 text-center text-xs uppercase tracking-wider text-stone-500"
-              style={{ fontFamily: MONO }}
-            >
-              Без онлайн-оплаты. Дмитрий свяжется с вами напрямую
-            </p>
+            <p className={`mt-3 text-center ${T.label}`}>Без онлайн-оплаты. Дмитрий свяжется с вами напрямую.</p>
           </footer>
         </form>
       )}
     </div>
-  )
+  );
 }

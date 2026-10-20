@@ -78,7 +78,7 @@ export function StoneDetailIsland({
     id: stone.id,
     name: stone.name,
     weightCt: stone.weightCt,
-    cutName: cut.name,
+    cutName: cut.id.endsWith("-unknown") ? "" : cut.name,
     photoUrl: stone.media[0]?.url ?? "",
     price: stone.price,
     accentHex: color.hex,

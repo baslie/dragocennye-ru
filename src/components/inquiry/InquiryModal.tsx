@@ -39,7 +39,7 @@ export function InquiryModal(props: InquiryModalProps) {
   return (
     <div
       onClick={handleBackdropClick}
-      className="fixed inset-0 z-50 flex items-end justify-center bg-stone-950/60 p-4 backdrop-blur-sm sm:items-center md:p-8"
+      className="fixed inset-0 z-50 flex items-end justify-center bg-ink/40 sm:items-center sm:p-8"
     >
       <InquiryDialog {...props} />
     </div>

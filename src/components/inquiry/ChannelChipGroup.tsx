@@ -1,62 +1,38 @@
-import { MessageCircle, Phone, Send } from 'lucide-react'
-import type { ComponentType, SVGProps } from 'react'
-import type {
-  InquiryChannel,
-  InquiryChannelIcon,
-  InquiryChannelType,
-} from './types'
+// Канал связи — чипы-пилюли, как в строке фильтров каталога. Под капотом радиокнопки.
+import type { InquiryChannel, InquiryChannelType } from "./types";
 
 interface ChannelChipGroupProps {
-  name: string
-  channels: InquiryChannel[]
-  value: InquiryChannelType | null
-  disabled?: boolean
-  invalid?: boolean
-  describedBy?: string
-  onChange?: (value: InquiryChannelType) => void
+  name: string;
+  channels: InquiryChannel[];
+  value: InquiryChannelType | null;
+  disabled?: boolean;
+  invalid?: boolean;
+  describedBy?: string;
+  onChange?: (value: InquiryChannelType) => void;
 }
 
-type IconComponent = ComponentType<SVGProps<SVGSVGElement>>
-
-const ICONS: Record<InquiryChannelIcon, IconComponent> = {
-  Send,
-  MessageCircle,
-  Phone,
-}
-
-export function ChannelChipGroup({
-  name,
-  channels,
-  value,
-  disabled = false,
-  invalid = false,
-  describedBy,
-  onChange,
-}: ChannelChipGroupProps) {
+export function ChannelChipGroup({ name, channels, value, disabled = false, invalid = false, describedBy, onChange }: ChannelChipGroupProps) {
   return (
     <div
       role="radiogroup"
       aria-label="Канал связи"
       aria-describedby={describedBy}
       aria-invalid={invalid || undefined}
-      className="grid grid-cols-3 gap-2"
+      className={`flex flex-wrap gap-1.5 ${disabled ? "pointer-events-none opacity-60" : ""}`}
     >
       {channels.map((channel) => {
-        const Icon = ICONS[channel.icon]
-        const selected = value === channel.type
-        const base =
-          'group flex cursor-pointer items-center justify-center gap-2 rounded-lg border px-4 py-3 text-sm transition'
-        const stateClass = selected
-          ? 'border-[#FF7444] bg-[#FF7444]/5 text-[#FF7444]'
-          : invalid
-            ? 'border-red-400 text-stone-700 hover:border-[#FF7444] hover:text-[#FF7444]'
-            : 'border-stone-200 text-stone-700 hover:border-[#FF7444] hover:text-[#FF7444]'
-        const disabledClass = disabled
-          ? 'pointer-events-none opacity-60'
-          : ''
-
+        const selected = value === channel.type;
         return (
-          <label key={channel.type} className={`${base} ${stateClass} ${disabledClass}`}>
+          <label
+            key={channel.type}
+            className={`flex h-[clamp(34px,1.9vw,42px)] cursor-pointer items-center rounded-full border px-[clamp(14px,0.9vw,20px)] text-[clamp(13px,0.72vw,18px)] leading-[150%] transition-colors has-[:focus-visible]:outline has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 ${
+              selected
+                ? "border-ink bg-ink text-white"
+                : invalid
+                  ? "border-danger text-black/75 hover:text-black"
+                  : "border-black/15 text-black/75 hover:border-black/40 hover:text-black"
+            }`}
+          >
             <input
               type="radio"
               name={name}
@@ -66,19 +42,10 @@ export function ChannelChipGroup({
               onChange={() => onChange?.(channel.type)}
               className="sr-only"
             />
-            <Icon
-              className="h-4 w-4"
-              aria-hidden="true"
-              strokeWidth={1.75}
-            />
-            <span
-              style={{ fontFamily: "'Noto Sans', sans-serif", fontWeight: 500 }}
-            >
-              {channel.label}
-            </span>
+            {channel.label}
           </label>
-        )
+        );
       })}
     </div>
-  )
+  );
 }
