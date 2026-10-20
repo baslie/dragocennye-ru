@@ -75,6 +75,9 @@ export function SiteShell({ currentPath, searchItems, telegramHref, children }: 
               {it.label}
             </a>
           ))}
+          <a href={telegramHref} className="text-black">
+            Написать гемологу
+          </a>
         </nav>
       </header>
 
