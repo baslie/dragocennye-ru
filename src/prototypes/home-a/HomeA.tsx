@@ -22,8 +22,9 @@ interface Props extends CatalogData {
 const INK = "#121314";
 const EMERALD = "#0d5c4b";
 const serif = { fontFamily: '"Cormorant Garamond", Georgia, serif' };
-// Интерлиньяж обратен кеглю: дисплей (38–96px) 0.92–0.98, названия 28–30px 1.1,
-// 18–24px 1.2, основной текст 1.55, мелкий интерфейсный текст 1.5.
+// Интерлиньяж задаём в процентах и обратно кеглю: дисплей (38–96px) 92–98%, названия 28–30px 110%,
+// 18–24px 120%, основной текст 155%, мелкий интерфейсный текст 150%.
+// Процент наследуется готовыми пикселями, поэтому задаём его там же, где кегль.
 // Боковой отступ растёт вместе с экраном: сайт занимает всю ширину окна без пустых полей.
 const GUTTER = "clamp(20px, 3.5vw, 96px)";
 
@@ -61,7 +62,7 @@ export function HomeA(props: Props) {
       {/* Шапка */}
       <header className="border-b border-black/[0.07]">
         <div className="grid h-[60px] grid-cols-[1fr_auto_1fr] items-center px-[var(--gutter)] min-[1920px]:h-16">
-          <nav className="hidden gap-7 text-[clamp(13px,0.7vw,15px)] text-black/60 md:flex">
+          <nav className="hidden gap-7 text-[clamp(13px,0.7vw,15px)] text-black/60 md:flex leading-[150%]">
             <a href="/prototypes/home-a" className="text-black">Каталог</a>
             <a href="/encyclopedia" className="transition-colors hover:text-black">Энциклопедия</a>
             <a href="/blog" className="transition-colors hover:text-black">Журнал</a>
@@ -69,12 +70,12 @@ export function HomeA(props: Props) {
           </nav>
           <a
             href="/prototypes/home-a"
-            className="col-start-1 justify-self-start text-[clamp(17px,1.05vw,21px)] font-medium leading-[1.2] uppercase tracking-[0.32em] md:col-start-2 md:justify-self-center"
+            className="col-start-1 justify-self-start text-[clamp(17px,1.05vw,21px)] font-medium leading-[120%] uppercase tracking-[0.32em] md:col-start-2 md:justify-self-center"
             style={serif}
           >
             Драгоценные
           </a>
-          <div className="col-start-3 flex items-center justify-end gap-6 text-[clamp(13px,0.7vw,15px)]">
+          <div className="col-start-3 flex items-center justify-end gap-6 text-[clamp(13px,0.7vw,15px)] leading-[150%]">
             <button type="button" aria-label="Поиск" className="text-black/60 transition-colors hover:text-black">
               <Search className="h-[18px] w-[18px]" strokeWidth={1.5} />
             </button>
@@ -83,7 +84,7 @@ export function HomeA(props: Props) {
             </a>
           </div>
         </div>
-        <nav className="flex gap-6 overflow-x-auto whitespace-nowrap [scrollbar-width:none] border-t border-black/[0.05] px-[var(--gutter)] py-2.5 text-[13px] text-black/60 md:hidden">
+        <nav className="flex gap-6 overflow-x-auto whitespace-nowrap [scrollbar-width:none] border-t border-black/[0.05] px-[var(--gutter)] py-2.5 text-[13px] text-black/60 md:hidden leading-[150%]">
           <a href="/encyclopedia">Энциклопедия</a>
           <a href="/blog">Журнал</a>
           <a href="/about">О гемологе</a>
@@ -96,14 +97,14 @@ export function HomeA(props: Props) {
         <section className="grid gap-8 pb-8 pt-8 md:grid-cols-12 md:pb-[clamp(40px,3vw,72px)] md:pt-[clamp(40px,3vw,72px)]">
           <div className="md:col-span-7 md:self-end">
             <h1
-              className="text-balance pb-[0.08em] text-[38px] font-light leading-[0.98] tracking-[-0.01em] md:text-[clamp(52px,4vw,96px)] md:leading-[0.92]"
+              className="text-balance pb-[0.08em] text-[38px] font-light leading-[98%] tracking-[-0.01em] md:text-[clamp(52px,4vw,96px)] md:leading-[92%]"
               style={serif}
             >
               Цветные камни
               <br />
               из <em className="font-light" style={{ color: EMERALD }}>личной коллекции</em>
             </h1>
-            <p className="mt-5 max-w-[46ch] text-[clamp(14px,0.8vw,17px)] leading-[1.55] text-black/60">
+            <p className="mt-5 max-w-[46ch] text-[clamp(14px,0.8vw,17px)] leading-[155%] text-black/60">
               {pluralStones(props.stones.length)} в единственном экземпляре. У каждого паспорт, макросъёмка
               и консультация Дмитрия Салятова.
             </p>
@@ -117,8 +118,8 @@ export function HomeA(props: Props) {
               />
             </div>
             <div className="mt-3 flex items-baseline justify-between gap-4">
-              <span className="text-[clamp(18px,1.1vw,22px)] leading-[1.2]" style={serif}>{featured.name}</span>
-              <span className="shrink-0 text-[clamp(13px,0.72vw,18px)] text-black/60">{formatCt(featured.weightCt)}</span>
+              <span className="text-[clamp(18px,1.1vw,22px)] leading-[120%]" style={serif}>{featured.name}</span>
+              <span className="shrink-0 text-[clamp(13px,0.72vw,18px)] text-black/60 leading-[150%]">{formatCt(featured.weightCt)}</span>
             </div>
           </a>
         </section>
@@ -142,7 +143,7 @@ export function HomeA(props: Props) {
         {/* Фильтры: одна тихая строка */}
         <section className="z-10 mx-[calc(var(--gutter)*-1)] flex flex-wrap items-center gap-x-8 gap-y-3 md:sticky md:top-0 border-y border-black/[0.07] bg-white/95 px-[var(--gutter)] py-4 backdrop-blur">
           <div className="flex w-full min-w-0 items-center gap-3 md:w-auto">
-            <span className="text-[clamp(12px,0.65vw,16px)] text-black/50">Цвет</span>
+            <span className="text-[clamp(12px,0.65vw,16px)] text-black/50 leading-[150%]">Цвет</span>
             <div className="flex gap-2 overflow-x-auto p-1 [scrollbar-width:none] md:flex-wrap">
               {c.availableColors.map((col) => {
                 const on = c.colorIds.includes(col.id);
@@ -171,7 +172,7 @@ export function HomeA(props: Props) {
             options={PRICE_BANDS.map((b) => [b.id, b.label])}
           />
           <div className="ml-auto flex items-center gap-8">
-            <span className="text-[clamp(12px,0.65vw,16px)] text-black/50">{pluralStones(c.total)}</span>
+            <span className="text-[clamp(12px,0.65vw,16px)] text-black/50 leading-[150%]">{pluralStones(c.total)}</span>
             <Select
               label="Порядок"
               value={c.sort}
@@ -185,8 +186,8 @@ export function HomeA(props: Props) {
         <section className="pb-24 pt-12">
           {c.shown.length === 0 ? (
             <div className="py-24 text-center">
-              <p className="text-[32px] font-light leading-[1.05]" style={serif}>Таких камней сейчас нет</p>
-              <button type="button" onClick={c.clearFilters} className="mt-6 border-b pb-0.5 text-[clamp(14px,0.78vw,19px)]" style={{ borderColor: INK }}>
+              <p className="text-[32px] font-light leading-[105%]" style={serif}>Таких камней сейчас нет</p>
+              <button type="button" onClick={c.clearFilters} className="mt-6 border-b pb-0.5 text-[clamp(14px,0.78vw,19px)] leading-[150%]" style={{ borderColor: INK }}>
                 Сбросить фильтры
               </button>
             </div>
@@ -203,13 +204,13 @@ export function HomeA(props: Props) {
                         className="h-full w-full object-cover transition-transform duration-[1200ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.04]"
                       />
                     </div>
-                    <p className="mt-2 text-[clamp(11px,0.6vw,14px)] uppercase tracking-[0.14em] text-black/45 md:mt-3">
+                    <p className="mt-2 text-[clamp(11px,0.6vw,14px)] uppercase tracking-[0.14em] text-black/45 md:mt-3 leading-[150%]">
                       {varietyName.get(s.varietyId)}
                     </p>
-                    <h3 className="mt-1 text-[19px] leading-[1.2] md:text-[clamp(22px,1.5vw,30px)] md:leading-[1.1]" style={serif}>
+                    <h3 className="mt-1 text-[19px] leading-[120%] md:text-[clamp(22px,1.5vw,30px)] md:leading-[110%]" style={serif}>
                       {s.name}
                     </h3>
-                    <p className="mt-2 flex flex-wrap gap-x-4 text-[clamp(13px,0.72vw,18px)] text-black/60">
+                    <p className="mt-2 flex flex-wrap gap-x-4 text-[clamp(13px,0.72vw,18px)] text-black/60 leading-[150%]">
                       <span>{formatCt(s.weightCt)}</span>
                       <span style={{ color: INK }} className="font-medium">{formatPrice(s.price)}</span>
                     </p>
@@ -224,7 +225,7 @@ export function HomeA(props: Props) {
               <button
                 type="button"
                 onClick={c.showMore}
-                className="h-12 border px-10 text-[clamp(13px,0.72vw,18px)] tracking-[0.04em] transition-colors hover:bg-[#121314] hover:text-white active:scale-[0.98]"
+                className="h-12 border px-10 text-[clamp(13px,0.72vw,18px)] tracking-[0.04em] transition-colors hover:bg-[#121314] hover:text-white active:scale-[0.98] leading-[150%]"
                 style={{ borderColor: INK }}
               >
                 Показать ещё
@@ -235,8 +236,8 @@ export function HomeA(props: Props) {
       </main>
 
       <footer className="border-t border-black/[0.07]">
-        <div className="flex flex-col gap-6 px-[var(--gutter)] py-12 text-[clamp(13px,0.72vw,18px)] text-black/55 md:flex-row md:items-center md:justify-between">
-          <span className="text-[18px] leading-[1.2] uppercase tracking-[0.32em] text-black" style={serif}>Драгоценные</span>
+        <div className="flex flex-col gap-6 px-[var(--gutter)] py-12 text-[clamp(13px,0.72vw,18px)] text-black/55 md:flex-row md:items-center md:justify-between leading-[150%]">
+          <span className="text-[18px] leading-[120%] uppercase tracking-[0.32em] text-black" style={serif}>Драгоценные</span>
           <nav className="flex flex-wrap gap-x-8 gap-y-2">
             <a href="/encyclopedia" className="hover:text-black">Энциклопедия</a>
             <a href="/blog" className="hover:text-black">Журнал</a>
@@ -257,11 +258,11 @@ function VarietyLink({ label, count, active, onClick }: { label: string; count: 
         type="button"
         onClick={onClick}
         aria-pressed={active}
-        className={`text-[18px] leading-[1.2] transition-colors md:text-[clamp(19px,1.15vw,24px)] ${active ? "italic" : "text-black/40 hover:text-black"}`}
+        className={`text-[18px] leading-[120%] transition-colors md:text-[clamp(19px,1.15vw,24px)] ${active ? "italic" : "text-black/40 hover:text-black"}`}
         style={active ? { color: EMERALD } : undefined}
       >
         {label}
-        <sup className="ml-0.5 font-sans text-[10px] not-italic text-black/40" style={{ fontFamily: "Manrope, sans-serif" }}>
+        <sup className="ml-0.5 font-sans text-[10px] not-italic text-black/40 leading-[0%]" style={{ fontFamily: "Manrope, sans-serif" }}>
           {count}
         </sup>
       </button>
@@ -281,8 +282,8 @@ function Select({
   options: [string, string][];
 }) {
   return (
-    <label className="flex items-center gap-3 text-[clamp(13px,0.72vw,18px)]">
-      <span className="text-[clamp(12px,0.65vw,16px)] text-black/50">{label}</span>
+    <label className="flex items-center gap-3 text-[clamp(13px,0.72vw,18px)] leading-[150%]">
+      <span className="text-[clamp(12px,0.65vw,16px)] text-black/50 leading-[150%]">{label}</span>
       <select
         value={value}
         onChange={(e) => onChange(e.target.value)}
