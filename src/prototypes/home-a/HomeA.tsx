@@ -22,7 +22,8 @@ interface Props extends CatalogData {
 const INK = "#121314";
 const EMERALD = "#0d5c4b";
 const serif = { fontFamily: '"Cormorant Garamond", Georgia, serif' };
-// Интерлиньяж обратен кеглю: дисплей 0.92, 20–30px 1.15, 18–24px (индекс видов) 1.2, текст 1.55.
+// Интерлиньяж обратен кеглю: дисплей (38–96px) 0.92–0.98, названия 28–30px 1.1,
+// 18–24px 1.2, основной текст 1.55, мелкий интерфейсный текст 1.5.
 // Боковой отступ растёт вместе с экраном: сайт занимает всю ширину окна без пустых полей.
 const GUTTER = "clamp(20px, 3.5vw, 96px)";
 
@@ -68,7 +69,7 @@ export function HomeA(props: Props) {
           </nav>
           <a
             href="/prototypes/home-a"
-            className="col-start-1 justify-self-start text-[clamp(17px,1.05vw,21px)] font-medium uppercase tracking-[0.32em] md:col-start-2 md:justify-self-center"
+            className="col-start-1 justify-self-start text-[clamp(17px,1.05vw,21px)] font-medium leading-[1.2] uppercase tracking-[0.32em] md:col-start-2 md:justify-self-center"
             style={serif}
           >
             Драгоценные
@@ -116,7 +117,7 @@ export function HomeA(props: Props) {
               />
             </div>
             <div className="mt-3 flex items-baseline justify-between gap-4">
-              <span className="text-[clamp(18px,1.1vw,22px)] leading-[1.15]" style={serif}>{featured.name}</span>
+              <span className="text-[clamp(18px,1.1vw,22px)] leading-[1.2]" style={serif}>{featured.name}</span>
               <span className="shrink-0 text-[clamp(13px,0.72vw,18px)] text-black/60">{formatCt(featured.weightCt)}</span>
             </div>
           </a>
@@ -205,7 +206,7 @@ export function HomeA(props: Props) {
                     <p className="mt-2 text-[clamp(11px,0.6vw,14px)] uppercase tracking-[0.14em] text-black/45 md:mt-3">
                       {varietyName.get(s.varietyId)}
                     </p>
-                    <h3 className="mt-1 text-[19px] leading-[1.15] md:text-[clamp(22px,1.5vw,30px)]" style={serif}>
+                    <h3 className="mt-1 text-[19px] leading-[1.2] md:text-[clamp(22px,1.5vw,30px)] md:leading-[1.1]" style={serif}>
                       {s.name}
                     </h3>
                     <p className="mt-2 flex flex-wrap gap-x-4 text-[clamp(13px,0.72vw,18px)] text-black/60">
@@ -235,7 +236,7 @@ export function HomeA(props: Props) {
 
       <footer className="border-t border-black/[0.07]">
         <div className="flex flex-col gap-6 px-[var(--gutter)] py-12 text-[clamp(13px,0.72vw,18px)] text-black/55 md:flex-row md:items-center md:justify-between">
-          <span className="text-[18px] uppercase tracking-[0.32em] text-black" style={serif}>Драгоценные</span>
+          <span className="text-[18px] leading-[1.2] uppercase tracking-[0.32em] text-black" style={serif}>Драгоценные</span>
           <nav className="flex flex-wrap gap-x-8 gap-y-2">
             <a href="/encyclopedia" className="hover:text-black">Энциклопедия</a>
             <a href="/blog" className="hover:text-black">Журнал</a>
