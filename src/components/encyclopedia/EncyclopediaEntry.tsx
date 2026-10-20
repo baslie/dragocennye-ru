@@ -1,7 +1,7 @@
 // Статья энциклопедии: вступление 7/5, оглавление со scroll-spy слева, текст справа,
 // паспорт вида, материалы журнала и камни вида, которые сейчас есть в коллекции.
 import { useEffect, useRef, useState } from "react";
-import { capitalize, typo } from "../../lib/format";
+import { capitalize, typo, withBase } from "../../lib/format";
 import { Breadcrumbs, HAIRLINE, PostCard, STONE_GRID, StoneCard, T, TextLink } from "../ui";
 import type { EncyclopediaEntryProps, EntrySectionId } from "./types";
 
@@ -50,14 +50,14 @@ export function EncyclopediaEntry({ variety, entry, stonesInStock, relatedPosts,
     else sectionRefs.current.delete(id);
   };
 
-  const catalogHref = `/catalog/${variety.slug}`;
+  const catalogHref = withBase(`/catalog/${variety.slug}`);
   const plural = variety.pluralName;
 
   return (
     <div className="px-[var(--gutter)] pb-24">
       <header className="grid gap-8 pb-10 pt-6 md:grid-cols-12 md:pb-[clamp(48px,3.5vw,80px)] md:pt-8">
         <div className="flex flex-col md:col-span-6">
-          <Breadcrumbs items={[{ label: "Энциклопедия", href: "/encyclopedia" }, { label: variety.name }]} />
+          <Breadcrumbs items={[{ label: "Энциклопедия", href: withBase("/encyclopedia") }, { label: variety.name }]} />
           <div className="mt-8 md:mt-auto md:pt-12">
             <p className={T.eyebrow}>{variety.classLabel}</p>
             <h1 className={`mt-3 ${T.display}`}>{variety.name}</h1>
@@ -154,7 +154,7 @@ export function EncyclopediaEntry({ variety, entry, stonesInStock, relatedPosts,
             <h2 id="posts" className={T.h2}>
               Дмитрий пишет о {variety.pluralPrepositional}
             </h2>
-            <TextLink href="/blog" className={T.ui}>
+            <TextLink href={withBase("/blog")} className={T.ui}>
               Весь журнал
             </TextLink>
           </div>

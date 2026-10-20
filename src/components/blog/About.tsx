@@ -1,5 +1,6 @@
 // Страница гемолога: портрет и вступление с цифрами, путь, подход, свежие материалы и связь.
 // Без интерактива — рендерится на сборке.
+import { withBase } from "../../lib/format";
 import { ButtonLink, HAIRLINE, PostCard, T, TextLink } from "../ui";
 import { Portrait } from "./Portrait";
 import type { AboutProps } from "./types";
@@ -83,7 +84,7 @@ export function About({ gemologist, recentPosts, contactHrefs }: AboutProps) {
             <h2 id="journal" className={T.h2}>
               Из журнала
             </h2>
-            <TextLink href="/blog" className={T.ui}>
+            <TextLink href={withBase("/blog")} className={T.ui}>
               Все публикации
             </TextLink>
           </div>

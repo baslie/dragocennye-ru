@@ -2,6 +2,7 @@
 // Фильтры живут в URL (replaceState), поэтому ссылкой на подборку можно поделиться.
 // Вид задаёт маршрут (/catalog/<вид>), на нём же цвет — отдельный маршрут (/catalog/<вид>/<цвет>).
 import { useCallback, useEffect, useMemo, useState } from "react";
+import { withBase } from "../../lib/format";
 import { emptyFilters, matchesFilters, parseRange, sortStones } from "./filtering";
 import type { Color, Cut, Origin, SortOption, Stone, StoneVariety, Treatment } from "./types";
 
@@ -189,7 +190,7 @@ export function useCatalogState(data: CatalogData, { varietyId, routeColorId, pa
         // На странице вида цвет — свой маршрут с SEO-заголовком; остальные фильтры переносим.
         writeUrl({ ...state, colorId: null });
         const colorSlug = next ? maps.color[1].get(next) : null;
-        window.location.href = `/catalog/${varietySlug}${colorSlug ? `/${colorSlug}` : ""}${window.location.search}`;
+        window.location.href = withBase(`/catalog/${varietySlug}${colorSlug ? `/${colorSlug}` : ""}`) + window.location.search;
         return;
       }
       update({ colorId: next });

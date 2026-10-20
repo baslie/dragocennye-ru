@@ -1,3 +1,4 @@
+import { withBase } from "../lib/format";
 import type { MasterStone, StoneMedia, StoneCharacteristics } from "./model";
 import { varieties } from "./varieties";
 import { colors, cuts, origins } from "./taxonomy";
@@ -52,7 +53,7 @@ const countryGenitive: Record<string, string> = {
 // ---------------------------------------------------------------------------
 function buildMedia(s: GeneratedStone): StoneMedia[] {
   const v = varietyById.get(s.varietyId)!;
-  const base = `/images/stones/${s.slug}`;
+  const base = withBase(`/images/stones/${s.slug}`);
   const altFor = (idx: number): string => {
     if (idx === 0) return `${s.name} ${s.weightCt ? s.weightCt + " ct" : ""} — общий вид`.replace(/\s+/g, " ").trim();
     if (idx === 1) return `Макро ${v.genitiveName} — видны чистота и огранка`;

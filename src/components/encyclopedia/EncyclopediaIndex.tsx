@@ -1,5 +1,5 @@
 // Оглавление энциклопедии: вступление и карточки видов. Без интерактива — рендерится на сборке.
-import { pluralStones } from "../../lib/format";
+import { pluralStones, withBase } from "../../lib/format";
 import { HAIRLINE, T, TextLink } from "../ui";
 import type { StoneVariety } from "./types";
 
@@ -31,7 +31,7 @@ export function EncyclopediaIndex({ varieties }: { varieties: StoneVariety[] }) 
         {varieties.map((v) => (
           <li key={v.id}>
             <article>
-              <a href={`/encyclopedia/${v.slug}`} className="group block">
+              <a href={withBase(`/encyclopedia/${v.slug}`)} className="group block">
                 <div className="aspect-[4/3] overflow-hidden bg-paper">
                   <img
                     src={v.coverPhotoUrl}
@@ -45,9 +45,9 @@ export function EncyclopediaIndex({ varieties }: { varieties: StoneVariety[] }) 
                 <p className={`mt-2 line-clamp-3 ${T.lead}`}>{v.teaser}</p>
               </a>
               <div className={`mt-4 flex flex-wrap gap-x-6 gap-y-2 ${T.ui}`}>
-                <TextLink href={`/encyclopedia/${v.slug}`}>Читать статью</TextLink>
+                <TextLink href={withBase(`/encyclopedia/${v.slug}`)}>Читать статью</TextLink>
                 {v.stoneCount > 0 && (
-                  <a href={`/catalog/${v.slug}`} className="text-black/60 transition-colors hover:text-black">
+                  <a href={withBase(`/catalog/${v.slug}`)} className="text-black/60 transition-colors hover:text-black">
                     {pluralStones(v.stoneCount)} в коллекции
                   </a>
                 )}

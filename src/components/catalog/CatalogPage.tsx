@@ -1,6 +1,7 @@
 // Главная и страницы видов: вступление, индекс видов, строка фильтров, сетка с автоподгрузкой.
 // На главной во вступлении слайд-шоу, на странице вида — заголовок и описание вида.
 import { useMemo } from "react";
+import { withBase } from "../../lib/format";
 import { Breadcrumbs, HAIRLINE, LoadMore, STONE_GRID, StoneCard, T, useGridColumns } from "../ui";
 import { CatalogFilters } from "./CatalogFilters";
 import { HeroSlideshow, type HeroSlide } from "./HeroSlideshow";
@@ -66,9 +67,9 @@ export function CatalogPage({ intro, varietyId = null, routeColorId = null, ...d
       {/* Индекс видов: настоящие ссылки на страницы видов */}
       <nav aria-label="Виды камней" className={`border-t ${HAIRLINE} py-5 md:py-6`}>
         <ul className="-mx-[var(--gutter)] flex gap-x-[clamp(18px,1.4vw,30px)] gap-y-1 overflow-x-auto whitespace-nowrap px-[var(--gutter)] font-serif [scrollbar-width:none] md:mx-0 md:flex-wrap md:px-0">
-          <VarietyLink href="/" label="Все камни" count={totalStones} active={varietyId === null} />
+          <VarietyLink href={withBase("/")} label="Все камни" count={totalStones} active={varietyId === null} />
           {data.varieties.map((v) => (
-            <VarietyLink key={v.id} href={`/catalog/${v.slug}`} label={v.name} count={v.stoneCount} active={varietyId === v.id} />
+            <VarietyLink key={v.id} href={withBase(`/catalog/${v.slug}`)} label={v.name} count={v.stoneCount} active={varietyId === v.id} />
           ))}
         </ul>
       </nav>

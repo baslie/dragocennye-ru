@@ -1,6 +1,7 @@
 // Оболочка сайта: шапка, подвал и модалка поиска. Остров, потому что поиск открывается по клику.
 import { useState, type ReactNode } from "react";
 import { Search } from "lucide-react";
+import { withBase } from "../../lib/format";
 import { SearchModal, type SearchItem } from "../search/SearchModal";
 import { HAIRLINE } from "../ui";
 
@@ -19,10 +20,10 @@ interface NavItem {
 
 function buildNav(path: string): NavItem[] {
   return [
-    { label: "Каталог", href: "/", isActive: path === "/" || path.startsWith("/catalog") || path.startsWith("/stones") },
-    { label: "Энциклопедия", href: "/encyclopedia", isActive: path.startsWith("/encyclopedia") },
-    { label: "Журнал", href: "/blog", isActive: path.startsWith("/blog") },
-    { label: "О гемологе", href: "/about", isActive: path.startsWith("/about") },
+    { label: "Каталог", href: withBase("/"), isActive: path === "/" || path.startsWith("/catalog") || path.startsWith("/stones") },
+    { label: "Энциклопедия", href: withBase("/encyclopedia"), isActive: path.startsWith("/encyclopedia") },
+    { label: "Журнал", href: withBase("/blog"), isActive: path.startsWith("/blog") },
+    { label: "О гемологе", href: withBase("/about"), isActive: path.startsWith("/about") },
   ];
 }
 
@@ -47,7 +48,7 @@ export function SiteShell({ currentPath, searchItems, telegramHref, children }: 
             ))}
           </nav>
           <a
-            href="/"
+            href={withBase("/")}
             className="col-start-1 justify-self-start font-serif text-[clamp(17px,1.05vw,21px)] uppercase leading-[120%] tracking-[0.32em] lg:col-start-2 lg:justify-self-center"
           >
             Драгоценные
@@ -86,7 +87,7 @@ export function SiteShell({ currentPath, searchItems, telegramHref, children }: 
 
       <footer className={`border-t ${HAIRLINE}`}>
         <div className="flex flex-col gap-6 px-[var(--gutter)] py-12 text-[clamp(13px,0.72vw,18px)] leading-[150%] text-black/48 md:flex-row md:items-center md:justify-between">
-          <a href="/" className="font-serif text-[18px] uppercase leading-[120%] tracking-[0.32em] text-black">
+          <a href={withBase("/")} className="font-serif text-[18px] uppercase leading-[120%] tracking-[0.32em] text-black">
             Драгоценные
           </a>
           <nav aria-label="Разделы в подвале" className="flex flex-wrap gap-x-8 gap-y-2">

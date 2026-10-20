@@ -11,7 +11,7 @@ import { stones as masterStones } from "./stones";
 import { cuts, origins, treatments, colors, certificates } from "./taxonomy";
 import { encyclopediaEntries } from "./encyclopedia";
 import { posts as masterPosts, gemologist as baseGemologist } from "./blog";
-import { plural } from "../lib/format";
+import { plural, withBase } from "../lib/format";
 
 // --- Производные счётчики -----------------------------------------------------
 const countByVariety = new Map<string, number>();
@@ -330,7 +330,7 @@ const HERO_SHOTS: [string, string][] = [
 export const heroSlides = () =>
   HERO_SHOTS.flatMap(([slug, file]) => {
     const s = stoneBySlug.get(slug);
-    return s ? [{ href: `/stones/${slug}`, src: `/images/stones/${slug}/${file}`, name: s.name, weightCt: s.weightCt }] : [];
+    return s ? [{ href: withBase(`/stones/${slug}`), src: withBase(`/images/stones/${slug}/${file}`), name: s.name, weightCt: s.weightCt }] : [];
   });
 
 export { capitalize, pluralColor } from "../lib/format";

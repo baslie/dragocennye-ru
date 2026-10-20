@@ -1,7 +1,7 @@
 // Лента журнала: вступление, фильтр по виду камня, главный материал крупно и сетка публикаций.
 // Фильтр клиентский — постов мало, отдельные страницы под каждый вид не нужны.
 import { useState } from "react";
-import { typo } from "../../lib/format";
+import { typo, withBase } from "../../lib/format";
 import { HAIRLINE, PostCard, T, postMeta } from "../ui";
 import type { BlogPostCard, Topic } from "./types";
 
@@ -38,7 +38,7 @@ export function BlogFeed({ posts, topics }: { posts: BlogPostCard[]; topics: Top
       </nav>
 
       {featured && (
-        <a href={`/blog/${featured.slug}`} className={`group grid gap-6 border-b ${HAIRLINE} py-12 md:grid-cols-12 md:gap-8 md:py-16`}>
+        <a href={withBase(`/blog/${featured.slug}`)} className={`group grid gap-6 border-b ${HAIRLINE} py-12 md:grid-cols-12 md:gap-8 md:py-16`}>
           <div className="aspect-video overflow-hidden bg-paper md:col-span-7">
             <img
               src={featured.coverPhotoUrl}

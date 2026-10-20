@@ -1,5 +1,6 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
+import { withBase } from "../../lib/format";
 import { CatalogPage } from "../../components/catalog/CatalogPage";
 import {
   allCatalogStones,
@@ -30,7 +31,7 @@ const description = paragraphs[0];
 <BaseLayout title={title} description={description} path={`/catalog/${variety.slug}`}>
   <CatalogPage
     client:load
-    intro={{ kind: "variety", title: heading, paragraphs, crumbs: [{ label: "Каталог", href: "/" }, { label: heading }] }}
+    intro={{ kind: "variety", title: heading, paragraphs, crumbs: [{ label: "Каталог", href: withBase("/") }, { label: heading }] }}
     varietyId={variety.id}
     stones={allCatalogStones()}
     varieties={indexVarieties()}

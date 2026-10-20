@@ -1,3 +1,4 @@
+import { withBase } from "../lib/format";
 import type {
   MasterCut,
   MasterOrigin,
@@ -92,7 +93,7 @@ export const certificates: MasterCertificate[] = [
     lab: "GRS",
     number: "2401-12847",
     issuedAt: "2026-01-14",
-    scanUrl: "/certificates/grs-2401-12847.pdf",
+    scanUrl: withBase("/certificates/grs-2401-12847.pdf"),
     verificationUrl: "https://www.gemresearch.ch/check/2401-12847",
   },
   {
@@ -100,7 +101,7 @@ export const certificates: MasterCertificate[] = [
     lab: "GIA",
     number: "2402-35519",
     issuedAt: "2026-01-20",
-    scanUrl: "/certificates/gia-2402-35519.pdf",
+    scanUrl: withBase("/certificates/gia-2402-35519.pdf"),
     verificationUrl: "https://www.gia.edu/report-check?reportno=2402-35519",
   },
   {
@@ -108,7 +109,7 @@ export const certificates: MasterCertificate[] = [
     lab: "SSEF",
     number: "2403-80217",
     issuedAt: "2026-02-02",
-    scanUrl: "/certificates/ssef-2403-80217.pdf",
+    scanUrl: withBase("/certificates/ssef-2403-80217.pdf"),
     verificationUrl: "https://www.ssef.ch/report-check/2403-80217",
   },
   {
@@ -116,7 +117,7 @@ export const certificates: MasterCertificate[] = [
     lab: "GRS",
     number: "2404-41002",
     issuedAt: "2026-02-15",
-    scanUrl: "/certificates/grs-2404-41002.pdf",
+    scanUrl: withBase("/certificates/grs-2404-41002.pdf"),
     verificationUrl: "https://www.gemresearch.ch/check/2404-41002",
   },
   {
@@ -124,7 +125,7 @@ export const certificates: MasterCertificate[] = [
     lab: "GIA",
     number: "2405-66731",
     issuedAt: "2026-02-28",
-    scanUrl: "/certificates/gia-2405-66731.pdf",
+    scanUrl: withBase("/certificates/gia-2405-66731.pdf"),
     verificationUrl: "https://www.gia.edu/report-check?reportno=2405-66731",
   },
 ];

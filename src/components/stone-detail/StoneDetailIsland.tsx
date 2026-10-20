@@ -1,4 +1,5 @@
 import { useRef, useState } from "react";
+import { withBase } from "../../lib/format";
 import { StoneDetail } from "./StoneDetail";
 import { InquiryModal } from "../inquiry/InquiryModal";
 import type {
@@ -37,7 +38,7 @@ interface StoneDetailIslandProps {
 const CONSENT: InquiryConsent = {
   label:
     "Я согласен на обработку персональных данных согласно политике конфиденциальности",
-  policyHref: "/legal/privacy",
+  policyHref: withBase("/legal/privacy"),
 };
 
 const EMPTY_FORM: InquiryFormValues = {

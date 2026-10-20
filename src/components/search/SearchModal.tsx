@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Search, X } from "lucide-react";
-import { formatCt, formatPrice, hasPhoto } from "../../lib/format";
+import { formatCt, formatPrice, hasPhoto, withBase } from "../../lib/format";
 import { HAIRLINE, NoPhoto, T } from "../ui";
 
 export interface SearchItem {
@@ -91,7 +91,7 @@ export function SearchModal({ isOpen, onClose, items }: SearchModalProps) {
             <ul>
               {results.map((it) => (
                 <li key={it.slug} className={`border-b ${HAIRLINE} last:border-b-0`}>
-                  <a href={`/stones/${it.slug}`} className="flex items-center gap-5 px-6 py-3 transition-colors hover:bg-paper">
+                  <a href={withBase(`/stones/${it.slug}`)} className="flex items-center gap-5 px-6 py-3 transition-colors hover:bg-paper">
                     <div className="h-16 w-[52px] shrink-0 overflow-hidden bg-neutral-100">
                       {hasPhoto(it.photoUrl) ? (
                         <img src={it.photoUrl} alt="" loading="lazy" className="h-full w-full object-cover" />

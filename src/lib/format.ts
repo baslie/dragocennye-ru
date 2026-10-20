@@ -47,3 +47,11 @@ export const capitalize = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
 
 /** Прилагательное цвета во множественном числе: «Зелёный» → «Зелёные», «Синий» → «Синие». */
 export const pluralColor = (name: string) => name.replace(/(ый|ой)$/, "ые").replace(/ий$/, "ие");
+
+// Сайт живёт в подпапке (roman-purtow.ru/dragocennye-ru): внутренние пути пишем от корня сайта
+// («/catalog/sapfir») и пропускаем через withBase, а текущий путь сравниваем после stripBase.
+const BASE = import.meta.env.BASE_URL.replace(/\/$/, "");
+
+export const withBase = (path: string) => (path.startsWith("/") ? BASE + path : path);
+
+export const stripBase = (path: string) => (path.startsWith(BASE) ? path.slice(BASE.length) || "/" : path);

@@ -1,6 +1,6 @@
 // Публикация журнала: крошки, заголовок и лид, кадр 16:9, колонка чтения, подпись автора,
 // камни из материала и «Читать дальше». Без интерактива — рендерится на сборке.
-import { typo } from "../../lib/format";
+import { typo, withBase } from "../../lib/format";
 import { Breadcrumbs, HAIRLINE, PostCard, STONE_GRID, StoneCard, T, TextLink, postMeta } from "../ui";
 import { Portrait } from "./Portrait";
 import { PostBody } from "./PostBody";
@@ -10,7 +10,7 @@ export function BlogPost({ post, author, relatedPosts, catalogHref }: BlogPostPr
   return (
     <div className="px-[var(--gutter)] pb-24">
       <header className="pb-10 pt-6 md:pb-14 md:pt-8">
-        <Breadcrumbs items={[{ label: "Журнал", href: "/blog" }, { label: post.varietyLabel }]} />
+        <Breadcrumbs items={[{ label: "Журнал", href: withBase("/blog") }, { label: post.varietyLabel }]} />
         <div className="mx-auto mt-10 max-w-[1100px] text-center md:mt-16">
           <p className={T.label}>{postMeta(post)}</p>
           <h1 className={`mx-auto mt-4 max-w-[24ch] ${T.h1}`}>{typo(post.title)}</h1>
@@ -31,7 +31,7 @@ export function BlogPost({ post, author, relatedPosts, catalogHref }: BlogPostPr
             <p className="font-serif text-[20px] leading-[120%]">{author.name}</p>
             <p className={`mt-0.5 ${T.label}`}>{author.role}</p>
           </div>
-          <TextLink href="/about" className={`shrink-0 ${T.ui}`}>
+          <TextLink href={withBase("/about")} className={`shrink-0 ${T.ui}`}>
             О гемологе
           </TextLink>
         </footer>

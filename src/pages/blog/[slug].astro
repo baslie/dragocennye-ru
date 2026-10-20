@@ -1,5 +1,6 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
+import { withBase } from "../../lib/format";
 import { BlogPost } from "../../components/blog/BlogPost";
 import {
   posts as allPosts,
@@ -30,7 +31,7 @@ const author = {
 const related = relatedPosts(post, 3).map(toPostCard);
 
 const primaryVariety = getVariety(post.varietyIds[0]);
-const catalogHref = primaryVariety ? `/catalog/${primaryVariety.slug}` : "/";
+const catalogHref = withBase(primaryVariety ? `/catalog/${primaryVariety.slug}` : "/");
 
 const title = `${post.title} | Журнал «Драгоценные»`;
 const description = post.lead ?? post.excerpt;

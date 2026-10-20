@@ -1,5 +1,6 @@
 ---
 import BaseLayout from "../../../layouts/BaseLayout.astro";
+import { withBase } from "../../../lib/format";
 import { CatalogPage } from "../../../components/catalog/CatalogPage";
 import {
   allCatalogStones,
@@ -43,7 +44,7 @@ const paragraphs = [variety.shortDescription.split("\n\n")[0]];
       kind: "variety",
       title: heading,
       paragraphs,
-      crumbs: [{ label: "Каталог", href: "/" }, { label: varietyHeading, href: `/catalog/${variety.slug}` }, { label: pluralColor(color.name) }],
+      crumbs: [{ label: "Каталог", href: withBase("/") }, { label: varietyHeading, href: withBase(`/catalog/${variety.slug}`) }, { label: pluralColor(color.name) }],
     }}
     varietyId={variety.id}
     routeColorId={color.id}

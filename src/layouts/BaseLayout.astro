@@ -3,6 +3,7 @@ import "../styles/global.css";
 import { SiteShell } from "../components/shell/SiteShell";
 import type { SearchItem } from "../components/search/SearchModal";
 import { stones, getVariety, colors, photoFor, contactHref } from "../data";
+import { stripBase, withBase } from "../lib/format";
 
 export interface Props {
   title?: string;
@@ -19,8 +20,8 @@ const {
 } = Astro.props;
 
 const site = Astro.site ?? new URL("https://dragocennye.example");
-const canonical = path ? new URL(path, site).href : undefined;
-const currentPath = Astro.url.pathname;
+const canonical = path ? new URL(withBase(path), site).href : undefined;
+const currentPath = stripBase(Astro.url.pathname);
 
 // Поисковый индекс для модалки поиска (строится на сборке, в клиент уходит только это).
 const colorById = new Map(colors.map((c) => [c.id, c]));
@@ -45,7 +46,7 @@ const searchItems: SearchItem[] = stones.map((s) => {
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/svg+xml" href={withBase("/favicon.svg")} />
     <meta name="generator" content={Astro.generator} />
 
     <title>{title}</title>

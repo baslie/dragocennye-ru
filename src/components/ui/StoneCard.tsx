@@ -1,5 +1,5 @@
 // Карточка камня из сетки «Ювелирного дома»: кадр 4:5, вид мелко, название Spectral, вес и цена.
-import { formatCt, formatPrice, hasPhoto, stoneCode } from "../../lib/format";
+import { formatCt, formatPrice, hasPhoto, stoneCode, withBase } from "../../lib/format";
 import { NoPhoto } from "./NoPhoto";
 
 export interface CardStone {
@@ -16,7 +16,7 @@ export interface CardStone {
 
 export function StoneCard({ stone, eager = false }: { stone: CardStone; eager?: boolean }) {
   return (
-    <a href={`/stones/${stone.slug}`} className="group block">
+    <a href={withBase(`/stones/${stone.slug}`)} className="group block">
       <div className="relative aspect-[4/5] overflow-hidden bg-neutral-100">
         {hasPhoto(stone.photoUrl) ? (
           <img

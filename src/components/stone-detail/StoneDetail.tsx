@@ -1,7 +1,7 @@
 // Страница камня: слева кадры, справа липкая колонка с ценой, заявкой и паспортом.
 // Ниже — слово гемолога, сертификат и похожие камни.
 import { useState, type ReactNode } from "react";
-import { capitalize, typo, formatCt, formatDate, formatMm, formatPrice, hasPhoto, stoneCode } from "../../lib/format";
+import { capitalize, typo, formatCt, formatDate, formatMm, formatPrice, hasPhoto, stoneCode, withBase } from "../../lib/format";
 import { Breadcrumbs, ButtonLink, HAIRLINE, STONE_GRID, StoneCard, T, TextLink, buttonClass } from "../ui";
 import { Lightbox } from "./Lightbox";
 import { StoneGallery } from "./StoneGallery";
@@ -31,7 +31,7 @@ export function StoneDetail({
 }: StoneDetailProps) {
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
   const photos = stone.media.filter((m) => hasPhoto(m.url));
-  const varietyHref = `/catalog/${variety.slug}`;
+  const varietyHref = withBase(`/catalog/${variety.slug}`);
   const pluralHeading = capitalize(variety.pluralName);
 
   const meta = [formatCt(stone.weightCt), known(cut.id) && cut.name, known(origin.id) && origin.country].filter(Boolean).join(" · ");
@@ -63,7 +63,7 @@ export function StoneDetail({
       <div className="pb-6 pt-6 md:pb-8 md:pt-8">
         <Breadcrumbs
           items={[
-            { label: "Каталог", href: "/" },
+            { label: "Каталог", href: withBase("/") },
             { label: pluralHeading, href: varietyHref },
             { label: `№ ${stoneCode(stone.slug)}` },
           ]}
