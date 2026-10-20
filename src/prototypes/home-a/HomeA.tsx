@@ -7,12 +7,14 @@ import {
   SORT_LABELS,
   formatCt,
   formatPrice,
+  hasPhoto,
   pluralStones,
   useCatalogState,
   type CatalogData,
   type PriceBand,
 } from "../useCatalogState";
 import type { SortOption, Stone } from "../../components/catalog/types";
+import { NoPhoto } from "./NoPhoto";
 
 interface Props extends CatalogData {
   telegramHref: string;
@@ -56,6 +58,7 @@ export function HomeA(props: Props) {
   // Пока есть «Показать ещё», последний ряд всегда полный.
   const visible = c.hasMore ? c.shown.slice(0, Math.max(cols, c.shown.length - (c.shown.length % cols))) : c.shown;
   const varietyName = new Map(varieties.map((v) => [v.id, v.name]));
+  const colorHex = new Map(props.colors.map((col) => [col.id, col.hex]));
 
   return (
     <div
@@ -204,12 +207,16 @@ export function HomeA(props: Props) {
                 <li key={s.id}>
                   <a href={`/stones/${s.slug}`} className="group block">
                     <div className="aspect-[4/5] overflow-hidden bg-neutral-100">
-                      <img
-                        src={s.photoUrl}
-                        alt={s.name}
-                        loading="lazy"
-                        className="h-full w-full object-cover transition-transform duration-[1200ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.04]"
-                      />
+                      {hasPhoto(s) ? (
+                        <img
+                          src={s.photoUrl}
+                          alt={s.name}
+                          loading="lazy"
+                          className="h-full w-full object-cover transition-transform duration-[1200ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.04]"
+                        />
+                      ) : (
+                        <NoPhoto stone={s} hex={colorHex.get(s.colorId) ?? "#8a8a8a"} />
+                      )}
                     </div>
                     <p className="mt-2 text-[clamp(11px,0.6vw,14px)] uppercase tracking-[0.14em] text-black/48 md:mt-3 leading-[150%]">
                       {varietyName.get(s.varietyId)}

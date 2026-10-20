@@ -2,14 +2,14 @@
 import PrototypeLayout from "../../layouts/PrototypeLayout.astro";
 import { Placeholders } from "../../prototypes/placeholders/Placeholders";
 import { prototypeData } from "../../prototypes/pageData";
+import { hasPhoto } from "../../prototypes/useCatalogState";
 
 const { stones, varieties, colors } = prototypeData();
-// Камни без фото пока отличаются только тем, что вместо снимка лежит общая PNG-иконка фотоаппарата.
 // Чёрные камни в конец: на них свечение цвета выглядит просто серым пятном.
 const noPhoto = stones
-  .filter((s) => s.photoUrl.endsWith(".png"))
+  .filter((s) => !hasPhoto(s))
   .sort((a, b) => Number(a.colorId === "col-black") - Number(b.colorId === "col-black"));
-const withPhoto = stones.filter((s) => !s.photoUrl.endsWith(".png"));
+const withPhoto = stones.filter(hasPhoto);
 // Для соседей берём по камню разных видов, чтобы ряды не были однообразными.
 const photoStones = varieties
   .map((v) => withPhoto.find((s) => s.varietyId === v.id))

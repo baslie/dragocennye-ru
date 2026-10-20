@@ -89,6 +89,9 @@ export function useCatalogState({ stones, colors }: CatalogData, pageSize = 12) 
   };
 }
 
+// Камни без снимка пока приходят с общей PNG-иконкой фотоаппарата вместо фото.
+export const hasPhoto = (s: Stone) => !s.photoUrl.endsWith(".png");
+
 export const formatPrice = (rub: number) =>
   new Intl.NumberFormat("ru-RU").format(rub).replace(/ /g, " ") + " ₽";
 

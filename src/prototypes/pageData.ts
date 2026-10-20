@@ -1,4 +1,5 @@
 // Данные, общие для всех прототипов главной: собираются на сборке и уходят в острова.
+import { hasPhoto } from "./useCatalogState";
 import { allCatalogStones, catalogVarieties, colors, contactHref } from "../data";
 
 export function prototypeData() {
@@ -6,7 +7,7 @@ export function prototypeData() {
   const varieties = catalogVarieties()
     .filter((v) => v.stoneCount > 0)
     .sort((a, b) => b.stoneCount - a.stoneCount);
-  // Витринный камень для вступления — самый дорогой из доступных.
-  const featured = [...stones].filter((s) => s.isAvailable).sort((a, b) => b.price - a.price)[0] ?? stones[0];
+  // Витринный камень для вступления — самый дорогой из доступных с настоящим фото.
+  const featured = [...stones].filter((s) => s.isAvailable && hasPhoto(s)).sort((a, b) => b.price - a.price)[0] ?? stones[0];
   return { stones, varieties, colors, featured, telegramHref: contactHref("telegram") };
 }
