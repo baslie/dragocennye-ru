@@ -11,7 +11,7 @@ export interface InquiryStoneMini {
   cutName: string;
   photoUrl: string;
   price: number;
-  /** Hex цвета камня — для jewel-фолбэка мини-фото (фото-плейсхолдеры 404). */
+  /** Hex цвета камня — для свечения заполнителя, если у камня нет фото. */
   accentHex?: string;
 }
 

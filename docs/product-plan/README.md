@@ -15,7 +15,7 @@ This folder contains everything needed to implement Драгоценные — �
 - `instructions/incremental/` — Milestone-by-milestone instructions (shell, then sections)
 
 **Design Assets:**
-- `design-system/` — Colors, fonts, design tokens
+- `design-system/` — Colors, fonts, design tokens. **Устарело:** сайт переведён на дизайн «Ювелирный дом» (Spectral + Onest, чернила и изумрудный акцент). Актуальные токены — `src/styles/global.css`, правила — раздел «Дизайн-система» в `CLAUDE.md`.
 - `data-shapes/` — UI data contracts (the shapes of data components expect)
 - `shell/` — Application shell components
 - `sections/` — All section components, types, sample data, and test specs

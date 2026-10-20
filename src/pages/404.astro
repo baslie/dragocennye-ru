@@ -1,0 +1,21 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+
+<BaseLayout title="Страница не найдена | Драгоценные" description="Такой страницы нет. Вернитесь в каталог камней.">
+  <section class="px-[var(--gutter)] py-[clamp(96px,12vw,200px)] text-center">
+    <p class="text-[clamp(11px,0.6vw,14px)] uppercase leading-[150%] tracking-[0.14em] text-black/48">Ошибка 404</p>
+    <h1 class="mx-auto mt-4 max-w-[18ch] text-balance font-serif text-[38px] font-light leading-[98%] tracking-[-0.01em] md:text-[clamp(52px,4vw,96px)] md:leading-[92%]">
+      Такой страницы <em class="text-emerald">нет</em>
+    </h1>
+    <p class="mx-auto mt-6 max-w-[44ch] text-[clamp(14px,0.8vw,17px)] leading-[155%] text-black/60">
+      Возможно, камень уже нашёл владельца или ссылка устарела. Остальные камни коллекции — в каталоге.
+    </p>
+    <a
+      href="/"
+      class="mt-10 inline-flex h-12 items-center justify-center border border-ink px-10 text-[clamp(13px,0.72vw,18px)] leading-[150%] tracking-[0.04em] transition-colors hover:bg-ink hover:text-white"
+    >
+      В каталог
+    </a>
+  </section>
+</BaseLayout>
