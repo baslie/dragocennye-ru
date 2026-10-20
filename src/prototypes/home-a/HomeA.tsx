@@ -1,6 +1,7 @@
-// Макет A «Ювелирный дом»: editorial luxury. Cormorant Garamond + Manrope,
+// Макет A «Ювелирный дом»: editorial luxury. Шрифты, толщина и контраст переключаются панелью (TypePanel),
+// по умолчанию Cormorant Garamond + Manrope,
 // чернила на белом, единственный акцент — изумрудный.
-import { useEffect, useState } from "react";
+import { useEffect, useState, type CSSProperties } from "react";
 import { Search } from "lucide-react";
 import {
   PRICE_BANDS,
@@ -13,6 +14,8 @@ import {
   type PriceBand,
 } from "../useCatalogState";
 import type { SortOption, Stone } from "../../components/catalog/types";
+import { TypePanel } from "./TypePanel";
+import { typographyVars, useTypography } from "./typography";
 
 interface Props extends CatalogData {
   telegramHref: string;
@@ -21,7 +24,10 @@ interface Props extends CatalogData {
 
 const INK = "#121314";
 const EMERALD = "#0d5c4b";
-const serif = { fontFamily: '"Cormorant Garamond", Georgia, serif' };
+// Шрифты, толщина и контраст приходят CSS-переменными из панели типографики (typography.ts).
+const display: CSSProperties = { fontFamily: "var(--font-display)", fontWeight: "var(--w-display)" };
+const title: CSSProperties = { fontFamily: "var(--font-display)", fontWeight: "var(--w-title)" };
+const accent: CSSProperties = { color: EMERALD, fontStyle: "var(--em-style)" as CSSProperties["fontStyle"] };
 // Интерлиньяж задаём в процентах и обратно кеглю: дисплей (38–96px) 92–98%, названия 28–30px 110%,
 // 18–24px 120%, основной текст 155%, мелкий интерфейсный текст 150%.
 // Процент наследуется готовыми пикселями, поэтому задаём его там же, где кегль.
@@ -53,16 +59,23 @@ export function HomeA(props: Props) {
   // Пока есть «Показать ещё», последний ряд всегда полный.
   const visible = c.hasMore ? c.shown.slice(0, Math.max(cols, c.shown.length - (c.shown.length % cols))) : c.shown;
   const varietyName = new Map(varieties.map((v) => [v.id, v.name]));
+  const [type, setType] = useTypography();
 
   return (
     <div
       className="min-h-[100dvh] bg-white antialiased"
-      style={{ color: INK, fontFamily: '"Manrope", system-ui, sans-serif', ["--gutter" as string]: GUTTER }}
+      style={{
+        ...typographyVars(type),
+        color: INK,
+        fontFamily: "var(--font-text)",
+        fontWeight: "var(--w-body)",
+        ["--gutter" as string]: GUTTER,
+      }}
     >
       {/* Шапка */}
       <header className="border-b border-black/[0.07]">
         <div className="grid h-[60px] grid-cols-[1fr_auto_1fr] items-center px-[var(--gutter)] min-[1920px]:h-16">
-          <nav className="hidden gap-7 text-[clamp(13px,0.7vw,15px)] text-black/60 md:flex leading-[150%]">
+          <nav className="hidden gap-7 text-[clamp(13px,0.7vw,15px)] text-[color:var(--ink-2)] md:flex leading-[150%]">
             <a href="/prototypes/home-a" className="text-black">Каталог</a>
             <a href="/encyclopedia" className="transition-colors hover:text-black">Энциклопедия</a>
             <a href="/blog" className="transition-colors hover:text-black">Журнал</a>
@@ -70,13 +83,13 @@ export function HomeA(props: Props) {
           </nav>
           <a
             href="/prototypes/home-a"
-            className="col-start-1 justify-self-start text-[clamp(17px,1.05vw,21px)] font-medium leading-[120%] uppercase tracking-[0.32em] md:col-start-2 md:justify-self-center"
-            style={serif}
+            className="col-start-1 justify-self-start text-[clamp(17px,1.05vw,21px)] leading-[120%] uppercase tracking-[0.32em] md:col-start-2 md:justify-self-center"
+            style={title}
           >
             Драгоценные
           </a>
           <div className="col-start-3 flex items-center justify-end gap-6 text-[clamp(13px,0.7vw,15px)] leading-[150%]">
-            <button type="button" aria-label="Поиск" className="text-black/60 transition-colors hover:text-black">
+            <button type="button" aria-label="Поиск" className="text-[color:var(--ink-2)] transition-colors hover:text-black">
               <Search className="h-[18px] w-[18px]" strokeWidth={1.5} />
             </button>
             <a href={telegramHref} className="hidden border-b pb-0.5 sm:inline" style={{ borderColor: INK }}>
@@ -84,7 +97,7 @@ export function HomeA(props: Props) {
             </a>
           </div>
         </div>
-        <nav className="flex gap-6 overflow-x-auto whitespace-nowrap [scrollbar-width:none] border-t border-black/[0.05] px-[var(--gutter)] py-2.5 text-[13px] text-black/60 md:hidden leading-[150%]">
+        <nav className="flex gap-6 overflow-x-auto whitespace-nowrap [scrollbar-width:none] border-t border-black/[0.05] px-[var(--gutter)] py-2.5 text-[13px] text-[color:var(--ink-2)] md:hidden leading-[150%]">
           <a href="/encyclopedia">Энциклопедия</a>
           <a href="/blog">Журнал</a>
           <a href="/about">О гемологе</a>
@@ -97,14 +110,14 @@ export function HomeA(props: Props) {
         <section className="grid gap-8 pb-8 pt-8 md:grid-cols-12 md:pb-[clamp(40px,3vw,72px)] md:pt-[clamp(40px,3vw,72px)]">
           <div className="md:col-span-7 md:self-end">
             <h1
-              className="text-balance pb-[0.08em] text-[38px] font-light leading-[98%] tracking-[-0.01em] md:text-[clamp(52px,4vw,96px)] md:leading-[92%]"
-              style={serif}
+              className="text-balance pb-[0.08em] text-[38px] leading-[98%] tracking-[-0.01em] md:text-[clamp(52px,4vw,96px)] md:leading-[92%]"
+              style={display}
             >
               Цветные камни
               <br />
-              из <em className="font-light" style={{ color: EMERALD }}>личной коллекции</em>
+              из <em style={accent}>личной коллекции</em>
             </h1>
-            <p className="mt-5 max-w-[46ch] text-[clamp(14px,0.8vw,17px)] leading-[155%] text-black/60">
+            <p className="mt-5 max-w-[46ch] text-[clamp(14px,0.8vw,17px)] leading-[155%] text-[color:var(--ink-2)]">
               {pluralStones(props.stones.length)} в единственном экземпляре. У каждого паспорт, макросъёмка
               и консультация Дмитрия Салятова.
             </p>
@@ -118,15 +131,15 @@ export function HomeA(props: Props) {
               />
             </div>
             <div className="mt-3 flex items-baseline justify-between gap-4">
-              <span className="text-[clamp(18px,1.1vw,22px)] leading-[120%]" style={serif}>{featured.name}</span>
-              <span className="shrink-0 text-[clamp(13px,0.72vw,18px)] text-black/60 leading-[150%]">{formatCt(featured.weightCt)}</span>
+              <span className="text-[clamp(18px,1.1vw,22px)] leading-[120%]" style={title}>{featured.name}</span>
+              <span className="shrink-0 text-[clamp(13px,0.72vw,18px)] text-[color:var(--ink-2)] leading-[150%]">{formatCt(featured.weightCt)}</span>
             </div>
           </a>
         </section>
 
         {/* Индекс видов */}
         <section aria-label="Виды камней" className="border-t border-black/[0.07] py-5 md:py-6">
-          <ul className="-mx-[var(--gutter)] flex gap-x-[clamp(18px,1.4vw,30px)] gap-y-1 overflow-x-auto whitespace-nowrap px-[var(--gutter)] [scrollbar-width:none] md:mx-0 md:flex-wrap md:px-0" style={serif}>
+          <ul className="-mx-[var(--gutter)] flex gap-x-[clamp(18px,1.4vw,30px)] gap-y-1 overflow-x-auto whitespace-nowrap px-[var(--gutter)] [scrollbar-width:none] md:mx-0 md:flex-wrap md:px-0" style={title}>
             <VarietyLink label="Все камни" count={props.stones.length} active={c.varietyId === null} onClick={() => c.setVarietyId(null)} />
             {varieties.map((v) => (
               <VarietyLink
@@ -143,7 +156,7 @@ export function HomeA(props: Props) {
         {/* Фильтры: одна тихая строка */}
         <section className="z-10 mx-[calc(var(--gutter)*-1)] flex flex-wrap items-center gap-x-8 gap-y-3 md:sticky md:top-0 border-y border-black/[0.07] bg-white/95 px-[var(--gutter)] py-4 backdrop-blur">
           <div className="flex w-full min-w-0 items-center gap-3 md:w-auto">
-            <span className="text-[clamp(12px,0.65vw,16px)] text-black/50 leading-[150%]">Цвет</span>
+            <span className="text-[clamp(12px,0.65vw,16px)] text-[color:var(--ink-3)] leading-[150%]">Цвет</span>
             <div className="flex gap-2 overflow-x-auto p-1 [scrollbar-width:none] md:flex-wrap">
               {c.availableColors.map((col) => {
                 const on = c.colorIds.includes(col.id);
@@ -172,7 +185,7 @@ export function HomeA(props: Props) {
             options={PRICE_BANDS.map((b) => [b.id, b.label])}
           />
           <div className="ml-auto flex items-center gap-8">
-            <span className="text-[clamp(12px,0.65vw,16px)] text-black/50 leading-[150%]">{pluralStones(c.total)}</span>
+            <span className="text-[clamp(12px,0.65vw,16px)] text-[color:var(--ink-3)] leading-[150%]">{pluralStones(c.total)}</span>
             <Select
               label="Порядок"
               value={c.sort}
@@ -186,7 +199,7 @@ export function HomeA(props: Props) {
         <section className="pb-24 pt-12">
           {c.shown.length === 0 ? (
             <div className="py-24 text-center">
-              <p className="text-[32px] font-light leading-[105%]" style={serif}>Таких камней сейчас нет</p>
+              <p className="text-[32px] leading-[105%]" style={display}>Таких камней сейчас нет</p>
               <button type="button" onClick={c.clearFilters} className="mt-6 border-b pb-0.5 text-[clamp(14px,0.78vw,19px)] leading-[150%]" style={{ borderColor: INK }}>
                 Сбросить фильтры
               </button>
@@ -204,13 +217,13 @@ export function HomeA(props: Props) {
                         className="h-full w-full object-cover transition-transform duration-[1200ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.04]"
                       />
                     </div>
-                    <p className="mt-2 text-[clamp(11px,0.6vw,14px)] uppercase tracking-[0.14em] text-black/45 md:mt-3 leading-[150%]">
+                    <p className="mt-2 text-[clamp(11px,0.6vw,14px)] uppercase tracking-[0.14em] text-[color:var(--ink-3)] md:mt-3 leading-[150%]">
                       {varietyName.get(s.varietyId)}
                     </p>
-                    <h3 className="mt-1 text-[19px] leading-[120%] md:text-[clamp(22px,1.5vw,30px)] md:leading-[110%]" style={serif}>
+                    <h3 className="mt-1 text-[19px] leading-[120%] md:text-[clamp(22px,1.5vw,30px)] md:leading-[110%]" style={title}>
                       {s.name}
                     </h3>
-                    <p className="mt-2 flex flex-wrap gap-x-4 text-[clamp(13px,0.72vw,18px)] text-black/60 leading-[150%]">
+                    <p className="mt-2 flex flex-wrap gap-x-4 text-[clamp(13px,0.72vw,18px)] text-[color:var(--ink-2)] leading-[150%]">
                       <span>{formatCt(s.weightCt)}</span>
                       <span style={{ color: INK }} className="font-medium">{formatPrice(s.price)}</span>
                     </p>
@@ -236,8 +249,8 @@ export function HomeA(props: Props) {
       </main>
 
       <footer className="border-t border-black/[0.07]">
-        <div className="flex flex-col gap-6 px-[var(--gutter)] py-12 text-[clamp(13px,0.72vw,18px)] text-black/55 md:flex-row md:items-center md:justify-between leading-[150%]">
-          <span className="text-[18px] leading-[120%] uppercase tracking-[0.32em] text-black" style={serif}>Драгоценные</span>
+        <div className="flex flex-col gap-6 px-[var(--gutter)] py-12 text-[clamp(13px,0.72vw,18px)] text-[color:var(--ink-3)] md:flex-row md:items-center md:justify-between leading-[150%]">
+          <span className="text-[18px] leading-[120%] uppercase tracking-[0.32em] text-black" style={title}>Драгоценные</span>
           <nav className="flex flex-wrap gap-x-8 gap-y-2">
             <a href="/encyclopedia" className="hover:text-black">Энциклопедия</a>
             <a href="/blog" className="hover:text-black">Журнал</a>
@@ -247,6 +260,8 @@ export function HomeA(props: Props) {
           <span>© 2026</span>
         </div>
       </footer>
+
+      <TypePanel state={type} onChange={setType} />
     </div>
   );
 }
@@ -258,11 +273,11 @@ function VarietyLink({ label, count, active, onClick }: { label: string; count: 
         type="button"
         onClick={onClick}
         aria-pressed={active}
-        className={`text-[18px] leading-[120%] transition-colors md:text-[clamp(19px,1.15vw,24px)] ${active ? "italic" : "text-black/40 hover:text-black"}`}
-        style={active ? { color: EMERALD } : undefined}
+        className={`text-[18px] leading-[120%] transition-colors md:text-[clamp(19px,1.15vw,24px)] ${active ? "" : "text-[color:var(--ink-4)] hover:text-black"}`}
+        style={active ? accent : undefined}
       >
         {label}
-        <sup className="ml-0.5 font-sans text-[10px] not-italic text-black/40 leading-[0%]" style={{ fontFamily: "Manrope, sans-serif" }}>
+        <sup className="ml-0.5 text-[10px] not-italic text-[color:var(--ink-4)] leading-[0%]" style={{ fontFamily: "var(--font-text)", fontWeight: "var(--w-body)" }}>
           {count}
         </sup>
       </button>
@@ -283,7 +298,7 @@ function Select({
 }) {
   return (
     <label className="flex items-center gap-3 text-[clamp(13px,0.72vw,18px)] leading-[150%]">
-      <span className="text-[clamp(12px,0.65vw,16px)] text-black/50 leading-[150%]">{label}</span>
+      <span className="text-[clamp(12px,0.65vw,16px)] text-[color:var(--ink-3)] leading-[150%]">{label}</span>
       <select
         value={value}
         onChange={(e) => onChange(e.target.value)}

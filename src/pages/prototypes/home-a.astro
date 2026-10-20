@@ -2,13 +2,14 @@
 import PrototypeLayout from "../../layouts/PrototypeLayout.astro";
 import { HomeA } from "../../prototypes/home-a/HomeA";
 import { prototypeData } from "../../prototypes/pageData";
+import { TYPE_FONTS_URL } from "../../prototypes/home-a/typography";
 
 const data = prototypeData();
 ---
 
 <PrototypeLayout
   title="Макет A · Ювелирный дом"
-  fonts="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Manrope:wght@400;500;600&display=swap"
+  fonts={TYPE_FONTS_URL}
 >
   <HomeA client:load {...data} />
 </PrototypeLayout>
