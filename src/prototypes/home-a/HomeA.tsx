@@ -1,5 +1,5 @@
 // Макет A «Ювелирный дом»: editorial luxury. Шрифты, толщина и контраст переключаются панелью (TypePanel),
-// по умолчанию Cormorant Garamond + Manrope,
+// по умолчанию Spectral + Onest,
 // чернила на белом, единственный акцент — изумрудный.
 import { useEffect, useState, type CSSProperties } from "react";
 import { Search } from "lucide-react";

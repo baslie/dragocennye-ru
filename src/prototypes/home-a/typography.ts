@@ -89,7 +89,8 @@ export interface TypeState {
   c: number;
 }
 
-export const DEFAULT_TYPE: TypeState = { f: 0, w: 0, c: 0 };
+// Выбор Романа: Spectral + Onest, обычная толщина, мягкий контраст.
+export const DEFAULT_TYPE: TypeState = { f: 2, w: 1, c: 0 };
 
 const LIMITS: TypeState = { f: FONT_PAIRS.length, w: WEIGHTS.length, c: CONTRASTS.length };
 const STORAGE_KEY = "home-a-type";
