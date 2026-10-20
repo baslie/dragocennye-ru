@@ -1,7 +1,7 @@
 // Макет A «Ювелирный дом»: editorial luxury. Spectral + Onest,
 // чернила на белом, единственный акцент — изумрудный.
-import { useEffect, useState, type CSSProperties } from "react";
-import { Search } from "lucide-react";
+import { useEffect, useRef, useState, type CSSProperties } from "react";
+import { LoaderCircle, Search } from "lucide-react";
 import {
   PRICE_BANDS,
   SORT_LABELS,
@@ -234,18 +234,7 @@ export function HomeA(props: Props) {
             </ul>
           )}
 
-          {c.hasMore && (
-            <div className="mt-20 flex justify-center">
-              <button
-                type="button"
-                onClick={c.showMore}
-                className="h-12 border px-10 text-[clamp(13px,0.72vw,18px)] tracking-[0.04em] transition-colors hover:bg-[#121314] hover:text-white active:scale-[0.98] leading-[150%]"
-                style={{ borderColor: INK }}
-              >
-                Показать ещё
-              </button>
-            </div>
-          )}
+          {c.hasMore && <LoadMore onLoad={c.showMore} />}
         </section>
       </main>
 
@@ -261,6 +250,57 @@ export function HomeA(props: Props) {
           <span>© 2026</span>
         </div>
       </footer>
+    </div>
+  );
+}
+
+// Пауза перед подгрузкой: данные локальные, без неё спиннер мелькал бы незаметно.
+const LOAD_DELAY = 600;
+
+/** «Показать ещё» с автоподгрузкой: когда кнопка доезжает до экрана, в ней крутится спиннер и подгружается следующая порция. */
+function LoadMore({ onLoad }: { onLoad: () => void }) {
+  const ref = useRef<HTMLButtonElement>(null);
+  const [loading, setLoading] = useState(false);
+  const onLoadRef = useRef(onLoad);
+  onLoadRef.current = onLoad;
+
+  // Наблюдатель пересоздаётся после каждой порции: если кнопка всё ещё на экране, грузим дальше.
+  useEffect(() => {
+    if (loading || !ref.current) return;
+    const io = new IntersectionObserver(([e]) => e.isIntersecting && setLoading(true), { rootMargin: "0px 0px 120px 0px" });
+    io.observe(ref.current);
+    return () => io.disconnect();
+  }, [loading]);
+
+  useEffect(() => {
+    if (!loading) return;
+    const id = window.setTimeout(() => {
+      onLoadRef.current();
+      setLoading(false);
+    }, LOAD_DELAY);
+    return () => window.clearTimeout(id);
+  }, [loading]);
+
+  return (
+    <div className="mt-20 flex justify-center">
+      <button
+        ref={ref}
+        type="button"
+        onClick={() => setLoading(true)}
+        disabled={loading}
+        aria-busy={loading}
+        className="flex h-12 min-w-[200px] items-center justify-center gap-3 border px-10 text-[clamp(13px,0.72vw,18px)] tracking-[0.04em] transition-colors enabled:hover:bg-[#121314] enabled:hover:text-white enabled:active:scale-[0.98] leading-[150%]"
+        style={{ borderColor: INK }}
+      >
+        {loading ? (
+          <>
+            <LoaderCircle className="h-[18px] w-[18px] animate-spin" strokeWidth={1.5} aria-hidden />
+            Загружаем
+          </>
+        ) : (
+          "Показать ещё"
+        )}
+      </button>
     </div>
   );
 }
