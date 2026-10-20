@@ -55,6 +55,9 @@ const certificateById = new Map(certificates.map((c) => [c.id, c]));
 const entryByVarietyId = new Map(encyclopediaEntries.map((e) => [e.varietyId, e]));
 const postById = new Map(masterPosts.map((p) => [p.id, p]));
 
+// Нейтральный цвет на случай камня без цвета в таксономии.
+const FALLBACK_HEX = "#8a8a8a";
+
 // --- Базовые геттеры ---------------------------------------------------------
 export const getVariety = (id: string) => varietyById.get(id) ?? null;
 export const getVarietyBySlug = (slug: string) => varietyBySlug.get(slug) ?? null;
@@ -103,6 +106,9 @@ export function toStoneCard(s: MasterStone) {
     price: s.price,
     photoUrl: photoFor(s),
     isAvailable: s.isAvailable,
+    colorHex: colorById.get(s.colorId)?.hex ?? FALLBACK_HEX,
+    varietyName: varietyById.get(s.varietyId)?.name ?? "",
+    dimensionsMm: s.dimensionsMm,
   };
 }
 
@@ -210,7 +216,7 @@ export function liveStoneCardsForVariety(varietyId: string, limit = 5) {
     .slice(0, limit)
     .map((s) => ({
       ...toStoneCard(s),
-      accentHex: colorById.get(s.colorId)?.hex ?? "#B7BDF7",
+      accentHex: colorById.get(s.colorId)?.hex ?? FALLBACK_HEX,
     }));
 }
 
@@ -245,7 +251,7 @@ export function mentionedStonesForPost(post: MasterPost, limit = 5) {
     .slice(0, limit)
     .map((s) => ({
       ...toStoneCard(s),
-      accentHex: colorById.get(s.colorId)?.hex ?? "#B7BDF7",
+      accentHex: colorById.get(s.colorId)?.hex ?? FALLBACK_HEX,
     }));
 }
 

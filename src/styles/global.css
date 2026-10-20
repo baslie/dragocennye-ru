@@ -1,21 +1,23 @@
 @import "tailwindcss";
 
-/* Драгоценные — дизайн-токены.
-   Строго белый canvas + 4 кастомных hex-акцента. Тема — ТОЛЬКО светлая.
-   См. docs/product-plan/design-system/. */
+/* Драгоценные — дизайн-токены «Ювелирный дом».
+   Чернила на белом, единственный акцент — изумрудный. Spectral для заголовков, Onest для текста.
+   Тема только светлая. Правила — в CLAUDE.md, раздел «Дизайн-система». */
 @theme {
-  --color-canvas: #ffffff;
+  --color-ink: #121314;
+  --color-emerald: #0d5c4b;
+  --color-paper: #f3f1ec; /* тёплый лист: заполнители, паспорт вида, сертификат, блоки связи */
+  --color-danger: #9b2c2c;
 
-  /* 4 кастомных акцента */
-  --color-coral: #ff7444; /* primary CTA, hover-цена, NEW-бейджи */
-  --color-coral-hover: #e6643a;
-  --color-steel: #576a8f; /* brand, цена, активная навигация */
-  --color-periwinkle: #b7bdf7; /* мягкие теги, бейджи поверх обложек */
-  --color-cream: #fff8de; /* сертификат, mini-card, CTA-блоки, цитаты */
+  --font-serif: "Spectral", Georgia, serif;
+  --font-sans: "Onest", system-ui, sans-serif;
 
-  /* Шрифты */
-  --font-sans: "Noto Sans", system-ui, sans-serif;
-  --font-mono: "Noto Sans Mono", ui-monospace, monospace;
+  /* Подгрузили 300 и 400 у Spectral, 400 и 500 у Onest — других толщин нет. */
+}
+
+:root {
+  /* Боковой отступ растёт вместе с экраном: сайт занимает всю ширину окна без пустых полей. */
+  --gutter: clamp(20px, 3.5vw, 96px);
 }
 
 html {
@@ -26,4 +28,5 @@ html {
 
 body {
   font-family: var(--font-sans);
+  color: var(--color-ink);
 }
