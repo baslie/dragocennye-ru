@@ -5,3 +5,4 @@ export { ButtonLink, TextLink, buttonClass, type ButtonVariant } from "./Links";
 export { NoPhoto } from "./NoPhoto";
 export { StoneCard, type CardStone } from "./StoneCard";
 export { Breadcrumbs } from "./Breadcrumbs";
+export { PostCard, postMeta, type CardPost } from "./PostCard";

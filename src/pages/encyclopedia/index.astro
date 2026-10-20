@@ -1,6 +1,6 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
-import { EncyclopediaIndexIsland } from "../../components/encyclopedia/EncyclopediaIndexIsland";
+import { EncyclopediaIndex } from "../../components/encyclopedia/EncyclopediaIndex";
 import { encyclopediaVarieties } from "../../data";
 
 const varieties = encyclopediaVarieties();
@@ -11,5 +11,5 @@ const description =
 ---
 
 <BaseLayout title={title} description={description} path="/encyclopedia">
-  <EncyclopediaIndexIsland client:visible varieties={varieties} />
+  <EncyclopediaIndex varieties={varieties} />
 </BaseLayout>

@@ -5,7 +5,8 @@ import {
   encyclopediaEntries,
   getEntryBySlug,
   getVariety,
-  liveStoneCardsForVariety,
+  liveStonesForVariety,
+  contactHref,
   postsForVariety,
   toPostCard,
 } from "../../data";
@@ -21,7 +22,7 @@ if (!entry) return Astro.redirect("/404");
 const variety = getVariety(entry.varietyId);
 if (!variety) return Astro.redirect("/404");
 
-const stonesInStock = liveStoneCardsForVariety(variety.id, 5);
+const stonesInStock = liveStonesForVariety(variety.id, 4);
 const relatedPosts = postsForVariety(variety.id).slice(0, 3).map(toPostCard);
 
 const title = `${variety.name}: свойства, история, как выбрать | Драгоценные`;
@@ -37,5 +38,6 @@ const description =
     entry={entry}
     stonesInStock={stonesInStock}
     relatedPosts={relatedPosts}
+    contactHref={contactHref("telegram")}
   />
 </BaseLayout>
