@@ -1,0 +1,14 @@
+---
+import PrototypeLayout from "../../layouts/PrototypeLayout.astro";
+import { HomeC } from "../../prototypes/home-c/HomeC";
+import { prototypeData } from "../../prototypes/pageData";
+
+const data = prototypeData();
+---
+
+<PrototypeLayout
+  title="Макет C · Свет и стекло"
+  fonts="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600&display=swap"
+>
+  <HomeC client:load {...data} />
+</PrototypeLayout>

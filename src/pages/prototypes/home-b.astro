@@ -1,0 +1,14 @@
+---
+import PrototypeLayout from "../../layouts/PrototypeLayout.astro";
+import { HomeB } from "../../prototypes/home-b/HomeB";
+import { prototypeData } from "../../prototypes/pageData";
+
+const data = prototypeData();
+---
+
+<PrototypeLayout
+  title="Макет B · Галерея"
+  fonts="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap"
+>
+  <HomeB client:load {...data} />
+</PrototypeLayout>
