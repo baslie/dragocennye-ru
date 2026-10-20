@@ -69,7 +69,8 @@ export function useCatalogState({ stones, colors }: CatalogData, pageSize = 12) 
       reset();
     },
     toggleColor: (id: string) => {
-      setColorIds((prev) => (prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]));
+      // Цвет выбирается один: клик по другому заменяет выбор, повторный клик снимает его.
+      setColorIds((prev) => (prev.includes(id) ? [] : [id]));
       reset();
     },
     setPriceBand: (b: PriceBand) => {
