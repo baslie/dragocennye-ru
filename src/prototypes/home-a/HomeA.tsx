@@ -265,10 +265,11 @@ function VarietyLink({ label, count, active, onClick }: { label: string; count: 
         type="button"
         onClick={onClick}
         aria-pressed={active}
-        className={`text-[18px] leading-[120%] transition-colors md:text-[clamp(19px,1.15vw,24px)] ${active ? "underline decoration-1 underline-offset-[0.25em]" : "text-black/75 hover:text-black"}`}
+        className={`text-[18px] leading-[120%] transition-colors md:text-[clamp(19px,1.15vw,24px)] ${active ? "" : "text-black/75 hover:text-black"}`}
         style={active ? { color: EMERALD } : undefined}
       >
-        {label}
+        {/* Подчёркивание только на названии: с кнопки оно протянулось бы и под счётчик. */}
+        <span className={active ? "underline decoration-1 underline-offset-[0.25em]" : undefined}>{label}</span>
         <sup className="ml-0.5 text-[10px] text-black/55 leading-[0%]" style={{ fontFamily: ONEST }}>
           {count}
         </sup>
