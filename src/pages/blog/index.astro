@@ -1,6 +1,6 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
-import { BlogFeedIsland } from "../../components/blog/BlogFeedIsland";
+import { BlogFeed } from "../../components/blog/BlogFeed";
 import { sortedPosts, toPostCard, blogTopics } from "../../data";
 
 const posts = sortedPosts().map(toPostCard);
@@ -12,5 +12,5 @@ const description =
 ---
 
 <BaseLayout title={title} description={description} path="/blog">
-  <BlogFeedIsland client:load posts={posts} topics={topics} />
+  <BlogFeed client:load posts={posts} topics={topics} />
 </BaseLayout>

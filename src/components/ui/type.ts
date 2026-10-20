@@ -17,7 +17,7 @@ export const T = {
   /** Мелкая надпись над заголовком. */
   eyebrow: "text-[clamp(11px,0.6vw,14px)] uppercase tracking-[0.14em] text-black/48 leading-[150%]",
   /** Основной текст статьи. */
-  body: "text-[clamp(15px,0.88vw,19px)] leading-[155%]",
+  body: "text-[clamp(16px,1vw,20px)] leading-[160%]",
   /** Лид под заголовком. */
   lead: "text-[clamp(14px,0.8vw,17px)] leading-[155%] text-black/60",
   /** Интерфейсный текст: метаданные, ссылки, кнопки. */

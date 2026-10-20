@@ -1,3 +1,5 @@
+import type { CardStone } from "../ui";
+
 // ============================================================================
 // Shared entities
 // ============================================================================
@@ -30,7 +32,7 @@ export interface Gemologist {
   id: string;
   name: string;
   role: string;
-  portraitUrl: string;
+  portraitUrl: string | null;
   intro: string[];
   stats: GemologistStat[];
   timeline: TimelineItem[];
@@ -42,7 +44,7 @@ export interface Gemologist {
 export interface Author {
   name: string;
   role: string;
-  portraitUrl: string;
+  portraitUrl: string | null;
 }
 
 /** Фильтр-чип ленты по виду камня. Совпадает по id/slug с varieties каталога. */
@@ -71,19 +73,8 @@ export interface BlogPostCard {
   isFeatured: boolean;
 }
 
-/** Карточка камня для live-блока «Камни из этой статьи» — подмножество Stone из каталога. */
-export interface StoneCard {
-  id: string;
-  slug: string;
-  varietyId: string;
-  name: string;
-  weightCt: number;
-  price: number;
-  photoUrl: string;
-  isAvailable: boolean;
-  /** hex цвета камня — для jewel-градиента StonePhoto (добавлено для Astro-сборки). */
-  accentHex?: string;
-}
+/** Карточка камня для блока «Камни из материала». */
+export type StoneCard = CardStone & { id: string };
 
 // ============================================================================
 // Blog post body
@@ -127,22 +118,7 @@ export interface BlogPost extends BlogPostCard {
 }
 
 // ============================================================================
-// Props — View 1: Blog feed (/blog)
-// ============================================================================
-
-export interface BlogFeedProps {
-  posts: BlogPostCard[];
-  topics: Topic[];
-  /** id активного вида-фильтра, либо null для «Все». */
-  activeTopicId: string | null;
-  /** Триггерится при клике на чип фильтра. null — сброс на «Все». */
-  onFilterByVariety?: (varietyId: string | null) => void;
-  /** Триггерится при клике на карточку поста (featured или из сетки) — переход на /blog/[slug]. */
-  onViewPost?: (postId: string) => void;
-}
-
-// ============================================================================
-// Props — View 2: Blog post (/blog/[slug])
+// Props
 // ============================================================================
 
 export interface BlogPostProps {
@@ -150,30 +126,13 @@ export interface BlogPostProps {
   author: Author;
   /** Похожие посты для блока «Читать дальше» — пустой массив скрывает блок. */
   relatedPosts: BlogPostCard[];
-  /** Триггерится при клике на breadcrumb «Журнал» — возврат в ленту. */
-  onBackToFeed?: () => void;
-  /** Триггерится при клике на ярлык вида в мета-строке или CTA live-блока — переход в /catalog/[slug]. */
-  onBrowseInCatalog?: (varietyId: string) => void;
-  /** Триггерится при клике на карточку камня в live-блоке — переход на Stone Detail. */
-  onViewStone?: (stoneId: string) => void;
-  /** Триггерится при клике на карточку похожего поста — переход на /blog/[slug]. */
-  onViewPost?: (postId: string) => void;
-  /** Триггерится при клике на ссылку «О гемологе →» в author byline — переход на /about. */
-  onViewAbout?: () => void;
+  /** Каталог основного вида материала — для ссылки «Смотреть в каталоге». */
+  catalogHref: string;
 }
-
-// ============================================================================
-// Props — View 3: About (/about)
-// ============================================================================
 
 export interface AboutProps {
   gemologist: Gemologist;
   /** Последние посты для блока «Из журнала» (обычно 3). */
   recentPosts: BlogPostCard[];
-  /** Триггерится при клике на карточку поста в «Из журнала» — переход на /blog/[slug]. */
-  onViewPost?: (postId: string) => void;
-  /** Триггерится при клике на ссылку «Все публикации →» — переход в ленту /blog. */
-  onViewFeed?: () => void;
-  /** Триггерится при клике на контактную кнопку в CTA-блоке (Telegram / WhatsApp / телефон). */
-  onContact?: (channel: ContactChannel) => void;
+  contactHrefs: Record<ContactChannel, string>;
 }

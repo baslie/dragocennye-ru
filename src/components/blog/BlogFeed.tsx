@@ -1,115 +1,93 @@
-import type { BlogFeedProps } from './types'
-import { FeaturedPost } from './FeaturedPost'
-import { PostCard } from './PostCard'
-import { VarietyFilter } from './VarietyFilter'
-import { monoFont, sansFont } from './format'
+// Лента журнала: вступление, фильтр по виду камня, главный материал крупно и сетка публикаций.
+// Фильтр клиентский — постов мало, отдельные страницы под каждый вид не нужны.
+import { useState } from "react";
+import { HAIRLINE, PostCard, T, postMeta } from "../ui";
+import type { BlogPostCard, Topic } from "./types";
 
 const INTRO =
-  'Дмитрий Салятов разбирает камни так, как их видит гемолог: что делает с корундом печь, почему происхождение важнее размера и за что коллекционеры платят премию. Без маркетинга — только то, что видно под лупой.'
+  "Дмитрий Салятов разбирает камни так, как их видит гемолог: что делает с корундом печь, почему происхождение важнее размера и за что коллекционеры платят премию. Без маркетинга — только то, что видно под лупой.";
 
-/**
- * View 1 — лента блога (/blog). Hero + фильтр по виду + featured-пост (при «Все») +
- * editorial-grid остальных постов. Фильтрация и featured-логика выводятся из props.
- */
-export function BlogFeed({
-  posts,
-  topics,
-  activeTopicId,
-  onFilterByVariety,
-  onViewPost,
-}: BlogFeedProps) {
-  const filtered =
-    activeTopicId === null
-      ? posts
-      : posts.filter((post) => post.varietyIds.includes(activeTopicId))
+export function BlogFeed({ posts, topics }: { posts: BlogPostCard[]; topics: Topic[] }) {
+  const [topicId, setTopicId] = useState<string | null>(null);
 
-  const featured =
-    activeTopicId === null ? (posts.find((post) => post.isFeatured) ?? null) : null
-
-  const gridPosts = featured
-    ? filtered.filter((post) => post.id !== featured.id)
-    : filtered
-
-  const isEmpty = filtered.length === 0
+  const filtered = topicId ? posts.filter((p) => p.varietyIds.includes(topicId)) : posts;
+  // Главный материал выносим наверх только в ленте «Все».
+  const featured = topicId === null ? (posts.find((p) => p.isFeatured) ?? null) : null;
+  const rest = featured ? filtered.filter((p) => p.id !== featured.id) : filtered;
 
   return (
-    <div className="pt-10 pb-24 md:pt-14">
-      {/* Hero */}
-      <header className="mb-12 md:mb-16">
-        <p
-          className="mb-4 text-xs uppercase tracking-wider text-[#576A8F]"
-          style={monoFont}
-        >
-          Журнал гемолога
-        </p>
-        <h1
-          className="text-4xl font-medium text-stone-900 md:text-5xl xl:text-6xl"
-          style={sansFont}
-        >
-          Журнал
-        </h1>
-        <p
-          className="mt-6 max-w-[72ch] text-lg leading-relaxed text-stone-700"
-          style={sansFont}
-        >
-          {INTRO}
-        </p>
+    <div className="px-[var(--gutter)] pb-24">
+      <header className="grid gap-6 pb-10 pt-8 md:grid-cols-12 md:gap-8 md:pb-[clamp(48px,3.5vw,80px)] md:pt-[clamp(40px,3vw,72px)]">
+        <div className="md:col-span-7 md:self-end">
+          <p className={T.eyebrow}>Журнал гемолога</p>
+          <h1 className={`mt-4 ${T.display}`}>
+            Камни <em className="text-emerald">под лупой</em>
+          </h1>
+        </div>
+        <p className={`max-w-[52ch] md:col-span-5 md:col-start-8 md:self-end ${T.lead}`}>{INTRO}</p>
       </header>
 
-      {/* Фильтр по виду */}
-      <div className="mb-12 md:mb-16">
-        <VarietyFilter
-          topics={topics}
-          activeTopicId={activeTopicId}
-          onFilter={onFilterByVariety}
-        />
-      </div>
+      <nav aria-label="Темы" className={`border-y ${HAIRLINE} py-5 md:py-6`}>
+        <ul className="-mx-[var(--gutter)] flex gap-x-[clamp(18px,1.4vw,30px)] gap-y-1 overflow-x-auto whitespace-nowrap px-[var(--gutter)] font-serif [scrollbar-width:none] md:mx-0 md:flex-wrap md:px-0">
+          <TopicButton label="Все темы" count={posts.length} active={topicId === null} onClick={() => setTopicId(null)} />
+          {topics.map((t) => (
+            <TopicButton key={t.id} label={t.name} count={t.postCount} active={topicId === t.id} onClick={() => setTopicId(t.id)} />
+          ))}
+        </ul>
+      </nav>
 
-      {isEmpty ? (
-        <EmptyState onReset={() => onFilterByVariety?.(null)} />
-      ) : (
-        <>
-          {featured && (
-            <div className="mb-16 md:mb-20">
-              <FeaturedPost
-                post={featured}
-                onClick={() => onViewPost?.(featured.id)}
-              />
-            </div>
-          )}
-
-          <div className="grid grid-cols-1 gap-8 md:grid-cols-2 md:gap-10 lg:grid-cols-3 lg:gap-12">
-            {gridPosts.map((post) => (
-              <PostCard
-                key={post.id}
-                post={post}
-                onClick={() => onViewPost?.(post.id)}
-              />
-            ))}
+      {featured && (
+        <a href={`/blog/${featured.slug}`} className={`group grid gap-6 border-b ${HAIRLINE} py-12 md:grid-cols-12 md:gap-8 md:py-16`}>
+          <div className="aspect-video overflow-hidden bg-paper md:col-span-7">
+            <img
+              src={featured.coverPhotoUrl}
+              alt=""
+              className="h-full w-full object-cover transition-transform duration-[1200ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.03]"
+            />
           </div>
-        </>
+          <div className="md:col-span-5 md:self-end">
+            <p className={T.eyebrow}>Главный материал</p>
+            <h2 className={`mt-3 transition-colors group-hover:text-emerald ${T.h2}`}>{featured.title}</h2>
+            <p className={`mt-4 max-w-[48ch] ${T.lead}`}>{featured.excerpt}</p>
+            <p className={`mt-4 ${T.label}`}>{postMeta(featured)}</p>
+          </div>
+        </a>
+      )}
+
+      {rest.length > 0 ? (
+        <ul className="grid gap-x-[clamp(32px,2.2vw,56px)] gap-y-14 pt-12 md:grid-cols-2 md:gap-y-16 md:pt-16 min-[1024px]:grid-cols-3">
+          {rest.map((p) => (
+            <li key={p.id}>
+              <PostCard post={p} />
+            </li>
+          ))}
+        </ul>
+      ) : (
+        !featured && (
+          <div className="py-24 text-center">
+            <p className="font-serif text-[32px] font-light leading-[105%]">Пока нет публикаций об этом камне</p>
+            <button type="button" onClick={() => setTopicId(null)} className={`mt-6 border-b border-ink pb-0.5 ${T.ui}`}>
+              Показать все темы
+            </button>
+          </div>
+        )
       )}
     </div>
-  )
+  );
 }
 
-function EmptyState({ onReset }: { onReset: () => void }) {
+function TopicButton({ label, count, active, onClick }: { label: string; count: number; active: boolean; onClick: () => void }) {
   return (
-    <div className="mx-auto max-w-2xl rounded-xl border border-stone-200 bg-[#FFF8DE] px-8 py-16 text-center">
-      <h3
-        className="text-2xl font-medium text-stone-900"
-        style={sansFont}
-      >
-        Пока нет публикаций об этом камне
-      </h3>
+    <li>
       <button
         type="button"
-        onClick={onReset}
-        className="mt-6 rounded-lg border border-[#576A8F] px-6 py-3 text-xs uppercase tracking-wider text-[#576A8F] transition-colors hover:bg-[#576A8F] hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-[#576A8F] focus-visible:ring-offset-2 focus-visible:ring-offset-[#FFF8DE]"
-        style={monoFont}
+        onClick={onClick}
+        aria-pressed={active}
+        className={`text-[18px] leading-[120%] transition-colors md:text-[clamp(19px,1.15vw,24px)] ${active ? "text-emerald" : "text-black/75 hover:text-black"}`}
       >
-        Сбросить фильтр
+        <span className={active ? "underline decoration-1 underline-offset-[0.25em]" : undefined}>{label}</span>
+        <sup className="ml-0.5 font-sans text-[10px] leading-[0%] text-black/55">{count}</sup>
       </button>
-    </div>
-  )
+    </li>
+  );
 }

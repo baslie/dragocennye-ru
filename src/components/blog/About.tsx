@@ -1,225 +1,124 @@
-import { MessageCircle, Phone, Send } from 'lucide-react'
-import type { ComponentType } from 'react'
-import type {
-  AboutProps,
-  ContactChannel,
-  GemologistContact,
-} from './types'
-import { PostCard } from './PostCard'
-import { Timeline } from './Timeline'
-import {
-  hideBrokenImage,
-  monoFont,
-  portraitStyle,
-  sansFont,
-} from './format'
+// Страница гемолога: портрет и вступление с цифрами, путь, подход, свежие материалы и связь.
+// Без интерактива — рендерится на сборке.
+import { ButtonLink, HAIRLINE, PostCard, T, TextLink } from "../ui";
+import { Portrait } from "./Portrait";
+import type { AboutProps } from "./types";
 
-const CHANNEL_ICON: Record<ContactChannel, ComponentType<{ className?: string }>> = {
-  telegram: Send,
-  whatsapp: MessageCircle,
-  phone: Phone,
-}
-
-/**
- * View 3 — страница о гемологе (/about). Hero + статы + таймлайн + подход +
- * последние посты + CTA-блок с контактами.
- */
-export function About({
-  gemologist,
-  recentPosts,
-  onViewPost,
-  onViewFeed,
-  onContact,
-}: AboutProps) {
+export function About({ gemologist, recentPosts, contactHrefs }: AboutProps) {
   return (
-    <div className="pt-10 pb-24 md:pt-14">
-      {/* Hero */}
-      <header className="mb-16 grid grid-cols-1 items-start gap-10 lg:mb-24 lg:grid-cols-[420px_1fr] lg:gap-16">
-        <div
-          className="relative aspect-[4/5] overflow-hidden rounded-2xl bg-stone-200"
-          style={portraitStyle}
-        >
-          <img
-            src={gemologist.portraitUrl}
-            alt={gemologist.name}
-            onError={hideBrokenImage}
-            className="absolute inset-0 h-full w-full object-cover"
-          />
-        </div>
-
-        <div>
-          <p
-            className="text-xs uppercase tracking-wider text-[#576A8F]"
-            style={monoFont}
-          >
-            Гемолог
-          </p>
-          <h1
-            className="mt-3 text-4xl font-medium text-stone-900 md:text-5xl xl:text-6xl"
-            style={sansFont}
-          >
-            {gemologist.name}
-          </h1>
-          <p className="mt-2 text-lg text-stone-600" style={sansFont}>
-            {gemologist.role}
-          </p>
-          <div
-            className="mt-6 space-y-4 text-lg leading-relaxed text-stone-700"
-            style={sansFont}
-          >
-            {gemologist.intro.map((paragraph, index) => (
-              <p key={index}>{paragraph}</p>
+    <div className="px-[var(--gutter)] pb-24">
+      <header className="grid gap-8 pb-12 pt-8 md:grid-cols-12 md:gap-[clamp(32px,3vw,72px)] md:pb-[clamp(56px,4vw,96px)] md:pt-[clamp(40px,3vw,72px)]">
+        <Portrait
+          url={gemologist.portraitUrl}
+          name={gemologist.name}
+          className="aspect-[4/5] md:col-span-5"
+          initialsClass="text-[clamp(72px,7vw,140px)] leading-[100%]"
+        />
+        <div className="flex flex-col md:col-span-7">
+          <p className={T.eyebrow}>{gemologist.role}</p>
+          <h1 className={`mt-4 ${T.display}`}>{gemologist.name}</h1>
+          <div className="mt-8 max-w-[56ch] space-y-4">
+            {gemologist.intro.map((p, i) => (
+              <p key={i} className={`${T.body} text-black/80`}>
+                {p}
+              </p>
             ))}
           </div>
 
-          {/* Стат-чипы — мгновенный сигнал доверия, заполняют низ колонки */}
           {gemologist.stats.length > 0 && (
-            <div className="mt-8 flex flex-wrap items-baseline gap-x-8 gap-y-4 border-t border-stone-200 pt-6">
-              {gemologist.stats.map((stat, index) => (
-                <div key={index}>
-                  <span
-                    className="text-2xl font-medium text-stone-900 md:text-3xl"
-                    style={sansFont}
-                  >
-                    {stat.value}
-                  </span>
-                  <span
-                    className="ml-2 text-xs uppercase tracking-wider text-stone-500"
-                    style={monoFont}
-                  >
-                    {stat.label}
-                  </span>
+            <dl className={`mt-10 grid grid-cols-2 gap-x-8 gap-y-8 border-t ${HAIRLINE} pt-8 sm:grid-cols-4 md:mt-auto`}>
+              {gemologist.stats.map((s) => (
+                <div key={s.label}>
+                  <dt className="sr-only">{s.label}</dt>
+                  <dd>
+                    <span className="block font-serif text-[clamp(40px,3.2vw,64px)] font-light leading-[100%]">{s.value}</span>
+                    <span className={`mt-2 block ${T.label}`}>{s.label}</span>
+                  </dd>
                 </div>
               ))}
-            </div>
+            </dl>
           )}
         </div>
       </header>
 
-      {/* Образование и опыт */}
-      <section className="mb-16 max-w-[760px] md:mb-24">
-        <p
-          className="text-xs uppercase tracking-wider text-[#576A8F]"
-          style={monoFont}
-        >
-          Путь
-        </p>
-        <h2
-          className="mt-2 mb-10 text-2xl font-medium text-stone-900 md:text-3xl"
-          style={sansFont}
-        >
-          Образование и опыт
-        </h2>
-        <Timeline items={gemologist.timeline} />
+      <section aria-labelledby="path" className={`grid gap-8 border-t ${HAIRLINE} pt-12 md:grid-cols-12 md:pt-16`}>
+        <div className="md:col-span-4">
+          <p className={T.eyebrow}>Путь</p>
+          <h2 id="path" className={`mt-3 ${T.h2}`}>
+            Образование и опыт
+          </h2>
+        </div>
+        <ol className="md:col-span-7 md:col-start-6">
+          {gemologist.timeline.map((item) => (
+            <li key={item.year} className={`grid gap-2 border-b ${HAIRLINE} py-6 first:pt-0 sm:grid-cols-[140px_1fr] sm:gap-8`}>
+              <span className="font-serif text-[22px] font-light leading-[120%] text-emerald">{item.year}</span>
+              <div>
+                <p className={T.h4}>{item.title}</p>
+                <p className={`mt-2 ${T.lead}`}>{item.description}</p>
+              </div>
+            </li>
+          ))}
+        </ol>
       </section>
 
-      {/* Подход к подбору */}
-      <section className="mb-16 max-w-[72ch] md:mb-24">
-        <p
-          className="text-xs uppercase tracking-wider text-[#576A8F]"
-          style={monoFont}
-        >
-          Принципы
-        </p>
-        <h2
-          className="mt-2 mb-6 text-2xl font-medium text-stone-900 md:text-3xl"
-          style={sansFont}
-        >
-          Подход к подбору
-        </h2>
-        <div
-          className="space-y-5 text-lg leading-relaxed text-stone-800"
-          style={sansFont}
-        >
-          {gemologist.approach.map((paragraph, index) => (
-            <p key={index}>{paragraph}</p>
+      <section aria-labelledby="approach" className={`mt-20 grid gap-8 border-t ${HAIRLINE} pt-12 md:mt-28 md:grid-cols-12 md:pt-16`}>
+        <div className="md:col-span-4">
+          <p className={T.eyebrow}>Принципы</p>
+          <h2 id="approach" className={`mt-3 ${T.h2}`}>
+            Подход к подбору
+          </h2>
+        </div>
+        <div className="space-y-6 md:col-span-7 md:col-start-6">
+          {gemologist.approach.map((p, i) => (
+            <p key={i} className="font-serif text-[20px] font-light leading-[150%] md:text-[clamp(21px,1.35vw,28px)] md:leading-[145%]">
+              {p}
+            </p>
           ))}
         </div>
       </section>
 
-      {/* Из журнала */}
       {recentPosts.length > 0 && (
-        <section className="mb-16 md:mb-24">
-          <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
-            <h2
-              className="text-2xl font-medium text-stone-900 md:text-3xl"
-              style={sansFont}
-            >
+        <section aria-labelledby="journal" className={`mt-20 border-t ${HAIRLINE} pt-12 md:mt-28 md:pt-16`}>
+          <div className="flex flex-wrap items-baseline justify-between gap-4">
+            <h2 id="journal" className={T.h2}>
               Из журнала
             </h2>
-            <button
-              type="button"
-              onClick={onViewFeed}
-              className="text-xs uppercase tracking-wider text-[#576A8F] transition-colors hover:text-[#FF7444] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#576A8F] focus-visible:ring-offset-2 focus-visible:ring-offset-white"
-              style={monoFont}
-            >
-              Все публикации →
-            </button>
+            <TextLink href="/blog" className={T.ui}>
+              Все публикации
+            </TextLink>
           </div>
-          <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
-            {recentPosts.map((post) => (
-              <PostCard
-                key={post.id}
-                post={post}
-                onClick={() => onViewPost?.(post.id)}
-              />
+          <ul className="mt-10 grid gap-x-[clamp(32px,2.2vw,56px)] gap-y-12 md:grid-cols-2 min-[1024px]:grid-cols-3">
+            {recentPosts.map((p) => (
+              <li key={p.id}>
+                <PostCard post={p} />
+              </li>
             ))}
-          </div>
+          </ul>
         </section>
       )}
 
-      {/* CTA */}
-      <section className="mx-auto max-w-3xl rounded-2xl border border-stone-200 bg-[#FFF8DE] px-8 py-14 text-center">
-        <h3
-          className="text-2xl font-medium text-stone-900 md:text-3xl"
-          style={sansFont}
-        >
+      <section aria-labelledby="contact" className="mt-20 bg-paper px-[clamp(24px,4vw,96px)] py-[clamp(48px,5vw,112px)] text-center md:mt-28">
+        <h2 id="contact" className={T.h2}>
           Напишите Дмитрию
-        </h3>
-        <p
-          className="mx-auto mt-3 max-w-[52ch] text-base text-stone-700"
-          style={sansFont}
-        >
-          Подберём камень под задачу — из коллекции или под заказ с
-          международных аукционов.
+        </h2>
+        <p className={`mx-auto mt-4 max-w-[46ch] ${T.lead}`}>
+          Подберём камень под задачу — из коллекции или под заказ с международных аукционов.
         </p>
-        <div className="mt-7 flex flex-wrap justify-center gap-3">
-          {gemologist.contacts.map((contact) => (
-            <ContactButton
-              key={contact.channel}
-              contact={contact}
-              onContact={onContact}
-            />
+        <div className="mt-8 flex flex-wrap justify-center gap-3">
+          {gemologist.contacts.map((c, i) => (
+            <ButtonLink
+              key={c.channel}
+              href={contactHrefs[c.channel]}
+              variant={i === 0 ? "solid" : "outline"}
+              target={c.channel === "phone" ? undefined : "_blank"}
+              rel="noopener"
+              className="min-w-[200px]"
+            >
+              {c.channel === "phone" ? "Позвонить" : c.label}
+            </ButtonLink>
           ))}
         </div>
       </section>
     </div>
-  )
-}
-
-function ContactButton({
-  contact,
-  onContact,
-}: {
-  contact: GemologistContact
-  onContact?: (channel: ContactChannel) => void
-}) {
-  const Icon = CHANNEL_ICON[contact.channel]
-  const isPrimary = contact.channel === 'telegram'
-
-  const className = isPrimary
-    ? 'inline-flex items-center gap-2 rounded-lg bg-[#FF7444] px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-[#e6643a] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#FF7444] focus-visible:ring-offset-2 focus-visible:ring-offset-[#FFF8DE]'
-    : 'inline-flex items-center gap-2 rounded-lg border border-stone-300 px-6 py-3 text-sm text-stone-700 transition-colors hover:border-[#576A8F] hover:text-[#576A8F] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#576A8F] focus-visible:ring-offset-2 focus-visible:ring-offset-[#FFF8DE]'
-
-  return (
-    <button
-      type="button"
-      onClick={() => onContact?.(contact.channel)}
-      className={className}
-      style={sansFont}
-    >
-      <Icon className="h-4 w-4" />
-      {contact.label}
-    </button>
-  )
+  );
 }

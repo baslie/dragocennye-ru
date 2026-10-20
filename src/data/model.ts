@@ -151,7 +151,8 @@ export interface Gemologist {
   id: string;
   name: string;
   role: string;
-  portraitUrl: string;
+  /** null — снимка пока нет, вместо него инициалы. */
+  portraitUrl: string | null;
   intro: string[];
   stats: GemologistStat[];
   timeline: TimelineItem[];

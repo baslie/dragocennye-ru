@@ -1,6 +1,6 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
-import { BlogPostIsland } from "../../components/blog/BlogPostIsland";
+import { BlogPost } from "../../components/blog/BlogPost";
 import {
   posts as allPosts,
   getPostBySlug,
@@ -19,7 +19,7 @@ const { slug } = Astro.params;
 const post = getPostBySlug(slug!);
 if (!post) return Astro.redirect("/404");
 
-const fullPost = { ...post, mentionedStones: mentionedStonesForPost(post, 5) };
+const fullPost = { ...post, mentionedStones: mentionedStonesForPost(post) };
 
 const author = {
   name: gemologist.name,
@@ -29,23 +29,13 @@ const author = {
 
 const related = relatedPosts(post, 3).map(toPostCard);
 
-// varietyId → slug каталога для перехода «в каталог»
-const varietySlugs: Record<string, string> = {};
-for (const id of post.varietyIds) {
-  const v = getVariety(id);
-  if (v) varietySlugs[id] = v.slug;
-}
+const primaryVariety = getVariety(post.varietyIds[0]);
+const catalogHref = primaryVariety ? `/catalog/${primaryVariety.slug}` : "/";
 
 const title = `${post.title} | Журнал «Драгоценные»`;
 const description = post.lead ?? post.excerpt;
 ---
 
 <BaseLayout title={title} description={description} path={`/blog/${post.slug}`}>
-  <BlogPostIsland
-    client:load
-    post={fullPost}
-    author={author}
-    relatedPosts={related}
-    varietySlugs={varietySlugs}
-  />
+  <BlogPost post={fullPost} author={author} relatedPosts={related} catalogHref={catalogHref} />
 </BaseLayout>

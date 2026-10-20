@@ -10,7 +10,8 @@ import { varieties as masterVarieties } from "./varieties";
 import { stones as masterStones } from "./stones";
 import { cuts, origins, treatments, colors, certificates } from "./taxonomy";
 import { encyclopediaEntries } from "./encyclopedia";
-import { posts as masterPosts, gemologist } from "./blog";
+import { posts as masterPosts, gemologist as baseGemologist } from "./blog";
+import { plural } from "../lib/format";
 
 // --- Производные счётчики -----------------------------------------------------
 const countByVariety = new Map<string, number>();
@@ -33,7 +34,16 @@ export {
   colors,
   certificates,
   encyclopediaEntries,
-  gemologist,
+};
+
+// Профиль гемолога: число камней берём из каталога, а не из текста.
+export const gemologist = {
+  ...baseGemologist,
+  stats: baseGemologist.stats.map((st) =>
+    st.label === "камней в коллекции"
+      ? { value: String(masterStones.length), label: `${plural(masterStones.length, ["камень", "камня", "камней"])} в коллекции` }
+      : st,
+  ),
 };
 export const posts = masterPosts;
 
@@ -208,18 +218,6 @@ export const getEntryBySlug = (slug: string): MasterEncyclopediaEntry | null =>
 export const encyclopediaVarieties = () =>
   varieties.filter((v) => entryByVarietyId.has(v.id));
 
-/** Live-карточки камней вида в наличии с accentHex (для live-блока статьи). */
-export function liveStoneCardsForVariety(varietyId: string, limit = 5) {
-  return masterStones
-    .filter((s) => s.varietyId === varietyId && s.isAvailable)
-    .sort((a, b) => b.addedAt.localeCompare(a.addedAt))
-    .slice(0, limit)
-    .map((s) => ({
-      ...toStoneCard(s),
-      accentHex: colorById.get(s.colorId)?.hex ?? FALLBACK_HEX,
-    }));
-}
-
 // --- Блог --------------------------------------------------------------------
 export const getPost = (id: string) => postById.get(id) ?? null;
 export const getPostBySlug = (slug: string) =>
@@ -243,16 +241,13 @@ export function relatedPosts(post: MasterPost, limit = 3) {
   return [...byId, ...extra].slice(0, limit);
 }
 
-export function mentionedStonesForPost(post: MasterPost, limit = 5) {
+export function mentionedStonesForPost(post: MasterPost, limit = 4) {
   const set = new Set(post.varietyIds);
   return masterStones
     .filter((s) => set.has(s.varietyId) && s.isAvailable)
     .sort((a, b) => b.addedAt.localeCompare(a.addedAt))
     .slice(0, limit)
-    .map((s) => ({
-      ...toStoneCard(s),
-      accentHex: colorById.get(s.colorId)?.hex ?? FALLBACK_HEX,
-    }));
+    .map(toStoneCard);
 }
 
 /** Карточка поста (BlogPostCard) — без тела. */

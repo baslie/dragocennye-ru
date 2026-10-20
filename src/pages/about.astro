@@ -1,6 +1,6 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
-import { AboutIsland } from "../components/blog/AboutIsland";
+import { About } from "../components/blog/About";
 import { gemologist, sortedPosts, toPostCard, contactHref } from "../data";
 
 const recentPosts = sortedPosts().slice(0, 3).map(toPostCard);
@@ -18,8 +18,7 @@ const description =
 ---
 
 <BaseLayout title={title} description={description} path="/about">
-  <AboutIsland
-    client:visible
+  <About
     gemologist={gemologist}
     recentPosts={recentPosts}
     contactHrefs={contactHrefs}
