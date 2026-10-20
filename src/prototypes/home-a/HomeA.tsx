@@ -13,12 +13,13 @@ import {
   type CatalogData,
   type PriceBand,
 } from "../useCatalogState";
-import type { SortOption, Stone } from "../../components/catalog/types";
+import type { SortOption } from "../../components/catalog/types";
+import { HeroSlideshow, type HeroSlide } from "./HeroSlideshow";
 import { NoPhoto } from "./NoPhoto";
 
 interface Props extends CatalogData {
   telegramHref: string;
-  featured: Stone;
+  heroSlides: HeroSlide[];
 }
 
 const INK = "#121314";
@@ -52,7 +53,7 @@ function useGridColumns() {
 }
 
 export function HomeA(props: Props) {
-  const { varieties, featured, telegramHref } = props;
+  const { varieties, heroSlides, telegramHref } = props;
   const c = useCatalogState(props, 24);
   const cols = useGridColumns();
   // Пока есть «Показать ещё», последний ряд всегда полный.
@@ -115,23 +116,13 @@ export function HomeA(props: Props) {
               из <em style={{ color: EMERALD }}>личной коллекции</em>
             </h1>
             <p className="mt-5 max-w-[46ch] text-[clamp(14px,0.8vw,17px)] leading-[155%] text-black/60">
-              {pluralStones(props.stones.length)} в единственном экземпляре. У каждого паспорт, макросъёмка
-              и консультация Дмитрия Салятова.
+              Каждый камень в единственном экземпляре. У каждого паспорт, макросъёмка и консультация
+              Дмитрия Салятова.
             </p>
           </div>
-          <a href={`/stones/${featured.slug}`} className="group hidden md:col-span-4 md:col-start-9 md:block xl:col-span-3 xl:col-start-10">
-            <div className="aspect-[4/3] overflow-hidden bg-neutral-100">
-              <img
-                src={featured.photoUrl}
-                alt={featured.name}
-                className="h-full w-full object-cover transition-transform duration-[1200ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.04]"
-              />
-            </div>
-            <div className="mt-3 flex items-baseline justify-between gap-4">
-              <span className="text-[clamp(18px,1.1vw,22px)] leading-[120%]" style={title}>{featured.name}</span>
-              <span className="shrink-0 text-[clamp(13px,0.72vw,18px)] text-black/60 leading-[150%]">{formatCt(featured.weightCt)}</span>
-            </div>
-          </a>
+          <div className="md:col-span-5 md:col-start-8">
+            <HeroSlideshow slides={heroSlides} titleStyle={title} />
+          </div>
         </section>
 
         {/* Индекс видов */}
@@ -175,7 +166,16 @@ export function HomeA(props: Props) {
               })}
             </div>
           </div>
-          <Select
+          {/* Цена: на широких экранах чипами, на узких — выпадающим списком. */}
+          <div className="lg:hidden">
+            <Select
+              label="Цена"
+              value={c.priceBand}
+              onChange={(v) => c.setPriceBand(v as PriceBand)}
+              options={PRICE_BANDS.map((b) => [b.id, b.label])}
+            />
+          </div>
+          <Chips
             label="Цена"
             value={c.priceBand}
             onChange={(v) => c.setPriceBand(v as PriceBand)}
@@ -282,6 +282,42 @@ function VarietyLink({ label, count, active, onClick }: { label: string; count: 
         </sup>
       </button>
     </li>
+  );
+}
+
+function Chips({
+  label,
+  value,
+  onChange,
+  options,
+}: {
+  label: string;
+  value: string;
+  onChange: (v: string) => void;
+  options: [string, string][];
+}) {
+  return (
+    <div role="group" aria-label={label} className="hidden items-center gap-3 lg:flex">
+      <span className="text-[clamp(12px,0.65vw,16px)] text-black/48 leading-[150%]">{label}</span>
+      <div className="flex gap-1.5">
+        {options.map(([v, l]) => {
+          const on = v === value;
+          return (
+            <button
+              key={v}
+              type="button"
+              aria-pressed={on}
+              onClick={() => onChange(v)}
+              className={`h-[clamp(30px,1.7vw,40px)] rounded-full border px-[clamp(12px,0.8vw,18px)] text-[clamp(13px,0.72vw,18px)] leading-[150%] transition-colors ${
+                on ? "border-[#121314] bg-[#121314] text-white" : "border-black/15 text-black/75 hover:border-black/40 hover:text-black"
+              }`}
+            >
+              {l}
+            </button>
+          );
+        })}
+      </div>
+    </div>
   );
 }
 
