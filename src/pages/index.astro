@@ -1,29 +1,18 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
-import { CatalogBrowseIsland } from "../components/catalog/CatalogBrowseIsland";
-import {
-  allCatalogStones,
-  catalogVarieties,
-  cuts,
-  origins,
-  treatments,
-  colors,
-  certificates,
-} from "../data";
-
-const stones = allCatalogStones();
-const varieties = catalogVarieties();
+import { CatalogPage } from "../components/catalog/CatalogPage";
+import { allCatalogStones, indexVarieties, heroSlides, cuts, origins, treatments, colors } from "../data";
 ---
 
 <BaseLayout path="/">
-  <CatalogBrowseIsland
+  <CatalogPage
     client:load
-    stones={stones}
-    varieties={varieties}
+    intro={{ kind: "home", slides: heroSlides() }}
+    stones={allCatalogStones()}
+    varieties={indexVarieties()}
+    colors={colors}
     cuts={cuts}
     origins={origins}
     treatments={treatments}
-    colors={colors}
-    certificates={certificates}
   />
 </BaseLayout>

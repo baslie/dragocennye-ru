@@ -311,3 +311,34 @@ export function contactHref(channel: "telegram" | "whatsapp" | "phone"): string 
   if (channel === "whatsapp") return `https://wa.me/${PHONE_E164}`;
   return `tel:+${PHONE_E164}`;
 }
+
+// --- Главная -----------------------------------------------------------------
+/** Виды для индекса над каталогом: только с камнями, самые многочисленные первыми. */
+export const indexVarieties = () =>
+  catalogVarieties()
+    .filter((v) => v.stoneCount > 0)
+    .sort((a, b) => b.stoneCount - a.stoneCount);
+
+// «Живые» кадры для слайд-шоу во вступлении: камень в руке, в кольце, на коралле.
+// Отобраны вручную из фото каталога: [slug камня, файл].
+const HERO_SHOTS: [string, string][] = [
+  ["0201-fioletovaya-shpinel", "01.jpg"],
+  ["0109-zelyonyy-sapfir", "01.jpg"],
+  ["0711-zheltyy-topaz", "04.jpg"],
+  ["0221-krupnaya-birmanskaya-grozovaya-shpinel", "01.jpg"],
+  ["0808-fioletovyy-ametist", "01.jpg"],
+  ["0231-siniy-lazurit", "01.jpg"],
+  ["0101-oranzhevo-rozovyy-sapfir-padparadzha", "06.jpg"],
+  ["0103-zelyonyy-sapfir", "01.jpg"],
+];
+
+export const heroSlides = () =>
+  HERO_SHOTS.flatMap(([slug, file]) => {
+    const s = stoneBySlug.get(slug);
+    return s ? [{ href: `/stones/${slug}`, src: `/images/stones/${slug}/${file}`, name: s.name, weightCt: s.weightCt }] : [];
+  });
+
+/** Прилагательное цвета во множественном числе: «Зелёный» → «Зелёные», «Синий» → «Синие». */
+export const pluralColor = (name: string) => name.replace(/(ый|ой)$/, "ые").replace(/ий$/, "ие");
+
+export const capitalize = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);

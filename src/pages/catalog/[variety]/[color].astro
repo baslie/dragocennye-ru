@@ -1,17 +1,19 @@
 ---
 import BaseLayout from "../../../layouts/BaseLayout.astro";
-import { CatalogBrowseIsland } from "../../../components/catalog/CatalogBrowseIsland";
+import { CatalogPage } from "../../../components/catalog/CatalogPage";
 import {
   allCatalogStones,
   catalogVarieties,
   colorsForVariety,
+  indexVarieties,
   getVarietyBySlug,
   getColorBySlug,
+  capitalize,
+  pluralColor,
   cuts,
   origins,
   treatments,
   colors,
-  certificates,
 } from "../../../data";
 
 export function getStaticPaths() {
@@ -27,28 +29,29 @@ const variety = getVarietyBySlug(varietySlug!);
 const color = getColorBySlug(colorSlug!);
 if (!variety || !color) return Astro.redirect("/404");
 
-const stones = allCatalogStones();
-const varieties = catalogVarieties();
-
+const varietyHeading = capitalize(variety.pluralName);
+const heading = `${pluralColor(color.name)} ${variety.pluralName}`;
 const title = `${color.name} ${variety.name.toLowerCase()} — купить | Драгоценные`;
-const description = `${color.name} ${variety.pluralName.toLowerCase()} из коллекции гемолога Дмитрия Салятова: каждый камень в единственном экземпляре, с фото, видео и паспортом характеристик. Подбор по тону, чистоте и огранке.`;
+const description = `${heading} из коллекции гемолога Дмитрия Салятова: каждый камень в единственном экземпляре, с фото, видео и паспортом характеристик. Подбор по тону, чистоте и огранке.`;
+const paragraphs = [variety.shortDescription.split("\n\n")[0]];
 ---
 
-<BaseLayout
-  title={title}
-  description={description}
-  path={`/catalog/${variety.slug}/${color.slug}`}
->
-  <CatalogBrowseIsland
+<BaseLayout title={title} description={description} path={`/catalog/${variety.slug}/${color.slug}`}>
+  <CatalogPage
     client:load
-    stones={stones}
-    varieties={varieties}
+    intro={{
+      kind: "variety",
+      title: heading,
+      paragraphs,
+      crumbs: [{ label: "Каталог", href: "/" }, { label: varietyHeading, href: `/catalog/${variety.slug}` }, { label: pluralColor(color.name) }],
+    }}
+    varietyId={variety.id}
+    routeColorId={color.id}
+    stones={allCatalogStones()}
+    varieties={indexVarieties()}
+    colors={colors}
     cuts={cuts}
     origins={origins}
     treatments={treatments}
-    colors={colors}
-    certificates={certificates}
-    initialVarietyId={variety.id}
-    initialColorId={color.id}
   />
 </BaseLayout>

@@ -1,15 +1,16 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
-import { CatalogBrowseIsland } from "../../components/catalog/CatalogBrowseIsland";
+import { CatalogPage } from "../../components/catalog/CatalogPage";
 import {
   allCatalogStones,
   catalogVarieties,
+  indexVarieties,
   getVarietyBySlug,
+  capitalize,
   cuts,
   origins,
   treatments,
   colors,
-  certificates,
 } from "../../data";
 
 export function getStaticPaths() {
@@ -20,27 +21,22 @@ const { variety: varietySlug } = Astro.params;
 const variety = getVarietyBySlug(varietySlug!);
 if (!variety) return Astro.redirect("/404");
 
-const stones = allCatalogStones();
-const varieties = catalogVarieties();
-
-const title = `${variety.pluralName} — купить коллекционный камень | Драгоценные`;
-const description = variety.shortDescription.split("\n\n")[0];
+const heading = capitalize(variety.pluralName);
+const paragraphs = variety.shortDescription.split("\n\n");
+const title = `${heading} — купить коллекционный камень | Драгоценные`;
+const description = paragraphs[0];
 ---
 
-<BaseLayout
-  title={title}
-  description={description}
-  path={`/catalog/${variety.slug}`}
->
-  <CatalogBrowseIsland
+<BaseLayout title={title} description={description} path={`/catalog/${variety.slug}`}>
+  <CatalogPage
     client:load
-    stones={stones}
-    varieties={varieties}
+    intro={{ kind: "variety", title: heading, paragraphs, crumbs: [{ label: "Каталог", href: "/" }, { label: heading }] }}
+    varietyId={variety.id}
+    stones={allCatalogStones()}
+    varieties={indexVarieties()}
+    colors={colors}
     cuts={cuts}
     origins={origins}
     treatments={treatments}
-    colors={colors}
-    certificates={certificates}
-    initialVarietyId={variety.id}
   />
 </BaseLayout>

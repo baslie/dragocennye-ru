@@ -1,8 +1,8 @@
-// Слайд-шоу во вступлении: «живые» кадры камней (в руке, в кольце, на коралле), 16:9.
+// Слайд-шоу во вступлении главной: «живые» кадры камней (в руке, в кольце, на коралле), 16:9.
 // Кадры сменяются плавным наплывом каждые 5 секунд; при наведении и при reduced motion стоят.
 // Подпись и переключатели лежат внутри кадра, на затемнении снизу.
-import { useEffect, useState, type CSSProperties } from "react";
-import { formatCt } from "../useCatalogState";
+import { useEffect, useState } from "react";
+import { formatCt } from "../../lib/format";
 
 export interface HeroSlide {
   href: string;
@@ -13,7 +13,7 @@ export interface HeroSlide {
 
 const INTERVAL = 5000;
 
-export function HeroSlideshow({ slides, titleStyle }: { slides: HeroSlide[]; titleStyle: CSSProperties }) {
+export function HeroSlideshow({ slides }: { slides: HeroSlide[] }) {
   const [index, setIndex] = useState(0);
   const [paused, setPaused] = useState(false);
 
@@ -24,6 +24,7 @@ export function HeroSlideshow({ slides, titleStyle }: { slides: HeroSlide[]; tit
   }, [index, paused, slides.length]);
 
   const current = slides[index];
+  if (!current) return null;
 
   return (
     <div
@@ -46,9 +47,7 @@ export function HeroSlideshow({ slides, titleStyle }: { slides: HeroSlide[]; tit
         ))}
         <div className="absolute inset-x-0 bottom-0 h-[45%] bg-gradient-to-t from-black/55 to-transparent" />
         <div className="absolute inset-x-0 bottom-0 flex items-baseline justify-between gap-4 px-[clamp(16px,1.4vw,28px)] pb-[clamp(26px,2vw,40px)] text-white">
-          <span className="text-[clamp(18px,1.1vw,22px)] leading-[120%]" style={titleStyle}>
-            {current.name}
-          </span>
+          <span className="font-serif text-[clamp(18px,1.1vw,22px)] leading-[120%]">{current.name}</span>
           <span className="shrink-0 text-[clamp(13px,0.72vw,18px)] leading-[150%] text-white/80">{formatCt(current.weightCt)}</span>
         </div>
       </a>
